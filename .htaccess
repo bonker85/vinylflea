@@ -1,0 +1,7 @@
+#AuthType Basic
+#AuthName "Authorization place"
+#AuthUserFile D:\OpenServer\domains\mdkdoors.loc\.htpasswd
+#Require valid-user
+RewriteEngine on
+RewriteCond %{REQUEST_URI} !^public
+RewriteRule ^(.*)$ public/$1 [L]
