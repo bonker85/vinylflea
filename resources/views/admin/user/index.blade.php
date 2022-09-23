@@ -31,6 +31,7 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Имя</th>
+                                        <th>Профиль</th>
                                         <th>Действие</th>
                                     </tr>
                                     </thead>
@@ -39,6 +40,14 @@
                                         <tr>
                                             <td>{{$user->id}}</td>
                                             <td>{{$user->name}}</td>
+                                            <td>
+                                                <form method="post" action="{{route('tasks', ['param' => 'toggle_user'])}}">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{$user->id}}" />
+                                                    <button type="submit">
+                                                        <img src="{{ (($user->avatar) ? asset('/storage') . $user->avatar : asset('/assets/images/avatars/no-avatar.png'))}}" width="30px" height="30px"/></td>
+                                                    </button>
+                                                </form>
                                             <td>
                                                 <a href="{{route('admin.user.show', ['user' => $user->id])}}"><i class="far fa-eye"></i></a>
                                                 <a class="ml-2 text-success" href="{{route('admin.user.edit', ['user' => $user->id])}}"><i class="fas fa-pencil-alt"></i></a>

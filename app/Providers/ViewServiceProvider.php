@@ -32,7 +32,10 @@ class ViewServiceProvider extends ServiceProvider
           //  $view->with('route_name', request()->route()->getName());
         });
 
-
+        /********************** PROFILE ***********************************************/
+        View::composer(["includes.profile-menu"], function($view) {
+            $view->with('route_name', request()->route()->getName());
+        });
         /********************** BACKEND ***********************************************/
         /* боковое меню админ панели вывод каталога */
         View::composer(["admin.includes.sidebar"], function ($view) {

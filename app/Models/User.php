@@ -11,8 +11,8 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
-    const ROLE_ADMIN = 0;
-    const ROLE_USER = 1;
+    const ROLE_ADMIN = 1;
+    const ROLE_USER = 2;
     /**
      * The attributes that are mass assignable.
      *
@@ -22,6 +22,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'role_id',
+        'city',
+        'avatar',
+        'phone'
     ];
 
     /**
