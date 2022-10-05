@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Providers;
+use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -31,7 +32,9 @@ class ViewServiceProvider extends ServiceProvider
          //   $view->with('catalog', $catalog);
           //  $view->with('route_name', request()->route()->getName());
         });
-
+        View::composer('*', function ($view) {
+            $view->with('admin', User::isAdmin());
+        });
         /********************** PROFILE ***********************************************/
         View::composer(["includes.profile-menu"], function($view) {
             $view->with('route_name', request()->route()->getName());

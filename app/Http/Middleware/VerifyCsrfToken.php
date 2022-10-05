@@ -12,6 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        '/ajax/avatar_file'
+        '/ajax/avatar_file',
+        '/ajax/vinyl_file'
     ];
 }

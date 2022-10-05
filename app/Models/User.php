@@ -56,4 +56,9 @@ class User extends Authenticatable implements MustVerifyEmail
             self::ROLE_USER => 'Пользователь'
         ];
     }
+
+    public static function isAdmin()
+    {
+        return (auth()->user() && (int)auth()->user()->role_id === self::ROLE_ADMIN);
+    }
 }

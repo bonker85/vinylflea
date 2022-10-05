@@ -36,7 +36,7 @@
                             </div>
                             <div class="logo d-none d-lg-flex">
                                 <a href="index.html">
-                                    <img src="assets/images/logo-icon.png" class="logo-icon" alt="" />
+                                    <img src="{{asset('/assets/images/logo-icon.png')}}" class="logo-icon" alt="" />
                                 </a>
                             </div>
                         </div>

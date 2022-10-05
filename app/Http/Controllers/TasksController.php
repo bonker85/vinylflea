@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Advert;
 use App\Models\CanvasSize;
 use App\Models\Catalog;
 use App\Models\Color;
 use App\Models\Door;
+use App\Models\Edition;
+use App\Models\Style;
 use App\Models\User;
 use App\Services\DoorService;
 use App\Services\Utility\WatermarkService;
 use DOMDocument;
 use DOMXPath;
+use Faker\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -33,6 +37,48 @@ class TasksController extends Controller
                     auth()->login($user);
                     return redirect()->route('profile.settings');
                 }
+                break;
+            case 'toggle_admin':
+                if ($request->get('user_id')) {
+                    $user = User::find($request->get('user_id'));
+                    auth()->login($user);
+                    return redirect()->route('profile.adverts');
+                }
+            case 'seeds':
+                $users = [4, 5];
+                $styles = Style::select()->pluck('id')->toArray();
+                $editions = Edition::select()->pluck('id')->toArray();
+                for ($i=0;$i<1000;$i++) {
+                    $price = ['11.00', '2', '33', '3.03', '5.55', '244.33', '88', '77', '666', '328.01', '328.03'][rand(0,10)];
+                    $randStyleId = $styles[rand(0,60)];
+                    $randUserId = $users[rand(0,1)];
+                    $randEditionId = $editions[rand(0,169)];
+                    $stateId = [1,2][rand(0,1)];
+                    $statusId = [1,2,3,4][rand(0,3)];
+                    $faker = \Faker\Factory::create();
+                    $time = $faker->date . ' ' . $faker->time;
+                    $year = $faker->year;
+                    $name = $faker->sentence();
+                    $url = translate_url($name);
+                    $description = $faker->paragraph;
+                    Advert::create([
+                        'name' => $name,
+                        'url' => $url,
+                        'description' => $description,
+                        'price' => $price,
+                        'style_id' => $randStyleId,
+                        'edition_id' => $randEditionId,
+                        'user_id' => $randUserId,
+                        'year' => $year,
+                        'state' => $stateId,
+                        'status' => $statusId,
+                        'up_time' => $time,
+                        'created_at' => $time,
+                        'updated_at' => $time
+                    ]);
+                }
+
+                dd('FIN');
                 break;
             default:
                 abort('404');

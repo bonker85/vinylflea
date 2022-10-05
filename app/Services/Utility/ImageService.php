@@ -46,6 +46,36 @@ class ImageService {
         }
     }
 
+    public function createTmpImage($image, $name)
+    {
+        $userId = Auth::user()->id;
+        $fileExt = strtolower($image->getClientOriginalExtension());
+        $imagePath = $image->getRealPath();
+        $tmpPath= Storage::disk('public')->getConfig()['root'] . '/tmp/' . $userId;
+        $tmpFileName = $name . '.' . $fileExt;
+        $newPath = $tmpPath . '/' . $tmpFileName;
+        if(make_directory($tmpPath, 0777, true)) {
+            $img = Image::make($imagePath);
+            $img->resize(100, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($newPath);
+            $originalPath = str_replace('/vinyl', '/vinyl_original', $newPath);
+            $img = Image::make($imagePath);
+            $img->resize(800, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($originalPath);
+            $this->createImageWatermark(
+                $originalPath,
+                $originalPath,
+                public_path('images/watermarks/watermark.png')
+            );
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
     public function createImageWatermark($imagePath, $newImagePath, $watermarkPath)
     {
        // Storage::disk('public')->getDriver()->getAdapter()->getPathPrefix();exit();

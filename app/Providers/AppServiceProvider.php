@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -31,5 +32,6 @@ class AppServiceProvider extends ServiceProvider
                 ->line('Нажмите кнопку ниже для подтверждения Email адреса.')
                 ->action('Подтвердить Email', $url);
         });
+        Paginator::defaultView('vendor/pagination/pagination');
     }
 }

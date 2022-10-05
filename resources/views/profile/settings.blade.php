@@ -30,7 +30,7 @@
                                         <input type="hidden" name="action" value="info" />
                                         @csrf
                                         <div class="col-12">
-                                            <label class="form-label">Имя *</label>
+                                            <label class="form-label">Имя <span class="need-field">*</span></label>
                                             <input type="text" class="form-control" required name="name" value="{{$user->name}}">
                                             <div class="invalid-tooltip">
                                                 Поле не должно быть пустым!
@@ -48,10 +48,11 @@
                                                 @if ($user->avatar)
                                                     <img src="{{asset('storage') . $user->avatar}}" id="img-avatar" />
                                                 @else
-                                                    <img src="{{asset('assets/images/avatars/no-avatar.png') . $user->avatar}}" id="img-avatar" />
+                                                    <img src="{{asset('assets/images/avatars/no-avatar.png')}}" id="img-avatar" />
                                                 @endif
 
                                             </div>
+                                            <div class="error_message" style="display: none;"></div>
                                             <input class="form-control" name="avatar" type="file" id="js-file-avatar">
                                         </div>
                                         <div class="col-12">

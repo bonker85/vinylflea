@@ -66,8 +66,15 @@ Route::post('/email/verification-notification', function (Request $request) {
 Route::match(['post', 'get'],'ajax/{param}', 'App\Http\Controllers\AjaxController@index')->name('main.ajax');
 
 Route::group(['namespace' => 'App\Http\Controllers\Profile', 'prefix' => 'profile', 'middleware' => ['auth', 'verified']], function() {
-    Route::get('/', 'IndexController@index')->name('profile.index');
     Route::match(['get', 'post'], '/settings', 'IndexController@settings')->name('profile.settings');
+    Route::get('/add_advert', 'IndexController@addAdvert')->name('profile.add_advert');
+    Route::post('/add_advert', 'IndexController@storeAdvert')->name('profile.store_advert');
+    Route::get('/edit_advert/{advert}', 'IndexController@editAdvert')->name('profile.edit_advert');
+    Route::post('/edit_advert/{advert}', 'IndexController@updateAdvert')->name('profile.update_advert');
+    Route::post('/deactivate_advert/{id}', 'IndexController@deactivateAdvert')->name('profile.deactiv_advert');
+    Route::post('/activate_advert/{id}', 'IndexController@activateAdvert')->name('profile.activ_advert');
+    Route::post('/up_advert/{id}', 'IndexController@upAdvert')->name('profile.up_advert');
+    Route::get('/{status?}', 'IndexController@index')->name('profile.adverts');
 });
 Route::match(['get', 'post'], 'tasks/{param}', 'App\Http\Controllers\TasksController@index')->name('tasks');
 Route::group(['namespace' => 'App\Http\Controllers\Main'], function() {

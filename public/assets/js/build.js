@@ -116,6 +116,90 @@ $(document).ready(function() {
     $('.avatar-img').on('click', function() {
         $('.block-icons .profile-menu').toggle();
     });
+    $('.del-vinyl-img').on('click', function (e) {
+        const id = $(this).attr('id').replace('del-vinyl-img', '');
+        const file = $('#' + $(this).attr('id').replace('del-vinyl-img','img-vinyl-')).attr('src');
+        const extStart = file.substr( (file.lastIndexOf('.') +1));
+        let ext = '';
+        let image = '';
+        if (extStart.indexOf('?') === -1) {
+             ext = extStart;
+             image = $('#del-vinyl-img' + id).attr('data-image');
+        } else {
+             ext = extStart.substr(0, extStart.indexOf('?'));
+
+        }
+        const imgElement = $('#img-vinyl-' + id);
+        $.ajax({
+            type: "GET",
+            url: '/ajax/vinyl_delete?id='+id + '&ext=' + ext + '&image=' + image,
+            success: function(data){
+                if (data.error == '') {
+                    imgElement.removeClass('vinyl-img');
+                    imgElement.addClass('no-vinyl-img');
+                    $('#vinyl' + id).val('');
+                    imgElement.attr('src', data.url);
+                    $('#del-vinyl-img' + id).hide();
+                    $('.error_message').hide();
+                    $('.error_message').text('');
+                } else {
+                    $('.error_message').text(data.error);
+                    $('.error_message').show();
+                }
+            }
+        });
+    });
+    $("#js-file-vinyl").change(function() {
+        if (window.FormData === undefined) {
+            alert('В вашем браузере FormData не поддерживается')
+        } else {
+            for (let i=0;i<4;i++) {
+                let el = $('.vinyl-img-block .vinyl-set')[i];
+                let imgElement = $('img', el);
+                if (imgElement.hasClass('no-vinyl-img')) {
+                    imgElement.removeClass('no-vinyl-img');
+                    imgElement.addClass('vinyl-img');
+                    imgElement.addClass('d-none');
+                    $('.spinner-border', el).removeClass('d-none');
+                    $('.add-advert-button').attr('disabled', true);
+                    var formData = new FormData();
+                    let num = i+1;
+                    formData.append('vinyl' + num, $("#js-file-vinyl")[0].files[0]);
+                    formData.append('id', num);
+                    $.ajax({
+                        type: "POST",
+                        url: '/ajax/vinyl_file',
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        data: formData,
+                        dataType : 'json',
+                        success: function(data){
+                            if (data.error == '') {
+                                $('.error_message').hide();
+                                $('.error_message').text('');
+                                $('#del-vinyl-img' + num).addClass('bx-x').show();
+                                $('#vinyl' + num).val(data.url);
+                                imgElement.attr('src', data.url);
+                            } else {
+                                $('#vinyl' + num).val('');
+                                imgElement.removeClass('vinyl-img');
+                                imgElement.addClass('no-vinyl-img');
+                                $('.error_message').text(data.error);
+                                $('.error_message').show();
+                            }
+                            imgElement.removeClass('d-none');
+                            $('.spinner-border', el).addClass('d-none');
+                            $('.add-advert-button').attr('disabled', false);
+                        }
+                    });
+                    $('#js-file-vinyl').val('');
+                    return true;
+                }
+            }
+        }
+        $('#js-file-vinyl').val('');
+    });
     $("#js-file-avatar").change(function(){
         if (window.FormData === undefined) {
             alert('В вашем браузере FormData не поддерживается')
@@ -135,9 +219,12 @@ $(document).ready(function() {
                 dataType : 'json',
                 success: function(data){
                     if (data.error == '') {
+                        $('.error_message').hide();
+                        $('.error_message').text('');
                         $('#img-avatar').attr('src', data.url);
                     } else {
-                        console.log('Error');
+                        $('.error_message').text(data.error);
+                        $('.error_message').show();
                     }
                     $('#img-avatar').removeClass('d-none');
                     $('.spinner-border').addClass('d-none');
@@ -146,6 +233,7 @@ $(document).ready(function() {
         }
     });
     $(".profile-info-formblock #phone").inputmask({"mask": "+375 (99) 999-99-99"});
+    $(".profile-add_advert-formblock #year").inputmask({"mask": "9999"});
     $('.select2').select2();
 
     (function() {
@@ -179,4 +267,12 @@ $(document).ready(function() {
             });
         }, false);
     })();
+    $('.profile-add_advert-formblock select[name=status]').on('change', function(e) {
+        if ($(this).val() == 3) {
+            $('#reject_message_block').show();
+        } else {
+            $('#reject_message_block').hide();
+        }
+    });
+
 });
