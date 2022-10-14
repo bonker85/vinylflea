@@ -29,7 +29,6 @@ class IndexController extends BaseController
             $advert_counts = AdvertService::getCountStatus($userId);
             $select = Advert::select()
                 ->where('status', AdvertService::getStatusByName($status))
-                ->where
                 ->orderBy('updated_at', 'DESC');
             if (!User::isAdmin()) {
                 $select->where('user_id', $userId);
