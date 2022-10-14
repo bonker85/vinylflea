@@ -8,7 +8,7 @@
             <div class="ms-auto">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0 p-0">
-                        <li class="breadcrumb-item"><a href="/"><i class="bx bx-home-alt"></i> Главная</a>
+                        <li class="breadcrumb-item"><a href="/">Главная</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">Мои сообщения</li>
                     </ol>
@@ -127,8 +127,12 @@
                         </div>
                     @else
                         @include('includes.profile-menu')
-                        <div class="col-lg-8">
-                            <h3>Сообщений нет</h3>
+                        <div class="col-8">
+                            <div class="shop-cart-list favorit-blocks mb-3 p-3">
+                                <p>
+                                    У Вас пока нет сообщений
+                                </p>
+                            </div>
                         </div>
                     @endif
                 </div>

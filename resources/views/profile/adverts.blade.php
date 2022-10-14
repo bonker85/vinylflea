@@ -8,7 +8,7 @@
                 <div class="ms-auto">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0 p-0">
-                            <li class="breadcrumb-item"><a href="/"><i class="bx bx-home-alt"></i> Главная</a>
+                            <li class="breadcrumb-item"><a href="/">Главная</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Мои пластинки</li>
                         </ol>
@@ -149,6 +149,33 @@
                                             @endif
                                         </div>
                                     </div>
+                                    @else
+                                        <div class="col-12">
+                                            <div class="shop-cart-list favorit-blocks mb-3 p-3">
+                                                <p>
+                                                    У Вас пока нет
+                                                    @switch ($status)
+                                                        @case ('activated')
+                                                            активных пластинок
+                                                            @break
+                                                        @case ('moderation')
+                                                            пластинок на модерации
+                                                            @break
+                                                        @case ('rejected')
+                                                            отклоненных пластинок
+                                                            @break
+                                                        @case ('deactivated')
+                                                            неактивных пластинок
+                                                            @break
+                                                    @endswitch
+                                                </p>
+                                                @if ($status == 'activated')
+                                                    <div class="add-vinyl">
+                                                        <a href="{{route('profile.add_advert')}}" class="rounded-3 list-group-item  d-flex justify-content-between align-items-center"><i class="bx bx-plus fs-5"></i> Добавить</a>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
                                     @endif
                                 </div>
                             </div>

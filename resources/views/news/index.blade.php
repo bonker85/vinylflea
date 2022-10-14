@@ -10,7 +10,7 @@
                 <div class="ms-auto">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0 p-0">
-                            <li class="breadcrumb-item"><a href="/"><i class="bx bx-home-alt"></i> Главная</a>
+                            <li class="breadcrumb-item"><a href="/">Главная</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
                                  {{$title}}
