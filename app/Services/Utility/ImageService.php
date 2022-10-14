@@ -59,8 +59,8 @@ class ImageService {
             $img->resize(100, null, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($newPath);
-            echo $newPath;exit();
-            $originalPath = str_replace('/vinyl', '/vinyl_original', $newPath);
+            $originalPath = preg_replace('#/vinyl[^fle]#is', '/vinyl_original', $newPath);
+            echo $originalPath;exit();
             $img = Image::make($imagePath);
             $img->resize(800, null, function ($constraint) {
                 $constraint->aspectRatio();
