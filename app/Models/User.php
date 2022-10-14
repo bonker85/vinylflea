@@ -66,4 +66,12 @@ class User extends Authenticatable implements MustVerifyEmail
    {
        return BanUserList::where('user_id', $this->id)->first();
    }
+
+   public function isDialog($toUserId)
+   {
+       return AdvertDialog::select()
+           ->where('from_user_id', 1)
+           ->where('to_user_id', $toUserId)
+           ->first();
+   }
 }

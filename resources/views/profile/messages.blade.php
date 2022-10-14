@@ -72,7 +72,9 @@
                                 <div class="card-body">
                                     <div class="mess-avatar-block">
                                         @if ($advertDialog->advert)
-                                        <a href="{{route('vinyls.details', $advertDialog->advert->url)}}" target="_blank">
+                                            @if ($advertDialog->advert_id != 4235)
+                                                <a href="{{route('vinyls.details', $advertDialog->advert->url)}}" target="_blank">
+                                            @endif
                                             @if ($advertDialog->advert->images && count($advertDialog->advert->images))
                                                 @foreach ($advertDialog->advert->images as $image)
                                                     <img src="{{asset('/storage' . $image->path)}}" class="advert-img-mess"   alt="{{$advertDialog->advert->name}}" loading="lazy">
@@ -81,14 +83,20 @@
                                             @else
                                                 <img src="{{asset('/assets/images/avatars/no-avatar.png')}}" class="advert-img-mess"   alt="{{$advertDialog->advert->name}}" loading="lazy">
                                             @endif
-                                        </a>
+                                            @if ($advertDialog->advert_id != 4235)
+                                                </a>
+                                            @endif
                                         @else
                                             <img src="{{asset('/assets/images/avatars/no-avatar.png')}}" class="advert-img-mess"   alt="Пластинка удалена" loading="lazy">
                                         @endif
                                     </div>
                                     <div class="mess-advert-block">
-                                        <div class="advert-mess-h del-advert-name">Пластинка удалена</div>
-                                        <a href="{{route('user', (auth()->user()->id == $advertDialog->from_user_id) ? $advertDialog->toUser->id : $advertDialog->fromUser->id)}}" class="advert-mess-author-block" target="_blank">
+                                        @if ($advertDialog->advert)
+                                            <div class="advert-mess-h del-advert-name">{{($advertDialog->avtor ? $advertDialog->avtor . ' | ': '') . $advertDialog->advert->name}}</div>
+                                        @else
+                                            <div class="advert-mess-h del-advert-name">Пластинка удалена</div>
+                                        @endif
+                                            <a @if ($advertDialog->advert_id == 4235 && !\App\Models\User::isAdmin()) href="javascript;" @else href="{{route('user', (auth()->user()->id == $advertDialog->from_user_id) ? $advertDialog->toUser->id : $advertDialog->fromUser->id)}}" @endif class="advert-mess-author-block" target="_blank">
                                             @if (auth()->user()->id == $advertDialog->from_user_id) @php $avatar = $advertDialog->toUser->avatar @endphp @else @php $avatar = $advertDialog->fromUser->avatar @endphp @endif
                                             <img src="{{asset($avatar ? 'storage' . $avatar : '/assets/images/avatars/no-avatar.png')}}" />
                                             <p> @if (auth()->user()->id == $advertDialog->from_user_id) {{$advertDialog->toUser->name}} @else {{$advertDialog->fromUser->name}} @endif</p>

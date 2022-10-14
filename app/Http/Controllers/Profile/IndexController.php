@@ -304,7 +304,19 @@ class IndexController extends BaseController
                         if ($userBan) {
                             $userBan->delete();
                         }
-                    break;
+                        break;
+                    case 'add_dialog':
+                        $dialog = AdvertDialog::firstOrcreate([
+                            'advert_id' => 4235, // служебный адверт
+                            'from_user_id' => 1,
+                            'to_user_id' => $request->user_id,
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                            'count_not_view_user_from' => 0,
+                            'count_not_view_user_to' => 0
+                        ]);
+                        return redirect()->route('profile.messages', $dialog->id);
+                        break;
 
                 }
             }

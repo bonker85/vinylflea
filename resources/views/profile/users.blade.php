@@ -62,6 +62,17 @@
                                                                                 <button type="submit" class="btn mt-2 btn-sm btn-danger">Добавить в бан лист</button>
                                                                             @endif
                                                                         </form>
+                                                                        <form method="post" action="{{route('profile.users')}}">
+                                                                            <input type="hidden" name="user_id" value="{{$user->id}}" />
+                                                                            @csrf
+                                                                            @php $dialog = $user->isDialog($user->id); @endphp
+                                                                            @if ($dialog)
+                                                                                <a href="{{route('profile.messages', $dialog->id)}}" class="btn mt-2 btn-sm btn-warning" target="_blank">Перейти в диалог</a>
+                                                                            @else
+                                                                                <input type="hidden" name="action" value="add_dialog" />
+                                                                                <button type="submit" class="btn mt-2 btn-sm btn-success">Создать диалог</button>
+                                                                            @endif
+                                                                        </form>
                                                                     </div>
                                                                 </div>
                                                             </div>
