@@ -4,13 +4,13 @@
     <section class="py-3 border-bottom border-top d-none d-md-flex bg-light profile-breadcrumbs">
         <div class="container">
             <div class="page-breadcrumb d-flex align-items-center">
-                <h3 class="breadcrumb-title pe-3">Бан лист</h3>
+                <h3 class="breadcrumb-title pe-3">Пользователи</h3>
                 <div class="ms-auto">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0 p-0">
                             <li class="breadcrumb-item"><a href="/">Главная</a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">Бан лист</li>
+                            <li class="breadcrumb-item active" aria-current="page">Пользователи</li>
                         </ol>
                     </nav>
                 </div>
@@ -51,7 +51,7 @@
                                                                         @if ($user->city)
                                                                             <div class="m-style">{{$user->city}}</div>
                                                                         @endif
-                                                                        <form method="post" action="{{route('profile.add_to_ban')}}">
+                                                                        <form method="post" action="{{route('profile.users')}}">
                                                                             <input type="hidden" name="user_id" value="{{$user->id}}" />
                                                                             @csrf
                                                                             @if ($user->isBan())

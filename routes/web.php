@@ -73,7 +73,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Profile', 'prefix' => 'profil
         Route::match(['get', 'post'], '/settings', 'IndexController@settings')->name('profile.settings');
         Route::get('/favorit/', 'IndexController@favorit')->name('profile.favorit');
         Route::delete('/favorit/{favorit}', 'IndexController@favoritDelete')->name('profile.favorit.delete');
-        Route::match(['post', 'get'], '/add_to_ban', 'IndexController@addToBan')->name('profile.add_to_ban');
+        Route::match(['post', 'get'], '/users', 'IndexController@users')->name('profile.users');
         Route::get('/messages/{advertDialogId?}', 'IndexController@messages')->name('profile.messages');
         Route::post('/messages/{advertDialog}', 'IndexController@addMessage')->name('profile.add_message');
         Route::get('/add_advert', 'IndexController@addAdvert')->name('profile.add_advert');

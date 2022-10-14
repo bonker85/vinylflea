@@ -291,7 +291,7 @@ class IndexController extends BaseController
         return redirect()->route('profile.favorit');
     }
 
-    public function addToBan(Request $request)
+    public function users(Request $request)
     {
         if (User::isAdmin()) {
             if ($request->post()) {
@@ -309,7 +309,7 @@ class IndexController extends BaseController
                 }
             }
             $usersList = User::select()->where('id', '!=', auth()->user()->id)->orderBy('email')->paginate(20);
-            return view('profile.add_to_ban', compact('usersList'));
+            return view('profile.users', compact('usersList'));
         } else {
             abort('404');
         }
