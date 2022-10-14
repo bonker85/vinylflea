@@ -29,9 +29,12 @@ class IndexController extends BaseController
             $advert_counts = AdvertService::getCountStatus($userId);
             $select = Advert::select()
                 ->where('status', AdvertService::getStatusByName($status))
+                ->where
                 ->orderBy('updated_at', 'DESC');
             if (!User::isAdmin()) {
                 $select->where('user_id', $userId);
+            } else {
+                $select->where('advert_id', '!=', '4235');
             }
             $advertList = $select->paginate(10);;
             return view('profile.adverts', compact('status', 'advert_counts', 'advertList', ));
