@@ -16,7 +16,7 @@
             </div>
         </div>
     </section>
-    <div class="error-404 text-center col-sm-9">
+    <div class="error-404 text-center">
         <h2>404</h2>
     </div>
 @endsection

@@ -56,48 +56,32 @@ $(document).ready(function() {
         $(".mobile-offcanvas").removeClass("show");
         $("body").removeClass("offcanvas-active");
     });
-    $('.latest-news').owlCarousel({
-        loop:true,
-        margin:10,
-        responsiveClass:true,
-        nav:false,
-        dots: false,
-        responsive:{
-            0:{
-                items:1
-            },
-            600:{
-                items:2
-            },
-            1024:{
-                items:3
-            },
-            1366:{
-                items:4
+    if ($('.latest-news').length) {
+        $('.latest-news').owlCarousel({
+            loop:true,
+            margin:10,
+            responsiveClass:true,
+            nav:false,
+            dots: false,
+            responsive:{
+                0:{
+                    items:1
+                },
+                600:{
+                    items:2
+                },
+                1024:{
+                    items:3
+                },
+                1366:{
+                    items:4
+                }
             }
-        }
-    });
-    $('.product-gallery').owlCarousel({
-        loop:true,
-        margin:10,
-        responsiveClass:true,
-        nav:false,
-        dots: false,
-        thumbs: true,
-        thumbsPrerendered: true,
-        responsive:{
-            0:{
-                items:1
-            },
-            600:{
-                items:1
-            },
-            1000:{
-                items:1
-            }
-        }
-    })
-    $('#logout_link').on("click", function() {
+        });
+    }
+
+
+    $('.logout_link').on("click", function() {
         $('#logout_form').submit();
     });
 
@@ -275,4 +259,133 @@ $(document).ready(function() {
         }
     });
 
+    $('.profile-add_advert-formblock #deal').on('change', function(e) {
+        if ($(this).val() == 'sale') {
+            if ($('#price').val() == 0) {
+                $('#price').val('');
+            }
+            $('.deal-sale').show();
+        } else {
+            $('.deal-sale').hide();
+            if (!$('#price').val()) {
+                $('#price').val(0);
+            }
+        }
+    });
+    $('.button-phone').on('click', function() {
+        const id = $(this).data('advert');
+        const user_id = $(this).data('user');
+        const data = {params: ''};
+        if (id) {
+            data.params = 'advert='+id;
+        } else if (user_id) {
+            data.params = 'user_id='+user_id;
+        } else {
+            return false;
+        }
+        $.ajax({
+            type: "GET",
+            url: '/ajax/show_phone?' + data.params,
+            success: function(data){
+                if (data.error == '') {
+                    $('.button-phone').text(data.phone).css('cursor', 'unset').off();
+                }
+            }
+        });
+    });
+
+    $('#message-modal').on('show.bs.modal', function (event) {
+        $('.modal-body p.alert-danger').hide();
+        let button = $(event.relatedTarget)
+        $('#messageModalLabel').text($(button).attr('data-name'));
+        $('#advert_id').val($(button).attr('data-id'));
+       // $('.modal-pay-button').html($(button).attr('data-button'));
+    });
+
+    $('.modal-message-button').on('click', function() {
+        if (!$('#message-modal #message').val()) {
+            $('.modal-body p.alert-danger').text("Поле сообщения не заполено.").show();
+            return false;
+        }
+
+        $.ajax({
+            url: "/ajax/front-message",
+            method: 'POST',
+            data: { message: $('#message').val(), id: $('#advert_id').val(), _token: $('.modal input[name=_token]').val()}
+        }).done(function(data) {
+            if (data.error) {
+                $('.modal-body p.alert-danger').text("Произошла ошибка. Сообщение не отправлено.").show();
+            } else {
+                $('#message-modal').modal('hide');
+                location.href='/profile/messages/' + data.dialog_id;
+            }
+        });
+    });
+    $('.advert-show-list').on('click', function() {
+        //$(this).hide();
+        if ($('.advert-mess-list').css('display') == 'block') {
+            $('.advert-mess-list').hide();
+            $('.advert-mess-h', this).text('Показать все сообщения');
+            $(this).css('border-bottom', '');
+        } else {
+            $(this).css('border-bottom', '1px solid #DEE2E6');
+            $('.advert-mess-h', this).text('Скрыть все сообщения');
+            $('.advert-mess-list').show();
+        }
+    });
+    if (document.querySelector('.messages-block')) {
+        document.querySelector('.messages-block').scrollTop = 100000;
+    }
+    $('#message_form').on('submit', function(e) {
+        e.preventDefault();
+        if (!$('.message-textarea').val()) {
+            $('.message-textarea').css('border', '1px solid #d22f2f');
+            return false;
+        } else {
+            $('.message-textarea').css('border', 'unset');
+        }
+        $.ajax({
+            url: $('#message_form').attr('action'),
+            method: 'POST',
+            data: { message: $('.message-textarea').val(), id: $('#advert_id').val(), _token: $('input[name=_token]',$(this)).val()}
+        }).done(function(data) {
+            if (!data.error) {
+                if (data.chat) {
+                    $('.chat').html(data.chat);
+                    $('.message-textarea').val('');
+                    document.querySelector('.messages-block').scrollTop = 100000;
+                }
+            }
+        });
+    });
+    $('.search')
+        .search({
+            apiSettings: {
+                url: '/ajax/search?q={query}',
+            },
+            error: {
+                noResults: 'Ваш запрос не дал результатов'
+            },
+            fields: {
+                results : 'items',
+                title   : 'name',
+                url     : 'url'
+            },
+            minCharacters : 3,
+            maxResults: 20
+        });
+    $('.favorit-link').on('click', function(e) {
+        const advert_id = $(this).attr('data-advert');
+        $.ajax({
+            url: "/ajax/favorit",
+            method: 'GET',
+            data: { user_id: $(this).attr('data-user'), advert_id: advert_id}
+        }).done(function(data) {
+            if (data.res) {
+                $('.favorit-link[data-advert="'+advert_id+'"] i').removeClass('bx-heart').addClass('bxs-heart');
+            } else {
+                $('.favorit-link[data-advert="'+advert_id+'"] i').removeClass('bxs-heart').addClass('bx-heart');
+            }
+        });
+    });
 });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Advert;
+use App\Models\AdvertImage;
 use App\Models\CanvasSize;
 use App\Models\Catalog;
 use App\Models\Color;
@@ -11,6 +12,7 @@ use App\Models\Edition;
 use App\Models\Style;
 use App\Models\User;
 use App\Services\DoorService;
+use App\Services\Utility\ImageService;
 use App\Services\Utility\WatermarkService;
 use DOMDocument;
 use DOMXPath;
@@ -19,6 +21,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 
 class TasksController extends Controller
@@ -78,6 +81,143 @@ class TasksController extends Controller
                     ]);
                 }
 
+                dd('FIN');
+                break;
+            case 'create_slug_for_styles':
+                $styles  = Style::select()->where('slug', '')->get();
+                foreach ($styles as $style) {
+                    $style->slug = translate_url($style->name);
+                    $style->save();
+                }
+                dd('FIN');
+                break;
+            case 'parser-vinil-sd-by':
+                dd('FIN');
+                $this->log = Log::channel('parser-vinil-sd-by');
+                $siteUrl = 'https://store.tildacdn.com/api/getproductslist/?storepartuid=495183118261&recid=375529451&c=1665522162862&getparts=true&getoptions=true&slice=9&size=500';
+
+              /*  $parseConfig = [
+                    'mezhkomnatnye-dveri' => [
+                        'menu_id' => 'dropdown-1'
+                    ],
+                    'vhodnye-dveri' => [
+                        'menu_id' => 'dropdown-2'
+                    ]
+                ];*/
+                $data = json_decode(file_get_contents($siteUrl));
+                $products = $data->products;
+                foreach ($products as $product) {
+                    if (Advert::where('url', translate_url($product->title) . '-' . $product->uid)->first()) {
+                        continue;
+                    }
+                    $data = [
+                        'name' => $product->title,
+                        'author' => '',
+                        'url' => translate_url($product->title) . '-' . $product->uid,
+                        'description' => $product->descr,
+                        'price' => $product->price,
+                        'style_id' => 1,
+                        'user_id' => 6,
+                        'deal' => 'sale',
+                        'state' => 2,
+                        'condition' => trim(str_replace('Состояние (пластинки/конверта)', '', $product->text)),
+                        'status' => (($product->quantity) ? 2: 4),
+                        'reject_message' => '',
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ];
+                    $advert = Advert::firstOrCreate(['url' => $data['url']],$data);
+                    $images = json_decode($product->gallery);
+                    if ($images) {
+                        $imageService = new ImageService();
+                        ///users/6/1005/vinyl4.jpg
+                        $i = 1;
+                        foreach ($images as $image) {
+                            if (@file_get_contents($image->img)) {
+                                if ($i >= 4) break;
+                                $ext = '.' . pathinfo($image->img, PATHINFO_EXTENSION);
+                                $path = public_path('storage') .  '/users/6/' . $advert->id . '/vinyl' . $i . $ext;
+                                if (make_directory(pathinfo($path)['dirname'], 0777, true)) {
+                                    $img = Image::make($image->img);
+                                    $img->resize(800, null, function ($constraint) {
+                                        $constraint->aspectRatio();
+                                    })->save($path);
+                                    $imageService->createImageWatermark(
+                                        $path,
+                                        $path,
+                                        public_path('images/watermarks/watermark.png')
+                                    );
+                                    //'/users/6/' . $advert->id . '/vinyl.jpg',
+                                    AdvertImage::firstOrCreate(
+                                        ['path' => $path],
+                                        [
+                                            'advert_id' => $advert->id,
+                                            'path' => str_replace('public\storage', '',
+                                                substr($path, strpos($path, 'public\storage')))
+                                        ]);
+                                }
+                                $i++;
+                            }
+
+                        }
+                    }
+
+                  /*  if ($id &&
+                        $imageService->isImage(request()->file($fileName))) {
+                        if ($imageService->isFileMoreSize(request()->file($fileName)->getSize())) {
+                            $error = 'Файл не должен превышать ' . format_size(env('MAX_FILE_SIZE'));
+                        } else {
+                            if ($imageService->createTmpImage(request()->file($fileName), $fileName)) {
+                                $userId = auth()->user()->id;
+                                $ext = strtolower(request()->file($fileName)->getClientOriginalExtension());
+                                return [
+                                    'error' => $error,
+                                    'url' => asset('storage/tmp/' . $userId . '/' . $fileName . '.' . $ext . '?t=') . time()
+                                ];
+                            } else {
+                                $error = "Произошла ошибка при загрузке файла";
+                            }
+                        }
+                    }*/
+                }
+              /*  if ($siteMainPageContent) {
+                    $doc = new DOMDocument();
+                    @$doc->loadHTML('<meta http-equiv="content-type" content="text/html; charset=utf-8">' . $siteMainPageContent);
+                    $xpath = new DOMXPath($doc);
+                    $this->log->info('Начало парсинга');
+                    foreach ($parseConfig as $menu_name => $config) {
+                        $this->log->info('Парсинг раздела ' . $menu_name);
+                        $subMenuLinks =
+                            $xpath->query("//div[@id='" . $config['menu_id'] . "']/a[@class='dropdown-item']");
+                        if ($subMenuLinks->length) {
+                            foreach ($subMenuLinks as $link) {
+                                $linkSubDoors = trim($link->getAttribute('href'));
+                                //$linkSubDoors = 'https://dveri-vdk.ru/category/mezhkomnatnye-dveri/enamel-emal-belaya/';
+                                $subDoorName = trim($link->nodeValue);
+                                $this->log->info('Категория: ' . $subDoorName . ' | Url: ' . $linkSubDoors);
+                                $catalog = Catalog::select()->where('name', $subDoorName)->first();
+                                if (!$catalog) {
+                                    $this->log->error('Каталог ' . $subDoorName . ' не найден в базе!');
+                                    dd('Каталог ' . $subDoorName . ' не найден в базе');
+                                }
+                                $pageContent = file_get_contents($linkSubDoors);
+                                if ($pageContent) {
+                                    $this->parseProductsPage($pageContent, $linkSubDoors, $catalog);
+                                    $this->log->info('Конец парсинга каталога ' . $catalog->name);
+                                    $this->log->info('-------------------------------------------------------');
+                                } else {
+                                    $this->log->error('Не удалось получить html страницы url ' . $linkSubDoors);
+                                }
+                            }
+                        } else {
+                            $this->log->error('Не удалось выпарсить меню ' . $menu_name);
+                        }
+
+                    }
+                    echo 'Fin';exit();
+                } else {
+                    $this->log->error('Не удалось получить html главной страницы сайта ' . $siteUrl);
+                }*/
                 dd('FIN');
                 break;
             default:

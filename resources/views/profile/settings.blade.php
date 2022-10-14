@@ -31,7 +31,7 @@
                                         @csrf
                                         <div class="col-12">
                                             <label class="form-label">Имя <span class="need-field">*</span></label>
-                                            <input type="text" class="form-control" required name="name" value="{{$user->name}}">
+                                            <input type="text" class="form-control" required name="name" maxlength="20" value="{{$user->name}}">
                                             <div class="invalid-tooltip">
                                                 Поле не должно быть пустым!
                                             </div>

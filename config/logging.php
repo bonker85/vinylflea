@@ -117,6 +117,11 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+        'parser-vinil-sd-by' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/parser-vinil-sd-by.log'),
+            'level' => 'info',
+        ],
     ],
 
 ];

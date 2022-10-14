@@ -2,6 +2,7 @@
 namespace App\Services;
 
 
+use App\Models\Message;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -12,7 +13,7 @@ class ProfileService {
     public function editInfo()
     {
         $data = Validator::make(request()->all(), [
-            'name' => 'required',
+            'name' => 'required|max:20',
             'avatar' => 'file|nullable',
             'city' => 'nullable|exists:city,name',
             'phone' => 'nullable'
@@ -82,6 +83,61 @@ class ProfileService {
             $user->save();
             auth()->setUser($user);
             request()->session()->now('success', 'Данные сохранены');
+        }
+    }
+
+    public  function getAdvertDialogMessages($advertDialogId)
+    {
+        $userId = auth()->user()->id;
+        if ($userId) {
+            return Message::select()->where('advert_dialog_id', $advertDialogId)
+                ->where(function($q) use ($userId) {
+                    $q->where('from_id', $userId)->orWhere('to_id', $userId);
+                })
+                ->orderBy('created_at')->get();
+        }
+        return [];
+    }
+
+    public function generateChatBlockForAjaxQuery($advertDialog)
+    {
+        $html = '';
+        $advertDialogId = $advertDialog->id;
+        $messages = Message::select()->where('advert_dialog_id', $advertDialogId)->orderBy('created_at')->get();
+        $avatar = '';
+        if (auth()->user()->id == $advertDialog->from_user_id) {
+            $avatar = $advertDialog->toUser->avatar;
+        } else {
+            $avatar = $advertDialog->fromUser->avatar;
+        }
+        foreach ($messages as $message) {
+            $html .=
+                '<li class="chat-tip ' .
+                    (($message->from_id == auth()->user()->id) ? 'right-user' : 'left-user')
+                .'">';
+            $html .= '<div class="mess-dt">' . $message->getFormatDate() . '</div>';
+            if (($message->to_id == auth()->user()->id)) {
+                $html .= '<div>
+                            <img class="avatar-mess" src="' .
+                                    asset($avatar ? 'storage' . $avatar : '/assets/images/avatars/no-avatar.png') .
+                            '"/>
+                        </div>';
+            }
+            $html .= $message->message . '</li>';
+        }
+        return $html;
+    }
+
+    public function clearAdvertDialogDontViewMessages($advertDialog)
+    {
+        if (auth()->check()) {
+            $userId = auth()->user()->id;
+            if ($advertDialog->from_user_id == $userId) {
+                $advertDialog->count_not_view_user_from = 0;
+            } else if ($advertDialog->to_user_id == $userId) {
+                $advertDialog->count_not_view_user_to = 0;
+            }
+            $advertDialog->save();
         }
     }
 }

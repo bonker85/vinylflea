@@ -18,6 +18,11 @@ class AdvertService {
         4 => 'deactivated'
     ];
 
+    const DEAL = [
+        'sale' => 'Продам',
+        'exchange' => 'Обменяю',
+        'free' => 'Отдам даром'
+    ];
     public static function getCountStatus($userId)
     {
         if (!$userId) return false;

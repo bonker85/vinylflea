@@ -23,6 +23,15 @@ class Advert extends Model
     {
         return $this->hasOne(Style::class, 'id', 'style_id');
     }
+    public function edition()
+    {
+        return $this->hasOne(Edition::class, 'id', 'edition_id');
+    }
+
+    public function favorits()
+    {
+        return $this->hasMany(AdvertFavorit::class, 'advert_id', 'id');
+    }
     public function getFormatDate()
     {
         $carbon = Carbon::createFromFormat('Y-m-d H:i:s', $this->up_time);

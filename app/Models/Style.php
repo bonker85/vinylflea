@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Style extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
+    public function adverts() {
+        return $this->hasMany(Advert::class, 'style_id', 'id')->where('status', 1)->orderBy('up_time', 'DESC');
+    }
 }

@@ -65,18 +65,38 @@ Route::post('/email/verification-notification', function (Request $request) {
 
 Route::match(['post', 'get'],'ajax/{param}', 'App\Http\Controllers\AjaxController@index')->name('main.ajax');
 
-Route::group(['namespace' => 'App\Http\Controllers\Profile', 'prefix' => 'profile', 'middleware' => ['auth', 'verified']], function() {
-    Route::match(['get', 'post'], '/settings', 'IndexController@settings')->name('profile.settings');
-    Route::get('/add_advert', 'IndexController@addAdvert')->name('profile.add_advert');
-    Route::post('/add_advert', 'IndexController@storeAdvert')->name('profile.store_advert');
-    Route::get('/edit_advert/{advert}', 'IndexController@editAdvert')->name('profile.edit_advert');
-    Route::post('/edit_advert/{advert}', 'IndexController@updateAdvert')->name('profile.update_advert');
-    Route::post('/deactivate_advert/{id}', 'IndexController@deactivateAdvert')->name('profile.deactiv_advert');
-    Route::post('/activate_advert/{id}', 'IndexController@activateAdvert')->name('profile.activ_advert');
-    Route::post('/up_advert/{id}', 'IndexController@upAdvert')->name('profile.up_advert');
-    Route::get('/{status?}', 'IndexController@index')->name('profile.adverts');
-});
+Route::get('/news/{page:url?}', 'App\Http\Controllers\News\IndexController@index')->name('news');
+
+Route::group(['namespace' => 'App\Http\Controllers\Profile', 'prefix' => 'profile',
+    'middleware' => ['auth', 'verified', 'ban']],
+    function() {
+        Route::match(['get', 'post'], '/settings', 'IndexController@settings')->name('profile.settings');
+        Route::get('/favorit/', 'IndexController@favorit')->name('profile.favorit');
+        Route::delete('/favorit/{favorit}', 'IndexController@favoritDelete')->name('profile.favorit.delete');
+        Route::match(['post', 'get'], '/add_to_ban', 'IndexController@addToBan')->name('profile.add_to_ban');
+        Route::get('/messages/{advertDialogId?}', 'IndexController@messages')->name('profile.messages');
+        Route::post('/messages/{advertDialog}', 'IndexController@addMessage')->name('profile.add_message');
+        Route::get('/add_advert', 'IndexController@addAdvert')->name('profile.add_advert');
+        Route::post('/add_advert', 'IndexController@storeAdvert')->name('profile.store_advert');
+        Route::post('/del_advert/{advert}', 'IndexController@deleteAdvert')->name('profile.del_advert');
+        Route::get('/edit_advert/{advert}', 'IndexController@editAdvert')->name('profile.edit_advert');
+        Route::post('/edit_advert/{advert}', 'IndexController@updateAdvert')->name('profile.update_advert');
+        Route::post('/deactivate_advert/{id}', 'IndexController@deactivateAdvert')->name('profile.deactiv_advert');
+        Route::post('/activate_advert/{id}', 'IndexController@activateAdvert')->name('profile.activ_advert');
+        Route::post('/up_advert/{id}', 'IndexController@upAdvert')->name('profile.up_advert');
+        Route::get('/{status?}', 'IndexController@index')->name('profile.adverts');
+    }
+);
 Route::match(['get', 'post'], 'tasks/{param}', 'App\Http\Controllers\TasksController@index')->name('tasks');
+
+Route::get('/user/{user}', 'App\Http\Controllers\Profile\IndexController@user')->name('user');
+
+Route::group(['namespace' => 'App\Http\Controllers\Vinyl', 'prefix' => 'vinyls'], function() {
+    Route::get('/details/{advert:url}', 'IndexController@details')->name('vinyls.details');
+    Route::get('/all', 'IndexController@allStyles')->name('vinyls.style');
+    Route::get('/{style:slug}', 'IndexController@index')->name('vinyls.style');
+});
+
 Route::group(['namespace' => 'App\Http\Controllers\Main'], function() {
     Route::get('/{url?}', 'IndexController')->name('main.index');
 });

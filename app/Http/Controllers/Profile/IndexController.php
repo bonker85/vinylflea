@@ -6,13 +6,17 @@ namespace App\Http\Controllers\Profile;
 use App\Http\Requests\Profile\Advert\AddRequest;
 use App\Http\Requests\Profile\Advert\EditRequest;
 use App\Models\Advert;
+use App\Models\AdvertDialog;
+use App\Models\AdvertFavorit;
 use App\Models\AdvertImage;
+use App\Models\BanUserList;
 use App\Models\Edition;
+use App\Models\Message;
 use App\Models\Style;
 use App\Models\User;
 use App\Services\AdvertService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
 
 class IndexController extends BaseController
@@ -167,6 +171,150 @@ class IndexController extends BaseController
         }
     }
 
+    public function messages($advertDialogId = null)
+    {
+        $userId = auth()->user()->id;
+        $messages = [];
+        if ($advertDialogId) {
+            $advertDialog = AdvertDialog::find($advertDialogId);
+            if ($advertDialog) {
+                $messages = $this->service->getAdvertDialogMessages($advertDialog->id);
+                $this->service->clearAdvertDialogDontViewMessages($advertDialog);
+            }
+            if (!$messages) {
+                return abort('404');
+            }
+        } else {
+            $advertDialog = AdvertDialog::select()
+                ->where(function($q) use ($userId) {
+                    $q->where('from_user_id', $userId)->orWhere('to_user_id', $userId);
+                })
+                ->orderBy('updated_at', 'DESC')->first();
+            if ($advertDialog) {
+                $messages = $this->service->getAdvertDialogMessages($advertDialog->id);
+                $this->service->clearAdvertDialogDontViewMessages($advertDialog);
+            }
+        }
+
+        $advertLists = [];
+        if ($messages) {
+            //
+            $advertLists =
+                AdvertDialog::selectRaw('*, IF (from_user_id=' . $userId .
+                    ', count_not_view_user_from, IF (to_user_id='
+                    . $userId . ', count_not_view_user_to, 0)) AS count_messages')
+                ->where(function($q) use ($userId) {
+                   $q->where('from_user_id', $userId)->orWhere('to_user_id', $userId);
+                })
+                ->orderBy('updated_at', 'DESC')
+                ->get();
+        }
+        return view('profile.messages', compact('messages', 'advertLists', 'advertDialog'));
+    }
+
+    public function addMessage(AdvertDialog $advertDialog)
+    {
+        $userId = auth()->user()->id;
+        if ($advertDialog->to_user_id == $userId && $advertDialog->from_user_id == $userId) {
+            abort('404');
+        }
+        $message = request()->get('message');
+        if (($advertDialog->to_user_id == auth()->user()->id ||
+            $advertDialog->from_user_id == auth()->user()->id) &&
+            $message && mb_strlen($message) <= 1000) {
+            $datetime = now();
+            $data = [
+                'advert_dialog_id' => $advertDialog->id,
+                'advert_id' => $advertDialog->advert_id,
+                'from_id' => auth()->user()->id,
+                'to_id' => (auth()->user()->id == $advertDialog->to_user_id) ?
+                    $advertDialog->from_user_id : $advertDialog->to_user_id,
+                'message' => $message,
+                'created_at' => $datetime,
+                'updated_at' => $datetime
+            ];
+            if (Message::insert($data)) {
+                if (auth()->user()->id == $advertDialog->to_user_id) {
+                    $advertDialog->count_not_view_user_from = ++$advertDialog->count_not_view_user_from;
+                } else {
+                    $advertDialog->count_not_view_user_to = ++$advertDialog->count_not_view_user_to;
+                }
+                $advertDialog->updated_at = $datetime;
+                $advertDialog->save();
+                if (request()->ajax()) {
+                    return [
+                        'error' => '',
+                        'chat' => $this->service->generateChatBlockForAjaxQuery($advertDialog)
+                    ];
+                }
+                return redirect()->route('profile.messages', $advertDialog->id);
+            }
+        }
+        if (request()->ajax()) {
+            return [
+                'error' => 'Произошла ошибка при отправке сообщения'
+            ];
+        }
+        request()->session()->flash('success', 'Произошла ошибка при отправке сообщения');
+        return redirect()->route('profile.messages', $advertDialog->id);
+    }
+
+    public function user(User $user)
+    {
+        if ((int)$user->role_id === User::ROLE_ADMIN) {
+            abort('404');
+        }
+        $advertList = Advert::select()
+                        ->where('status', AdvertService::getStatusByName('activated'))
+                        ->where('user_id', $user->id)
+                        ->orderBy('up_time', 'DESC')->paginate(20);
+      /*  foreach ($advertList as $advert) {
+            echo $advert->style_id;echo '<br/>';
+            $advert->style->name;
+        }
+        exit();*/
+        return view('user.index', compact('user', 'advertList'));
+    }
+    public function favorit()
+    {
+        $favoritLists = AdvertFavorit::select()
+                ->where('user_id', auth()->user()->id)
+                ->orderBy('created_at', 'DESC')->paginate(20);
+        return view('profile.favorit', compact('favoritLists'));
+    }
+
+    public function favoritDelete(AdvertFavorit $favorit)
+    {
+        if ($favorit->user_id == auth()->user()->id) {
+            $favorit->delete();
+        }
+        return redirect()->route('profile.favorit');
+    }
+
+    public function addToBan(Request $request)
+    {
+        if (User::isAdmin()) {
+            if ($request->post()) {
+                switch($request->action) {
+                    case 'add_to_ban':
+                        BanUserList::firstOrCreate(['user_id' => $request->user_id]);
+                        break;
+                    case 'remove_ban':
+                        $userBan = BanUserList::where('user_id', $request->user_id)->first();
+                        if ($userBan) {
+                            $userBan->delete();
+                        }
+                    break;
+
+                }
+            }
+            $usersList = User::select()->where('id', '!=', auth()->user()->id)->orderBy('email')->paginate(20);
+            return view('profile.add_to_ban', compact('usersList'));
+        } else {
+            abort('404');
+        }
+    }
+
     public function updateAdvert(EditRequest $request, Advert $advert)
     {
         if (($advert->user_id == auth()->user()->id &&
@@ -219,7 +367,8 @@ class IndexController extends BaseController
                 if (file_exists($pathTmp)) {
                     $path = str_replace('/tmp/', '/users/', $pathTmp);
                     $userId = $advert->user_id;
-                    $path = str_replace('users/' . $userId . '/', 'users/' . $userId . '/' . $advert->id . '/', $path);
+                    $path = str_replace('users/' . auth()->user()->id . '/',
+                            'users/' . $userId . '/' . $advert->id . '/', $path);
                     $path = preg_replace('#vinyl_original[1-4]#is', 'vinyl' . $i, $path);
                     if (make_directory(pathinfo($path)['dirname'], 0777, true)) {
                         if (rename($pathTmp, $path)) {
@@ -241,6 +390,27 @@ class IndexController extends BaseController
             return redirect()->route('profile.adverts', ['status' => AdvertService::STATUS[$data['status']]]);
         } else {
             abort('404');
+        }
+    }
+
+    public function deleteAdvert(Advert $advert)
+    {
+        if (($advert->user_id == auth()->user()->id &&
+                $advert->status != AdvertService::getStatusByName('moderation')) || User::isAdmin()) {
+            AdvertFavorit::where('advert_id', $advert->id)->delete();
+            $advertImages = AdvertImage::where('advert_id', $advert->id)->get();
+            foreach ($advertImages as $aImage) {
+                $imgPath = public_path('storage') . $aImage->path;
+                if (file_exists($imgPath)) {
+                    $dirPath = dirname($imgPath);
+                    rrmdir($dirPath);
+                }
+                $aImage->delete();
+            }
+            $advertName = $advert->name;
+            $advert->delete();
+            request()->session()->flash('success', 'Пластинка (' . $advertName . ') удалена');
+            return redirect()->route('profile.adverts');
         }
     }
 }

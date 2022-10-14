@@ -1,11 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\AdvertImage;
+use App\Models\Advert;
+use App\Models\AdvertDialog;
+use App\Models\AdvertFavorit;
+use App\Models\Message;
+use App\Models\User;
 use App\Services\Utility\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use PHPUnit\TextUI\Exception;
 
 class AjaxController extends Controller
 {
@@ -46,35 +51,41 @@ class AjaxController extends Controller
                 }
                 break;
             case 'vinyl_file':
-                $error = '';
-                $imageService = new ImageService();
-                $id = request()->get('id');
-                $fileName = '';
-                if (in_array($id, [1, 2, 3, 4])) {
-                    $fileName = 'vinyl' . $id;
-                }
-                if ($id &&
-                    $imageService->isImage(request()->file($fileName))) {
-                    if ($imageService->isFileMoreSize(request()->file($fileName)->getSize())) {
-                        $error = 'Файл не должен превышать ' . format_size(env('MAX_FILE_SIZE'));
-                    } else {
-                        if ($imageService->createTmpImage(request()->file($fileName), $fileName)) {
-                            $userId = auth()->user()->id;
-                            $ext = strtolower(request()->file($fileName)->getClientOriginalExtension());
-                            return [
-                                'error' => $error,
-                                'url' => asset('storage/tmp/' . $userId . '/' . $fileName . '.' . $ext . '?t=') . time()
-                            ];
-                        } else {
-                            $error = "Произошла ошибка при загрузке файла";
-                        }
+                try {
+                    $error = '';
+                    $imageService = new ImageService();
+                    $id = request()->get('id');
+                    $fileName = '';
+                    if (in_array($id, [1, 2, 3, 4])) {
+                        $fileName = 'vinyl' . $id;
                     }
-                } else {
-                    $error = 'Произошла ошибка при загрузке файла';
+                    if ($id &&
+                        $imageService->isImage(request()->file($fileName))) {
+                        if ($imageService->isFileMoreSize(request()->file($fileName)->getSize())) {
+                            $error = 'Файл не должен превышать ' . format_size(env('MAX_FILE_SIZE'));
+                        } else {
+                            if ($imageService->createTmpImage(request()->file($fileName), $fileName)) {
+                                $userId = auth()->user()->id;
+                                $ext = strtolower(request()->file($fileName)->getClientOriginalExtension());
+                                return [
+                                    'error' => $error,
+                                    'url' => asset('storage/tmp/' . $userId . '/' . $fileName . '.' . $ext . '?t=') . time()
+                                ];
+                            } else {
+                                $error = "Произошла ошибка при загрузке файла";
+                            }
+                        }
+                    } else {
+                        $error = 'Произошла ошибка при загрузке файла';
+                    }
+                    if ($error) {
+                        return ['error' => $error];
+                    }
+                } catch (Exception $e) {
+                    dd('dfsf');
+                    return ['error' => $e->getMessage()];
                 }
-                if ($error) {
-                    return ['error' => $error];
-                }
+
                 break;
             case 'vinyl_delete':
                 $id = request()->get('id');
@@ -117,19 +128,140 @@ class AjaxController extends Controller
                 } else {
                     return ['error' => 'Произошла ошибка при удалении изображения'];
                 }
-                break;
+            case 'show_phone':
+                    $error = 'error';
+                    $paramType = 'advert';
+                    if (!auth()->check()) {
+                        return ['error' => 'Иформация недоступна'];
+                    }
+                    if (request()->get('advert')) {
+                        $id = request()->get('advert');
+                    } else if (request()->get('user_id')) {
+                        $id = request()->get('user_id');
+                        $paramType = 'user';
+                    }
+                    if (isset($id) && is_numeric($id)) {
+                        switch ($paramType) {
+                            case 'advert':
+                                $advert = Advert::select()->where('status', 1)->where('id', $id)->first();
+                                if ($advert) {
+                                    if ($advert->user->phone) {
+                                        return [
+                                            'error' => '',
+                                            'phone' => $advert->user->phone
+                                        ];
+                                    }
+                                }
+                            break;
+                            case 'user':
+                                $user = User::find($id);
+                                if ($user) {
+                                    return [
+                                        'error' => '',
+                                        'phone' => $user->phone
+                                    ];
+                                }
+                            break;
+                        }
+
+                    }
+                    return ['error' => $error];
+            case 'front-message':
+                $error = 'error';
+                if (request()->method() == 'POST' && auth()->check()) {
+                    $id = request()->get('id');
+                    $message = request()->get('message');
+                    $userId = auth()->user()->id;
+                    if (is_numeric($id) && $message && mb_strlen($message) <= 1000) {
+                        $advert = Advert::select()->where('id', $id)->where('status', 1)->first();
+                        if ($advert) {
+                            if ($advert->user_id == $userId) {
+                                $error = 'Произошла системная ошибка. Нельзя отправить сообщение самому себе.';
+                                return ['error' => $error];
+                            }
+                            try {
+                                DB::beginTransaction();
+                                $datetime = now();
+                                $advertDialog = AdvertDialog::select()
+                                    ->where('advert_id', $advert->id)
+                                    ->where('from_user_id', auth()->user()->id)->first();
+                                if ($advertDialog) {
+                                    $advertDialog->count_not_view_user_to = ++$advertDialog->count_not_view_user_to;
+                                    $advertDialog->updated_at = $datetime;
+                                    $advertDialog->save();
+                                } else {
+                                    $data = [
+                                        'advert_id' => $advert->id,
+                                        'from_user_id' => $userId,
+                                        'to_user_id' => $advert->user_id,
+                                        'count_not_view_user_from' => 0,
+                                        'count_not_view_user_to' => 1,
+                                        'created_at' => $datetime,
+                                        'updated_at' => $datetime
+                                    ];
+                                    $advertDialog = AdvertDialog::firstOrCreate([
+                                        'advert_id' => $advert->id,
+                                        'from_user_id' => $userId
+                                    ], $data);
+                                }
+                                $data = [
+                                    'advert_dialog_id' => $advertDialog->id,
+                                    'advert_id' => $advertDialog->advert_id,
+                                    'from_id' => $advertDialog->from_user_id,
+                                    'to_id' => $advertDialog->to_user_id,
+                                    'message' => $message,
+                                    'created_at' => $datetime,
+                                    'updated_at' => $datetime
+                                ];
+                                Message::insert($data);
+                                DB::commit();
+                                return ['error' => '', 'dialog_id' => $advertDialog->id];
+                            } catch (\Exception $exception) {
+                                DB::rollback();
+                                $error = 'Произошла системная ошибка. Попробуйте отправить сообщение позже';
+                            }
+                        }
+                    }
+                }
+                return ['error' => $error];
             case 'search':
+                $q = strtolower(trim($request->q));
+                $path = route('vinyls.details', '') . '/';
+                $results = Advert::select(
+                        'name',
+                        DB::raw('CONCAT("Исполнитель: ", IF(author IS NOT NULL, author, "unknown")) as description'),
+                        DB::raw("CONCAT('" . $path . "', url) AS url"),
+                    )->where(function($query) use ($q) {
+                        $query->where(DB::raw('LOWER(name)'), 'like', "%" . $q . "%")
+                            ->orWhere(DB::raw('LOWER(author)'), 'like', "%" . $q . "%");
+                    })
+                    ->where('status', 1)->limit(20);
                 return [
                     'items' =>
-                        Door::select(
-                            DB::raw("CONCAT('/product/', url) AS url"),
-                            DB::raw("CONCAT('/storage', main_image) AS image"),
-                            'name',
-                            'title as description',
-                            'price'
-                        )->where('name', 'like', "%" . $request->q. "%")
-                        ->where('status', 1)->get()
+                    $results->get()
                 ];
+                break;
+            case 'favorit':
+                $user_id = request()->user_id;
+                $advert_id = request()->advert_id;
+                if (is_numeric($user_id) && is_numeric($advert_id)
+                    && auth()->check() && auth()->user()->id == $user_id) {
+                    $advert = Advert::find($advert_id);
+                    if ($advert && $advert->user_id != $user_id) {
+                        $favorit = AdvertFavorit::select()
+                            ->where('advert_id', $advert->id)
+                            ->where('user_id', $user_id)->first();
+                        if ($favorit) {
+                            $favorit->delete();
+                            return ['res' => false];
+                        } else {
+                            $data = ['advert_id' => $advert->id, 'user_id' => $user_id];
+                            AdvertFavorit::firstOrCreate($data);
+                            return ['res' => true];
+                        }
+                    }
+                }
+                return ['res' => false];
                 break;
             default:
                 abort('404');

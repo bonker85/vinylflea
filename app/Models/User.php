@@ -61,4 +61,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return (auth()->user() && (int)auth()->user()->role_id === self::ROLE_ADMIN);
     }
+
+   public function isBan()
+   {
+       return BanUserList::where('user_id', $this->id)->first();
+   }
 }

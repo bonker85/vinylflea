@@ -47,7 +47,7 @@
                                                     @if ($status == 'rejected' && $advert->reject_message)
                                                         <div class="reject-message">{{$advert->reject_message}}</div>
                                                     @endif
-                                                    <div class="d-lg-flex align-items-center gap-2 block-vinyl-list">
+                                                    <div class="d-lg-flex align-items-center gap-3 block-vinyl-list">
                                                         <div class="cart-img text-center text-lg-start">
                                                             @if (count($advert->images))
                                                                 @foreach ($advert->images as $image)
@@ -58,10 +58,24 @@
                                                                 <img src="{{asset('/assets/images/avatars/no-avatar.png')}}" width="130" alt="">
                                                             @endif
                                                         </div>
-                                                        <div class="cart-detail text-center text-lg-start">
+                                                        <div class="cart-detail col-lg-9 text-center text-lg-start">
                                                             <h6 class="mb-0">{{$advert->name}}</h6>
                                                             <div class="m-style">{{$advert->style->name}}</div>
-                                                            <h5 class="mb-0">{{str_replace('.00', '', $advert->price)}} Руб.</h5>
+                                                            @if ($advert->favorits->count() && !$admin && $status == 'activated')
+                                                                <div>
+                                                                    <i class="bx bxs-heart" ></i>
+                                                                    <div class="advert-favorits">{{$advert->favorits->count()}}</div>
+                                                                </div>
+                                                            @endif
+                                                            <h5 class="mb-0">
+                                                                @if ($advert->deal == 'sale')
+                                                                    {{str_replace('.00', '', $advert->price)}} Руб.
+                                                                @elseif ($advert->deal == 'exchange')
+                                                                    обменяю
+                                                                @else
+                                                                    отдам даром
+                                                                @endif
+                                                            </h5>
                                                             @if ($admin)
                                                                 <div class="user-link-profile">
                                                                     <form method="post" action="{{route('tasks', ['param' => 'toggle_user'])}}">
@@ -78,19 +92,29 @@
                                                                   </form>
                                                                 </div>
                                                             @endif
+
                                                             @if ($status != 'moderation' || $admin)
                                                             <div class="text-center block-cart-button">
                                                                 <div class="d-flex gap-2 justify-content-center justify-content-lg-end mt-1">
-                                                                    <a href="{{route('profile.edit_advert', $advert->id)}}" class="btn btn-success rounded-3 btn-ecomm"><i class="bx bx-edit"></i> Изменить</a>
+                                                                    @if ($status == 'rejected' || $status == 'activated' || $admin)
+                                                                        <a href="{{route('profile.edit_advert', $advert->id)}}" class="btn btn-success rounded-3 btn-ecomm"><i class="bx bx-edit"></i> Изменить</a>
+                                                                    @endif
+                                                                    @if ($status == 'activated')
+                                                                            <form method="post" action="{{route('profile.deactiv_advert', ['id' => $advert->id])}}">
+                                                                                @csrf
+                                                                                <button type="submit" class="btn btn-warning rounded-3 btn-ecomm"><i class="bx bx-hide"></i> Скрыть</button>
+                                                                            </form>
+                                                                    @endif
                                                                     @if ($status == 'deactivated')
                                                                         <form method="post" action="{{route('profile.activ_advert', ['id' => $advert->id])}}">
                                                                             @csrf
                                                                             <button type="submit" class="btn btn-warning rounded-3 btn-ecomm"><i class="bx bx-show"></i> Показать</button>
                                                                         </form>
-                                                                    @else
-                                                                        <form method="post" action="{{route('profile.deactiv_advert', ['id' => $advert->id])}}">
+                                                                    @endif
+                                                                    @if ($status == 'rejected' || $status == 'deactivated' || $admin)
+                                                                        <form method="post" action="{{route('profile.del_advert', $advert->id)}}">
                                                                             @csrf
-                                                                            <button type="submit" class="btn btn-danger rounded-3 btn-ecomm"><i class="bx bx-x-circle"></i> Скрыть</button>
+                                                                            <button type="submit" class="btn btn-danger rounded-3 btn-ecomm"><i class="bx bx-x-circle"></i> Удалить</button>
                                                                         </form>
                                                                     @endif
                                                                 </div>

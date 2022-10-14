@@ -36,10 +36,13 @@ class AddRequest extends FormRequest
             'edition_id' => 'nullable|exists:editions,id',
             'style_id' => 'required|exists:styles,id',
             'description' => 'required|string|max:1000',
+            'author' => 'nullable|max:40',
+            'deal' => 'required|in:sale,exchange,free',
             'price' => 'required|regex:/^[0-9]{0,4}\.?[0-9]{0,2}$/i',
             'state' =>  'required|in:1,2',
             'vinyl' => 'nullable|array',
             'vinyl.*' => 'nullable|string',
+            'condition' => 'nullable|string|max:100'
         ];
     }
 }

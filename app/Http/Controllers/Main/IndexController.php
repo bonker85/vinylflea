@@ -5,12 +5,24 @@ namespace App\Http\Controllers\Main;
 //use DB;
 //use Illuminate\Support\Facades\Hash;
 
+use App\Models\Advert;
+use App\Models\Page;
+use App\Models\Style;
+use App\Services\AdvertService;
+
 class IndexController extends BaseController
 {
     public function __invoke($url = 'home')
     {
    //     DB::table('users')->insert(['name'=>'Egor','email'=>'bonker85@mail.ru','password'=>Hash::make('fishki182')]);
         $page = $this->service->getPage($url);
-        return view('main.index', ['page' => $page]);
+        $lastAdvertsList = Advert::select()
+            ->where('status', AdvertService::getStatusByName('activated'))
+            ->orderBy('up_time', 'DESC')->limit(8)->get();
+        $lastNewsList = Page::select()->where('status', 1)->where('parent_id', 2)
+            ->orderBy('created_at')->limit(8)->get();
+        $styles = Style::select()->orderBy('name')->get();
+        return view('main.index', compact('page', 'lastAdvertsList', 'styles', 'lastNewsList'));
     }
+
 }

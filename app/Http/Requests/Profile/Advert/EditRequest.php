@@ -36,6 +36,8 @@ class EditRequest extends FormRequest
                     })
             ],
             'year' => 'nullable|integer',
+            'author' => 'nullable|max:40',
+            'deal' => 'required|in:sale,exchange,free',
             'edition_id' => 'nullable|exists:editions,id',
             'style_id' => 'required|exists:styles,id',
             'description' => 'required|string|max:1000',
@@ -43,6 +45,7 @@ class EditRequest extends FormRequest
             'state' =>  'required|in:1,2',
             'vinyl' => 'nullable|array',
             'vinyl.*' => 'nullable|string',
+            'condition' => 'nullable|string|max:100'
         ];
     }
 }

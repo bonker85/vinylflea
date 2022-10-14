@@ -44,6 +44,15 @@
                                             @enderror
                                         </div>
                                         <div class="col-12">
+                                            <label class="form-label">Исполнитель <small><b>(до 40 символов)</b></small></label>
+                                            <input type="text" class="form-control"  name="author" value="{{$advert->author}}" maxlength="40">
+                                            @error('author')
+                                            <span class="invalid-feedback d-block" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="col-12">
                                             <label class="form-label" for="style_id">Стиль <span class="need-field">*</span></label>
                                             <select class="form-control select2" required name="style_id" style="width: 100%; height: 50px">
                                                 <option value="">Выберите стиль</option>
@@ -91,8 +100,34 @@
                                             @enderror
                                         </div>
                                         <div class="col-12">
+                                            <label class="form-label">Оценка (пластинки/конверта) </label>
+                                            <div class="condition-mess"><a href="{{route('news', 'sistemy-otsenki-vinilovyh-plastinok')}}" target="_blank">посмотреть систему оценки</a></div>
+                                            <input type="text" maxlength="100" placeholder="VG+/NM"class="form-control" name="condition" value="{{$advert->condition}}" />
+                                            @error('condition')
+                                            <span class="invalid-feedback d-block" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="form-label">Вид сделки <span class="need-field">*</span></label>
+                                            <select id="deal" class="form-control" required name="deal">
+                                                @foreach(\App\Services\AdvertService::DEAL as $key => $deal)
+                                                    <option value="{{$key}}" @if($advert->deal == $key) selected @endif>{{$deal}}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="invalid-tooltip">
+                                                Поле не должно быть пустым!
+                                            </div>
+                                            @error('deal')
+                                            <span class="invalid-feedback d-block" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                            </span>
+                                            @enderror
+                                        </div>
+                                        <div class="col-12 deal-sale" @if ($advert->deal !== 'sale') style="display: none;" @endif>
                                             <label class="form-label">Цена (Руб.) <span class="need-field">*</span></label>
-                                            <input type="text" class="form-control" required name="price" placeholder="0.00" id="price" value="{{$advert->price}}">
+                                            <input type="text" class="form-control" required name="price" placeholder="0.00" id="price" value="{{str_replace('.00', '', $advert->price)}}">
                                             <div class="invalid-tooltip">
                                                 Поле не должно быть пустым!
                                             </div>
