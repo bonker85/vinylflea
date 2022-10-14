@@ -34,7 +34,7 @@ class IndexController extends BaseController
             if (!User::isAdmin()) {
                 $select->where('user_id', $userId);
             } else {
-                $select->where('advert_id', '!=', '4235');
+                $select->where('id', '!=', '4235');
             }
             $advertList = $select->paginate(10);;
             return view('profile.adverts', compact('status', 'advert_counts', 'advertList', ));
