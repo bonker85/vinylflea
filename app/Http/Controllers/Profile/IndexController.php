@@ -145,7 +145,7 @@ class IndexController extends BaseController
                             ['path' => $path],
                             [
                                 'advert_id' => $advert->id,
-                                'path' => str_replace('public', '', substr($path, strpos($path, 'public')))
+                                'path' => str_replace('public/users', '/users', substr($path, strpos($path, 'public')))
                             ]);
                     }
                 }
