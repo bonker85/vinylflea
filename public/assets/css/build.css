@@ -2285,7 +2285,7 @@ i.icon i.fa-search {
     padding-top: 5px;
 }
 .owl-carousel .owl-item img {
-    min-height: 180px;
+    height: 180px;
 }
 
 .del-advert-name {
