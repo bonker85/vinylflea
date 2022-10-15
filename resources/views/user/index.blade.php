@@ -79,7 +79,7 @@
                                                                             отдам даром
                                                                         @endif
                                                                     </h5>
-                                                                    <div class="d-flex gap-2 mt-3">
+                                                                    <div class="d-flex gap-2 mt-2 user-button">
                                                                         <div class="d-grid gap-2">
                                                                             @if (auth()->check() && auth()->user()->id == $advert->user_id)
                                                                                 <a href="{{route('vinyls.details', $advert->url)}}" class="user-mess-button btn btn-dark btn-ecomm" target="_blank"><i class="bx bxs-show"></i>Просмотр пластинки</a>
