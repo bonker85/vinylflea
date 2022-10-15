@@ -232,8 +232,8 @@ class AjaxController extends Controller
                         DB::raw('CONCAT("Исполнитель: ", IF(author IS NOT NULL, author, "unknown")) as description'),
                         DB::raw("CONCAT('" . $path . "', url) AS url"),
                     )->where(function($query) use ($q) {
-                        $query->whereRaw(DB::raw('LOWER(name) LIKE LOWER("%' . $q . '%)"'))
-                            ->orWhereRaw(DB::raw('LOWER(author) LIKE LOWER("%' . $q . '%)"'));
+                        $query->whereRaw(DB::raw("LOWER(name) LIKE LOWER('%" . $q . "%')"))
+                            ->orWhereRaw(DB::raw("LOWER(author) LIKE LOWER('%" . $q . "%')"));
                     })
                     ->where('status', 1)->limit(20);
                 return [
