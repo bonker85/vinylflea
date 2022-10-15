@@ -24,7 +24,6 @@ class EditRequest extends FormRequest
      */
     public function rules()
     {
-        dd($this);
         return [
             'name' => [
                 'required',
