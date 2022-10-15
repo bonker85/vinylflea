@@ -2152,7 +2152,9 @@ h6.product-name {
 .user-img {
     width: 100px;
 }
-
+.user-img img {
+    width: 100px;
+}
 .user-info {
     padding: 0 10px;
     padding-top: 5px;
