@@ -66,6 +66,9 @@
                                                                 </div>
                                                                 <div class="cart-detail col-lg-9 text-center text-lg-start">
                                                                     <h6 class="mb-0"><a href="{{route('vinyls.details', $advert->url)}}" class="user-links" target="_blank">{{$advert->name}}</a></h6>
+                                                                    @if ($advert->author)
+                                                                        <div class="m-style">{{$advert->author}}</div>
+                                                                    @endif
                                                                     <div class="m-style"><a href="{{route('vinyls.style', $advert->style->slug)}}" class="user-links" target="_blank">{{$advert->style->name}}</a></div>
                                                                     <h5 class="mb-0">
                                                                         @if ($advert->deal == 'sale')
