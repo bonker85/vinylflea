@@ -28,7 +28,11 @@
                                     <div class="list-group list-group-flush ">
                                         <div class="user-data">
                                             <div class="user-img">
-                                                <img src="https://vinylflea.loc/storage/users/5/avatar/5.jpg" alt=""/>
+                                                @if ($user->avatar)
+                                                    <img src="{{asset('/storage') . $user->avatar}}" loading="lazy" alt="{{$user->name}}"/>
+                                                @else
+                                                    <img src="{{asset('/assets/images/avatars/no-avatar.png')}}" loading="lazy" alt="{{$user->name}}"/>
+                                                @endif
                                             </div>
                                             <div class="user-info">
                                                 <div class="user-name"><b>Имя:</b> {{$user->name}}</div>
