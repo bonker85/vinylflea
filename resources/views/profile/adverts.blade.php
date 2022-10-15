@@ -65,7 +65,7 @@
                                                                 @endif
                                                         </div>
                                                         <div class="cart-detail col-lg-9 text-center text-lg-start">
-                                                            <h6 class="mb-0">{{($advert->avtor ? $advert->avtor . ' | ' : '')}}{{$advert->name}}</h6>
+                                                            <h6 class="mb-0">{{($advert->author ? $advert->author . ' | ' : '')}}{{$advert->name}}</h6>
                                                             <div class="m-style">{{$advert->style->name}}</div>
                                                             @if ($advert->favorits->count() && !$admin && $status == 'activated')
                                                                 <div>
