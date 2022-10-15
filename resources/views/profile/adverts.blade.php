@@ -49,6 +49,9 @@
                                                     @endif
                                                     <div class="d-lg-flex align-items-center gap-3 block-vinyl-list">
                                                         <div class="cart-img text-center text-lg-start">
+                                                            @if ($status == 'activated')
+                                                                <a href="{{route('vinyls.details', $advert->url)}}" target="_blank">
+                                                            @endif
                                                             @if (count($advert->images))
                                                                 @foreach ($advert->images as $image)
                                                                     <img src="{{asset('/storage' . $image->path)}}" width="130" alt="">
@@ -57,6 +60,9 @@
                                                             @else
                                                                 <img src="{{asset('/assets/images/avatars/no-avatar.png')}}" width="130" alt="">
                                                             @endif
+                                                                @if ($status == 'activated')
+                                                                    </a>
+                                                                @endif
                                                         </div>
                                                         <div class="cart-detail col-lg-9 text-center text-lg-start">
                                                             <h6 class="mb-0">{{$advert->name}}</h6>
