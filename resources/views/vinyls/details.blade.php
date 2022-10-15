@@ -77,7 +77,7 @@
                                 </div>
                                 <div class="mt-3">
                                     <h6>Описание:</h6>
-                                    <p class="mb-0">{!!nl2br($advert->description)!!}</p>
+                                    <p class="mb-0">{!!$advert->description!!}</p>
                                 </div>
                                 <dl class="row mt-3">
                                     <dt class="col-sm-3">Стиль</dt>

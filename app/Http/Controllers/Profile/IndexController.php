@@ -125,6 +125,7 @@ class IndexController extends BaseController
         $data = $request->validated();
         $data['user_id'] = auth()->user()->id;
         $data['url'] = translate_url($data['name']) . '-' . $data['user_id'];
+        $data['description'] = strip_tags(nl2br($data['description']),'<br/>');
         $vinyl = $data['vinyl'];
         unset($data['vinyl']);
         $advert = Advert::firstOrCreate(['url' => $data['url']], $data);
@@ -337,6 +338,7 @@ class IndexController extends BaseController
             $data['user_id'] = $advert->user_id;
             $data['url'] = translate_url($data['name']) . '-' . $data['user_id'];
             $data['status'] = 2;
+            $data['description'] = strip_tags(nl2br($data['description']),'<br/>');
             if (User::isAdmin()) {
                 $data['status'] = $request->get('status');
                 if ($data['status'] == AdvertService::getStatusByName('rejected')) {
