@@ -1933,6 +1933,7 @@ h6.product-name {
     overflow: hidden;
     text-overflow: ellipsis;
     margin-bottom: 0!important;
+    font-size: 20px;
 }
 .publisher {
     font-size: 14px;
@@ -1946,7 +1947,6 @@ h6.product-name {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: block;
     margin-top: -5px;
     font-weight: bold;
     margin-bottom: 5px;

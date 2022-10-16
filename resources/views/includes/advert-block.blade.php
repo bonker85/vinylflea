@@ -39,7 +39,7 @@
                             <a href="{{route('vinyls.style', $advert->style->slug)}}">
                                 <p class="product-catergory font-13 mb-1">Стиль: <b>{{$advert->style->name}}</b></p>
                             </a>
-                            <p class="product-catergory font-13 mb-1">Исполнитель: <br/>
+                            <p class="product-catergory font-13 mb-1">Исполнитель:
                                 <span class="author">@if ($advert->author) {{$advert->author}} @else не указан @endif</span></p>
                             <div class="d-flex align-items-center publisher">
                                 <a href="{{route('user', $advert->user_id)}}"> {{$advert->user->name}} </a>
