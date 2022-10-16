@@ -31,7 +31,7 @@
                                             <tbody>
                                             <tr>
                                                 <td><a href="{{route('profile.adverts', ['status' => 'activated'])}}" @if ($status === 'activated')class="active" @endif>Активные ({{$advert_counts['activated']}})</a></td>
-                                                <td><a href="{{route('profile.adverts', ['status' => 'moderation'])}}" @if ($status === 'moderation')class="active" @endif>На модерации ({{$advert_counts['moderation']}})</a></td>
+                                                <td><a href="{{route('profile.adverts', ['status' => 'moderation'])}}" @if ($status === 'moderation')class="active ad-mod" @endif>На модерации ({{$advert_counts['moderation']}})</a></td>
                                                 <td><a href="{{route('profile.adverts', ['status' => 'rejected'])}}" @if ($status === 'rejected')class="active ad-rejected" @endif>Отклоненные ({{$advert_counts['rejected']}})</a></td>
                                                 <td><a href="{{route('profile.adverts', ['status' => 'deactivated'])}}" @if ($status === 'deactivated')class="active ad-deact" @endif>Неактивные ({{$advert_counts['deactivated']}})</a></td>
                                             </tr>

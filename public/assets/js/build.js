@@ -392,7 +392,10 @@ $(document).ready(function() {
             }
         });
     });
-    if ($('.ad-deact').hasClass('active') || $('.ad-rejected').hasClass('active')) {
-        $('.adverts-block .table-responsive').scrollLeft(1000)
+    if ($('.ad-rejected').hasClass('active')) {
+        $('.adverts-block .table-responsive').scrollLeft($('.ad-mod').offset().left)
+    }
+    if ($('.ad-deact').hasClass('active')) {
+        $('.adverts-block .table-responsive').scrollLeft($('.ad-rejected').offset().left)
     }
 });
