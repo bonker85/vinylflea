@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @if (isset($style))
-    @section('description', 'Пластинки в стиле ' . $style->name)
+    @section('description', 'Виниловые пластинки в стиле ' . $style->name)
 @else
     @section('title', 'Все стили')
 @endif
