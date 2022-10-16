@@ -63,10 +63,9 @@ class ViewServiceProvider extends ServiceProvider
             if ($resSum) {
                 $countViewMessages = $resSum->sum;
             }
-            dd(request()->route());
             $view->with([
                 'countViewMessages' => $countViewMessages,
-                'route_name' =>  request()->route()->getName()
+                'route_name' =>  request()->route()?->getName()
             ]);
         });
         /********************** BACKEND ***********************************************/
