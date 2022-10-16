@@ -127,7 +127,7 @@
                                 <form method="post" action="{{route('profile.add_message', $advertDialog->id)}}" id="message_form">
                                     @csrf
                                     <div class="card-body">
-                                            <textarea maxlength="1000" name="message" class="message-textarea form-control" rows="2"></textarea>
+                                            <textarea maxlength="950" name="message" class="message-textarea form-control" rows="2"></textarea>
                                             <button type="submit" class="offset-0  btn btn-success">Отправить</button>
                                     </div>
                                 </form>

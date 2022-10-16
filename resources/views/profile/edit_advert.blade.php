@@ -139,7 +139,7 @@
                                         </div>
                                         <div class="col-12">
                                             <label class="form-label">Описание <small><b>(до 1000 символов)</b></small> <span class="need-field">*</span></label>
-                                            <textarea type="text" class="form-control" maxlength="1000" required name="description">{{strip_tags($advert->description)}}</textarea>
+                                            <textarea type="text" class="form-control" maxlength="950" required name="description">{{strip_tags($advert->description)}}</textarea>
                                             <div class="invalid-tooltip">
                                                 Поле не должно быть пустым!
                                             </div>

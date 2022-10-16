@@ -7,7 +7,7 @@
             </div>
             <div class="modal-body">
                 <p class="alert alert-danger" style="display:none"></p>
-                <textarea maxlength="1000" rows="6" required class="form-control" placeholder="Введите текст сообщения" id="message"></textarea>
+                <textarea maxlength="950" rows="6" required class="form-control" placeholder="Введите текст сообщения" id="message"></textarea>
                 <input type="hidden" id="advert_id" value="" />
                 @csrf
             </div>
