@@ -368,13 +368,10 @@ class IndexController extends BaseController
                     if (strpos($url, 'vinyl' . $i) === false) {
                         $oldPath = str_replace('/storage', '', parse_url($url, PHP_URL_PATH));
                         $path = preg_replace('#vinyl[1-4]#is', 'vinyl' . $i, $oldPath);
-                        dump($oldPath);
-                        dump($path);
                         $advertImage = AdvertImage::select()->where('advert_id', $advert->id)
                             ->where('path', $oldPath)
                             ->orderBy('created_at', 'DESC')
                             ->first();
-                        dd($advertImage);
                         if ($advertImage) {
                             $advertImage->path = $path;
                             $advertImage->save();
