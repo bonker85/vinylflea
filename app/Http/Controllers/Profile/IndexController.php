@@ -124,7 +124,7 @@ class IndexController extends BaseController
     {
         $data = $request->validated();
         $data['user_id'] = auth()->user()->id;
-        $data['url'] = translate_url($data['name']) . '-' . $data['user_id'];
+        $data['url'] = translate_url($data['name']) . '-u' . $data['user_id'];
         $data['description'] = strip_tags(nl2br($data['description']),'<br><b>');
         $vinyl = $data['vinyl'];
         unset($data['vinyl']);
@@ -337,7 +337,7 @@ class IndexController extends BaseController
             $data = $request->validated();
             $data['user_id'] = $advert->user_id;
             if (!User::isAdmin()) {
-                $data['url'] = translate_url($data['name']) . '-' . $data['user_id'];
+                $data['url'] = translate_url($data['name']) . '-u' . $data['user_id'];
             }
             $data['status'] = 2;
             $data['description'] = strip_tags(nl2br($data['description']),'<br><b>');
