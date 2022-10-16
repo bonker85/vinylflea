@@ -58,16 +58,19 @@
                                                     <div class="row align-items-center g-3">
                                                         <div class="col-12">
                                                             <div class="d-lg-flex align-items-center gap-2 block-vinyl-list">
-                                                                <div class="cart-img text-center text-lg-start">
-                                                                    @if (count($advert->images))
-                                                                        @foreach ($advert->images as $image)
-                                                                            <img src="{{asset('/storage' . $image->path)}}" width="130" alt="">
-                                                                            @break
-                                                                        @endforeach
-                                                                    @else
-                                                                        <img src="{{asset('/assets/images/avatars/no-avatar.png')}}" width="130" alt="">
-                                                                    @endif
-                                                                </div>
+
+                                                                <a href="{{route('vinyls.details', $advert->url)}}" >
+                                                                    <div class="cart-img text-center text-lg-start">
+                                                                        @if (count($advert->images))
+                                                                            @foreach ($advert->images as $image)
+                                                                                <img src="{{asset('/storage' . $image->path)}}" loading="lazy" width="130" alt="">
+                                                                                @break
+                                                                            @endforeach
+                                                                        @else
+                                                                            <img src="{{asset('/assets/images/avatars/no-avatar.png')}}" loading="lazy" width="130" alt="">
+                                                                        @endif
+                                                                    </div>
+                                                                </a>
                                                                 <div class="cart-detail col-lg-9 text-center text-lg-start">
                                                                     <h6 class="mb-0"><a href="{{route('vinyls.details', $advert->url)}}" class="user-links" target="_blank">{{$advert->name}}</a></h6>
                                                                     @if ($advert->author)
