@@ -368,7 +368,10 @@ class IndexController extends BaseController
                     if (strpos($url, 'vinyl' . $i) === false) {
                         $oldPath = str_replace('/storage', '', parse_url($url, PHP_URL_PATH));
                         $path = preg_replace('#vinyl[1-4]#is', 'vinyl' . $i, $oldPath);
-                        $advertImage = AdvertImage::select()->where('advert_id', $advert->id)->where('path', $oldPath)->first();
+                        $advertImage = AdvertImage::select()->where('advert_id', $advert->id)
+                            ->where('path', $oldPath)
+                            ->orderBy('created_at', 'DESC')
+                            ->first();
                         if ($advertImage) {
                             $advertImage->path = $path;
                             $advertImage->save();
@@ -406,9 +409,33 @@ class IndexController extends BaseController
             if (is_dir($removePath)) {
                 rrmdir($removePath);
             }
+            $this->syncAdvertImages($advert->id, $advert->user_id);
             return redirect()->route('profile.adverts', ['status' => AdvertService::STATUS[$data['status']]]);
         } else {
             abort('404');
+        }
+    }
+
+    private function syncAdvertImages($advertId, $userId)
+    {
+        $imagesInBase = [];
+        $imagePath = Storage::disk('public')->getConfig()['root'] . '/users/' . $userId . '/' . $advertId . '/';
+        $realImagesOnDisk = scandir($imagePath);
+        $advertImages = AdvertImage::select()->where('advert_id', $advertId)->get();
+        // соотвествие картинок в базе и на диске, чистим в базе лишние имаги если есть
+        foreach ($advertImages as $image) {
+            if (!file_exists(Storage::disk('public')->getConfig()['root'] . $image->path)) {
+                $image->delete();
+                continue;
+            }
+            $imagesInBase[] = pathinfo($image->path, PATHINFO_BASENAME);
+        }
+        //чистим с диска имаги которых нет в базе
+        foreach ($realImagesOnDisk as $realImage) {
+            if ($realImage == '..' || $realImage == '.') continue;
+            if (!in_array($realImage, $imagesInBase)) {
+                unlink($imagePath . $realImage);
+            }
         }
     }
 
