@@ -363,10 +363,11 @@ class IndexController extends BaseController
                     }
                     continue;
                 }
+                //если уже были загружены изображения раньше и у них сменился рендж (удалили в середине например)
                 if (strpos($url, '/users/') !== false) {
                     if (strpos($url, 'vinyl' . $i) === false) {
-                        $oldPath = $url;
-                        $path = preg_replace('#vinyl[1-4]#is', 'vinyl' . $i, $url);
+                        $oldPath = str_replace('/storage', '', parse_url($url, PHP_URL_PATH));
+                        $path = preg_replace('#vinyl[1-4]#is', 'vinyl' . $i, $oldPath);
                         $advertImage = AdvertImage::select()->where('advert_id', $advert->id)->where('path', $oldPath)->first();
                         if ($advertImage) {
                             $advertImage->path = $path;
