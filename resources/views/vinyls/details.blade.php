@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('description', 'Виниловая пластинка: ' . (($advert->author) ? $advert->author . ' - ': '') . $advert->name)
 @section('title', (($advert->author) ? $advert->author . ' - ': '') . $advert->name)
 @section('content')
     <section class="py-3 border-bottom border-top d-none d-md-flex bg-light">

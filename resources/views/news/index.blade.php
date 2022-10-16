@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('description', 'Виниловые пластинки в РБ большой выбор, обмен, ' . $title)
 @section('title', $title)
 @section('content')
     <section class="py-3 border-bottom mb-3 border-top d-none d-md-flex bg-light profile-breadcrumbs">
