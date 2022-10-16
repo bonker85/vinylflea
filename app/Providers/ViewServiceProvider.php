@@ -71,7 +71,6 @@ class ViewServiceProvider extends ServiceProvider
         /********************** BACKEND ***********************************************/
         /* боковое меню админ панели вывод каталога */
         View::composer(["admin.includes.sidebar"], function ($view) {
-            dd(request()->route());
             $view->with('route_prefix', request()->route()->getPrefix());
         });
 

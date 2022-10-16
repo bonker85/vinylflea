@@ -30,7 +30,7 @@
 <!--wrapper-->
 <div class="wrapper">
     <!--start top header wrapper-->
-    <div class="header-wrapper @if(request()->route()->getPrefix() == '/profile') header-profile @endif">
+    <div class="header-wrapper">
         <div class="header-content pb-md-0">
             <div class="container">
                 <div class="row align-items-center">
