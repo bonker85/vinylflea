@@ -392,4 +392,7 @@ $(document).ready(function() {
             }
         });
     });
+    if ($('.ad-deact').hasClass('active') || $('.ad-rejected').hasClass('active')) {
+        $('.adverts-block .table-responsive').scrollLeft(1000)
+    }
 });
