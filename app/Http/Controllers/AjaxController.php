@@ -131,7 +131,7 @@ class AjaxController extends Controller
             case 'show_phone':
                     $error = 'error';
                     $paramType = 'advert';
-                    if (!auth()->check()) {
+                    if (!auth()->check() && false) {
                         return ['error' => 'Иформация недоступна'];
                     }
                     if (request()->get('advert')) {
