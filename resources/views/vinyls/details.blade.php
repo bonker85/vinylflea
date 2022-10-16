@@ -113,7 +113,7 @@
                                         <dt class="col-sm-3">Город</dt>
                                         <dd class="col-sm-9">{{$advert->user->city}}</dd>
                                     @endif
-                                    @if ($advert->user->phone && auth()->check())
+                                    @if ($advert->user->phone /*&& auth()->check()*/)
                                         <dt class="col-sm-3">Телефон</dt>
                                         <dd class="col-sm-9">
                                             <div class="button-phone" data-advert="{{$advert->id}}"><i class="bx bxs-show"></i> Показать</div>
