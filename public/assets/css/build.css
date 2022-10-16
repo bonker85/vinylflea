@@ -174,8 +174,8 @@ body.offcanvas-active {
     }
     .dropdown-menu .mess-indicate{
         right: unset;
-        left: 100px;
-        top: 75px;
+        left: 96px;
+        top: 70px;
         font-size: 10px;
         border-radius: 50%;
         width: 15px;
