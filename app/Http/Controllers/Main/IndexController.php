@@ -18,7 +18,7 @@ class IndexController extends BaseController
         $page = $this->service->getPage($url);
         $lastAdvertsList = Advert::select()
             ->where('status', AdvertService::getStatusByName('activated'))
-            ->orderBy('up_time', 'DESC')->limit(8)->get();
+            ->orderBy('up_time', 'DESC')->limit(12)->get();
         $lastNewsList = Page::select()->where('status', 1)->where('parent_id', 2)
             ->orderBy('created_at')->limit(8)->get();
         $styles = Style::select()->orderBy('name')->get();
