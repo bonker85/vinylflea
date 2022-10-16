@@ -366,13 +366,15 @@ class IndexController extends BaseController
                 //если уже были загружены изображения раньше и у них сменился рендж (удалили в середине например)
                 if (strpos($url, '/users/') !== false) {
                     if (strpos($url, 'vinyl' . $i) === false) {
-                        dd('abahaba');
                         $oldPath = str_replace('/storage', '', parse_url($url, PHP_URL_PATH));
                         $path = preg_replace('#vinyl[1-4]#is', 'vinyl' . $i, $oldPath);
+                        dump($oldPath);
+                        dump($path);
                         $advertImage = AdvertImage::select()->where('advert_id', $advert->id)
                             ->where('path', $oldPath)
                             ->orderBy('created_at', 'DESC')
                             ->first();
+                        dump($advertImage);
                         if ($advertImage) {
                             $advertImage->path = $path;
                             $advertImage->save();
