@@ -135,8 +135,8 @@
                         </div>
                     @else
                         @include('includes.profile-menu')
-                        <div class="col-8">
-                            <div class="shop-cart-list favorit-blocks mb-3 p-3">
+                        <div class="col-lg-8">
+                            <div class="shop-cart-list favorit-blocks mt-0 mb-3 p-3">
                                 <p>
                                     У Вас пока нет сообщений
                                 </p>
