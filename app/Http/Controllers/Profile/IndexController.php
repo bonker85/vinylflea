@@ -374,7 +374,7 @@ class IndexController extends BaseController
                             ->where('path', $oldPath)
                             ->orderBy('created_at', 'DESC')
                             ->first();
-                        dump($advertImage);
+                        dd($advertImage);
                         if ($advertImage) {
                             $advertImage->path = $path;
                             $advertImage->save();
