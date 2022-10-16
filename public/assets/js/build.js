@@ -219,7 +219,9 @@ $(document).ready(function() {
     $(".profile-info-formblock #phone").inputmask({"mask": "+375 (99) 999-99-99"});
     $(".profile-add_advert-formblock #year").inputmask({"mask": "9999"});
     $('.select2').select2();
-
+    $(".profile-info-formblock #phone").on('change', function() {
+        alert($(this).val());
+    });
     (function() {
         'use strict';
         window.addEventListener('load', function() {
