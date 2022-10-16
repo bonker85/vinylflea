@@ -63,7 +63,7 @@
                         </div>
                         <div class="col-12 col-lg-7">
                             <div class="product-info-section py-0 p-3">
-                                <h3 class="mt-lg-0 mb-0 h3-desktop">{{$advert->name}}</h3>
+                                <h3 class="mt-lg-0 mb-0 mt-3 h3-desktop">{{$advert->name}}</h3>
                                 <div class="d-flex align-items-center mt-2 gap-2">
                                     <h4 class="mb-0">
                                         @if ($advert->deal == 'sale')
