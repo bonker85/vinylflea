@@ -63,6 +63,7 @@ class ViewServiceProvider extends ServiceProvider
             if ($resSum) {
                 $countViewMessages = $resSum->sum;
             }
+            dd(request()->route());
             $view->with([
                 'countViewMessages' => $countViewMessages,
                 'route_name' =>  request()->route()->getName()
@@ -71,7 +72,6 @@ class ViewServiceProvider extends ServiceProvider
         /********************** BACKEND ***********************************************/
         /* боковое меню админ панели вывод каталога */
         View::composer(["admin.includes.sidebar"], function ($view) {
-            dd(request()->route());
             $view->with('route_prefix', request()->route()->getPrefix());
         });
 
