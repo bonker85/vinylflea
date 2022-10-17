@@ -2232,6 +2232,9 @@ i.icon i.fa-search {
     }
 }
 @media (max-width: 768px) {
+    .product-card .card-header-date {
+        font-size: 14px;
+    }
     .new-header {
         padding: 5px 10px!important;
         font-size: 14px!important;
