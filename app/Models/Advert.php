@@ -38,6 +38,12 @@ class Advert extends Model
         return $carbon->format('H:i') . ', ' . $carbon->diffForHumans();
     }
 
+    public function getShortFormatDate()
+    {
+        $carbon = Carbon::createFromFormat('Y-m-d H:i:s', $this->up_time);
+        return $carbon->diffForHumans();
+    }
+
     public function isUpTime()
     {
         $carbonLastUpTime = Carbon::createFromFormat('Y-m-d H:i:s', $this->up_time);

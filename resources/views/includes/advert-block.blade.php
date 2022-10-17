@@ -3,6 +3,9 @@
         @foreach ($adverts as $advert)
             <div class="">
                 <div class="card rounded-0 product-card">
+                    <div class="card-header">
+                        {{$advert->getShortFormatDate()}}
+                    </div>
                     <div class="card-header bg-transparent border-bottom-0">
                         <div class="d-flex align-items-center justify-content-end gap-3">
                             @if (auth()->check() && auth()->user()->id != $advert->user_id)
