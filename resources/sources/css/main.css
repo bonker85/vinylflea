@@ -2308,5 +2308,7 @@ i.icon i.fa-search {
 .product-info-section .condition-mess {
     margin-top: -8px;
 }
-
-
+.search-box .result .image {
+    width: 65px;
+    height: 65px;
+}
