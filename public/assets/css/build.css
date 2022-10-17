@@ -1924,9 +1924,9 @@ body.bg-theme15 {
 .product-card .card-header-date {
     position: absolute;
     left: 0;
-    font-size: 12px;
+    font-size: 10px;
     padding: 5px 0 0 5px;
-    color: #968c8c;
+    color: #706b6b;
 }
 .main-advert-link-block {
     display: flex;
