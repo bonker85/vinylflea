@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Advert;
 use App\Models\AdvertDialog;
 use App\Models\AdvertFavorit;
+use App\Models\AdvertImage;
 use App\Models\Message;
 use App\Models\User;
 use App\Services\Utility\ImageService;
@@ -228,6 +229,7 @@ class AjaxController extends Controller
                 $q = strtolower(trim($request->q));
                 $path = route('vinyls.details', '') . '/';
                 $results = Advert::select(
+                        'id',
                         'name',
                         DB::raw('CONCAT("Исполнитель: ", IF(author IS NOT NULL, author, "unknown")) as description'),
                         DB::raw("CONCAT('" . $path . "', url) AS url"),
@@ -235,10 +237,23 @@ class AjaxController extends Controller
                         $query->whereRaw(DB::raw("LOWER(name) LIKE LOWER('%" . $q . "%')"))
                             ->orWhereRaw(DB::raw("LOWER(author) LIKE LOWER('%" . $q . "%')"));
                     })
-                    ->where('status', 1)->limit(20);
+                    ->where('status', 1)->limit(20)->get();
+                $searchRes = [];
+                foreach ($results as $key => $result) {
+                   $searchRes[$key]['name'] = $result->name;
+                   $searchRes[$key]['description'] = $result->description;
+                   $searchRes[$key]['url'] = $result->url;
+                   $image = AdvertImage::select('path')
+                               ->where('advert_id', $result->id)
+                               ->orderBy('id')
+                               ->first();
+                   if ($image) {
+                       $searchRes[$key]['image'] = asset('/storage' . $image->path);
+                   }
+                }
                 return [
                     'items' =>
-                    $results->get()
+                     $searchRes
                 ];
                 break;
             case 'favorit':
