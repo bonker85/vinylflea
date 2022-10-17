@@ -3,7 +3,7 @@
         @foreach ($adverts as $advert)
             <div class="">
                 <div class="card rounded-0 product-card">
-                    <div class="card-header">
+                    <div class="card-header-date">
                         {{$advert->getShortFormatDate()}}
                     </div>
                     <div class="card-header bg-transparent border-bottom-0">

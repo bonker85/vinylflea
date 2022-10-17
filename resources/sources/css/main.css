@@ -1921,6 +1921,10 @@ body.bg-theme15 {
     position: absolute;
     right: 0;
 }
+.product-card .card-header-date {
+    position: absolute;
+    left: 0;
+}
 .main-advert-link-block {
     display: flex;
     justify-content: center;
