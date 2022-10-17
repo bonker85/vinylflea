@@ -231,7 +231,7 @@ class AjaxController extends Controller
                 $results = Advert::select(
                         'id',
                         'name',
-                        DB::raw('CONCAT("Исполнитель: ", IF(author IS NOT NULL, author, "unknown")) as description'),
+                        'author',
                         DB::raw("CONCAT('" . $path . "', url) AS url"),
                     )->where(function($query) use ($q) {
                         $query->whereRaw(DB::raw("LOWER(name) LIKE LOWER('%" . $q . "%')"))
@@ -241,7 +241,11 @@ class AjaxController extends Controller
                 $searchRes = [];
                 foreach ($results as $key => $result) {
                    $searchRes[$key]['name'] = $result->name;
-                   $searchRes[$key]['description'] = $result->description;
+                   if ($result->author) {
+                       $searchRes[$key]['description'] = $result->description;
+                   } else {
+                       $searchRes[$key]['description'] = 'Не указан';
+                   }
                    $searchRes[$key]['url'] = $result->url;
                    $image = AdvertImage::select('path')
                                ->where('advert_id', $result->id)
