@@ -242,7 +242,7 @@ class AjaxController extends Controller
                 foreach ($results as $key => $result) {
                    $searchRes[$key]['name'] = $result->name;
                    if ($result->author) {
-                       $searchRes[$key]['description'] = $result->description;
+                       $searchRes[$key]['description'] = $result->author;
                    } else {
                        $searchRes[$key]['description'] = 'Не указан';
                    }
