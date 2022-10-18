@@ -226,7 +226,7 @@ class AjaxController extends Controller
                 }
                 return ['error' => $error];
             case 'search':
-                $q = strtolower(trim($request->q));
+                $q = '%' . str_replace("\"", "'", strtolower(trim($request->q))) . '%';
                 $path = route('vinyls.details', '') . '/';
                 $results = Advert::select(
                         'id',
@@ -234,17 +234,17 @@ class AjaxController extends Controller
                         'author',
                         DB::raw("CONCAT('" . $path . "', url) AS url"),
                     )->where(function($query) use ($q) {
-                        $query->where(DB::raw("LOWER(name)"), 'LIKE', $q)
-                            ->orWhere(DB::raw("LOWER(author)"), 'LIKE', $q);
+                        $query->where(DB::raw("LCASE(name)"), 'LIKE', DB::raw("LCASE(\"".$q."\")"))
+                            ->orWhere(DB::raw("LCASE(author)"), 'LIKE', DB::raw("LCASE(\"".$q."\")"));
                     })
                     ->where('status', 1)->limit(20)->get();
                 $searchRes = [];
                 foreach ($results as $key => $result) {
                    $searchRes[$key]['name'] = $result->name;
                    if ($result->author) {
-                       $searchRes[$key]['description'] = $result->author;
+                       $searchRes[$key]['description'] = 'Исполнитель: ' . $result->author;
                    } else {
-                       $searchRes[$key]['description'] = 'Не указан';
+                       $searchRes[$key]['description'] = 'Исполнитель: Не указан';
                    }
                    $searchRes[$key]['url'] = $result->url;
                    $image = AdvertImage::select('path')
