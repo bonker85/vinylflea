@@ -234,8 +234,8 @@ class AjaxController extends Controller
                         'author',
                         DB::raw("CONCAT('" . $path . "', url) AS url"),
                     )->where(function($query) use ($q) {
-                        $query->whereRaw("LOWER(name) LIKE LOWER('%?%')",  $q)
-                            ->orWhereRaw("LOWER(author) LIKE LOWER('%?%')",  $q);
+                        $query->whereRaw("LOWER(name) LIKE '%?%' ",  $q)
+                            ->orWhereRaw("LOWER(author) LIKE '%?%' ",  $q);
                     })
                     ->where('status', 1)->limit(20)->get();
                 $searchRes = [];
