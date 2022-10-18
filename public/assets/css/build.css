@@ -2309,6 +2309,6 @@ i.icon i.fa-search {
     margin-top: -8px;
 }
 .search .result .image {
-    width: 65px;
-    height: 65px;
+    width: 65px!important;
+    height: 65px!important;
 }
