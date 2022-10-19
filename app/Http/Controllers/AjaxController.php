@@ -7,6 +7,7 @@ use App\Models\AdvertFavorit;
 use App\Models\AdvertImage;
 use App\Models\Message;
 use App\Models\User;
+use App\Services\AdvertService;
 use App\Services\Utility\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -232,12 +233,14 @@ class AjaxController extends Controller
                         'id',
                         'name',
                         'author',
+                        'deal',
+                        'price',
                         DB::raw("CONCAT('" . $path . "', url) AS url"),
                     )->where(function($query) use ($q) {
                         $query->where(DB::raw("LCASE(name)"), 'LIKE', DB::raw("LCASE(\"".$q."\")"))
                             ->orWhere(DB::raw("LCASE(author)"), 'LIKE', DB::raw("LCASE(\"".$q."\")"));
                     })
-                    ->where('status', 1)->limit(20)->get();
+                    ->where('status', 1)->limit(20)->orderBy('up_time', 'DESC')->get();
                 $searchRes = [];
                 foreach ($results as $key => $result) {
                    $searchRes[$key]['name'] = $result->name;
@@ -245,6 +248,17 @@ class AjaxController extends Controller
                        $searchRes[$key]['description'] = 'Исполнитель: ' . $result->author;
                    } else {
                        $searchRes[$key]['description'] = 'Исполнитель: Не указан';
+                   }
+                   switch ($result->deal) {
+                       case "sale":
+                           $searchRes[$key]['price'] = $result->price;
+                           break;
+                       case "free":
+                           $searchRes[$key]['price'] = 'даром';
+                           break;
+                       case "exchange":
+                           $searchRes[$key]['price'] = 'обмен';
+                           break;
                    }
                    $searchRes[$key]['url'] = $result->url;
                    $image = AdvertImage::select('path')
