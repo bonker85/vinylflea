@@ -22,7 +22,8 @@
     <link href="{{asset('/assets/css/icons.css')}}" rel="stylesheet">
     <link href="{{asset('/assets/css/select2.min.css')}}" rel="stylesheet">
     <meta name="description" content="@yield('description')">
-    <title>@yield('title') | VinylFlea.By - Барахолка Виниловых Пластинок</title>
+    <title>@yield('title') | VinylFlea.By - Барахолка Виниловых Пластинок {{dd(env('APP_ENV'))}}</title>
+
 </head>
 
 <body>
