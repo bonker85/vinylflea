@@ -251,13 +251,13 @@ class AjaxController extends Controller
                    }
                    switch ($result->deal) {
                        case "sale":
-                           $searchRes[$key]['price'] = $result->price;
+                           $searchRes[$key]['price'] = $result->price . ' Руб.';
                            break;
                        case "free":
-                           $searchRes[$key]['price'] = 'даром';
+                           $searchRes[$key]['price'] = 'Отдам даром';
                            break;
                        case "exchange":
-                           $searchRes[$key]['price'] = 'обмен';
+                           $searchRes[$key]['price'] = 'Обменяю';
                            break;
                    }
                    $searchRes[$key]['url'] = $result->url;
