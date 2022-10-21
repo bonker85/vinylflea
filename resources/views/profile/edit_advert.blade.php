@@ -44,8 +44,8 @@
                                             @enderror
                                         </div>
                                         <div class="col-12">
-                                            <label class="form-label">Исполнитель <small><b>(до 40 символов)</b></small></label>
-                                            <input type="text" class="form-control"  name="author" value="{{$advert->author}}" maxlength="40">
+                                            <label class="form-label">Исполнитель <small><b>(до 60 символов)</b></small></label>
+                                            <input type="text" class="form-control"  name="author" value="{{$advert->author}}" maxlength="60">
                                             @error('author')
                                             <span class="invalid-feedback d-block" role="alert">
                                                         <strong>{{ $message }}</strong>

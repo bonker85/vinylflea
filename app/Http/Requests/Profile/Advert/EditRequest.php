@@ -36,7 +36,7 @@ class EditRequest extends FormRequest
                     })
             ],
             'year' => 'nullable|integer',
-            'author' => 'nullable|max:40',
+            'author' => 'nullable|max:60',
             'deal' => 'required|in:sale,exchange,free',
             'edition_id' => 'nullable|exists:editions,id',
             'style_id' => 'required|exists:styles,id',
