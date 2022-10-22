@@ -290,7 +290,6 @@ class TasksController extends Controller
                             'updated_at' => $now
                         ]);
                     }
-                    echo 'abahaab';exit();
                 }
                 dd("FIN");
                 break;
