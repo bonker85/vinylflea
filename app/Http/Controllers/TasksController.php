@@ -8,10 +8,12 @@ use App\Models\CanvasSize;
 use App\Models\Catalog;
 use App\Models\Color;
 use App\Models\Door;
+use App\Models\Log as DbLog;
 use App\Models\Edition;
 use App\Models\Style;
 use App\Models\User;
 use App\Services\DoorService;
+use App\Services\Utility\CDNService;
 use App\Services\Utility\ImageService;
 use App\Services\Utility\WatermarkService;
 use DOMDocument;
@@ -219,6 +221,78 @@ class TasksController extends Controller
                     $this->log->error('Не удалось получить html главной страницы сайта ' . $siteUrl);
                 }*/
                 dd('FIN');
+                break;
+            case 'sync_cdn':
+                $cdnService = new CDNService();
+                //update user avatar images
+                $userAvatarImages = User::select("id", "avatar", "cdn_status")
+                                            ->where("avatar", "!=", "")
+                                            ->where("cdn_status", 0)
+                                            ->get();
+                $now = now();
+                $time = time();
+                foreach ($userAvatarImages as $uImage) {
+                    $path = $uImage->avatar;
+                    $filePath = storage_path('app/public') . $path;
+                    if (file_exists($filePath)) {
+                        $storagePath =  $path;
+                        $res = $cdnService->uploadFile($filePath, $storagePath);
+                        if (!$res["error"]) {
+                            $uImage->cdn_status = 1;
+                            $uImage->cdn_update_time = $time;
+                            $uImage->save();
+                        } else {
+                            DbLog::insert([
+                                'type' => DbLog::TYPES['cdn_error_update_avatar'] ,
+                                'message' => 'Send Request Error: UserId' . $uImage->id . ", Body Output:" . $res['body'],
+                                'created_at' => $now,
+                                'updated_at' => $now
+                            ]);
+                        }
+                    } else {
+                        DbLog::insert([
+                            'type' => DbLog::TYPES['cdn_error_update_avatar'] ,
+                            'message' => 'File Exist Error: UserId ' . $uImage->id . ', ' .
+                                "avatar image don't exist on disc, path: " . $uImage->avatar,
+                            'created_at' => $now,
+                            'updated_at' => $now
+                        ]);
+                    }
+                }
+                //update advert avatar images
+                $advertImages = AdvertImage::select("id", "path", "cdn_status")
+                    ->where("cdn_status", 0)
+                    ->get();
+                foreach ($advertImages as $aImage) {
+                    $path = $aImage->path;
+                    $filePath = storage_path('app/public') . $path;
+                    if (file_exists($filePath)) {
+                        $storagePath =  $path;
+                        $res = $cdnService->uploadFile($filePath, $storagePath);
+                        if (!$res["error"]) {
+                            $aImage->cdn_status = 1;
+                            $aImage->cdn_update_time = $time;
+                            $aImage->save();
+                        } else {
+                            DbLog::insert([
+                                'type' => DbLog::TYPES['cdn_error_update_advert'] ,
+                                'message' => 'Send Request Error: AdvertImageId' . $aImage->id . ", Body Output:" . $res['body'],
+                                'created_at' => $now,
+                                'updated_at' => $now
+                            ]);
+                        }
+                    } else {
+                        DbLog::insert([
+                            'type' => DbLog::TYPES['cdn_error_update_advert'] ,
+                            'message' => 'File Exist Error: AdvertImageId ' . $aImage->id . ', ' .
+                                "image don't exist on disc, path: " . $aImage->path,
+                            'created_at' => $now,
+                            'updated_at' => $now
+                        ]);
+                    }
+                    echo 'abahaab';exit();
+                }
+                dd("FIN");
                 break;
             default:
                 abort('404');

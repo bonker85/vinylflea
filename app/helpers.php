@@ -64,4 +64,12 @@ function rrmdir(string $directory): bool
 
     return rmdir($directory);
 }
+
+function cdn_url($url, $item)
+{
+    if (env('CDN_ENABLE') && $item->cdn_status) {
+        $url = str_replace([env('APP_URL'), 'storage/'], [env('CDN_HOST'),''], $url) . '?tm=' . $item->cdn_update_time;
+    }
+    return $url;
+}
 ?>
