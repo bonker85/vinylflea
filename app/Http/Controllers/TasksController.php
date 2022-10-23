@@ -94,6 +94,11 @@ class TasksController extends Controller
                 dd('FIN');
                 break;
             case 'parser-vinil-sd-by':
+                $adverts = Advert::select('description','id')->where('user_id', 6)->get();
+                foreach ($adverts as $advert) {
+                    $advert->description = '<b>Наличие уточняйте</b><br/>' . $advert->description;
+                    $advert->save();
+                }
                 dd('FIN');
                 $this->log = Log::channel('parser-vinil-sd-by');
                 $siteUrl = 'https://store.tildacdn.com/api/getproductslist/?storepartuid=495183118261&recid=375529451&c=1665522162862&getparts=true&getoptions=true&slice=9&size=500';
