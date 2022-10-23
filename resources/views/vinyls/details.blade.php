@@ -76,10 +76,12 @@
                                         @endif
                                     </h4>
                                 </div>
+                                @if ($advert->description)
                                 <div class="mt-3">
                                     <h6>Описание:</h6>
                                     <p class="mb-0">{!!$advert->description!!}</p>
                                 </div>
+                                @endif
                                 <dl class="row mt-3">
                                     <dt class="col-sm-3">Стиль</dt>
                                     <dd class="col-sm-9">{{$advert->style->name}}</dd>

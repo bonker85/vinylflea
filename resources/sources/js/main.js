@@ -224,37 +224,7 @@ $(document).ready(function() {
             $(this).val('');
         }
     });
-    (function() {
-        'use strict';
-        window.addEventListener('load', function() {
-            // Получите все формы, к которым мы хотим применить пользовательские стили проверки Bootstrap
-            var forms = document.getElementsByClassName('needs-validation');
-            // Зацикливайтесь на них и предотвращайте подчинение
-            var validation = Array.prototype.filter.call(forms, function(form) {
-                form.addEventListener('submit', function(event) {
-                    let errors = false;
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                        errors = true;
-                    }
-                    form.classList.add('was-validated');
-                  /*  $('.invalid-summernote').each(function(e){
-                        if ($(this).css('display') == 'block') {
-                            $(this).parent().find('.note-editor').css('border', '1px solid red');
-                        } else {
-                            $(this).parent().find('.note-editor').css('border', '1px solid #00000032');
-                        }
-                    });*/
-                    if (errors) {
-                        $('html, body').animate({
-                            scrollTop: $($(':invalid')[1]).offset().top - 20 // класс объекта к которому приезжаем
-                        }, 500); // Скорость прокрутки
-                    }
-                }, false);
-            });
-        }, false);
-    })();
+
     $('.profile-add_advert-formblock select[name=status]').on('change', function(e) {
         if ($(this).val() == 3) {
             $('#reject_message_block').show();
@@ -399,3 +369,34 @@ $(document).ready(function() {
         $('.adverts-block .table-responsive').scrollLeft($('#ad-rejected').offset().left)
     }
 });
+(function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        // Получите все формы, к которым мы хотим применить пользовательские стили проверки Bootstrap
+        var forms = document.getElementsByClassName('needs-validation');
+        // Зацикливайтесь на них и предотвращайте подчинение
+        var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+                let errors = false;
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    errors = true;
+                }
+                form.classList.add('was-validated');
+                /*  $('.invalid-summernote').each(function(e){
+                      if ($(this).css('display') == 'block') {
+                          $(this).parent().find('.note-editor').css('border', '1px solid red');
+                      } else {
+                          $(this).parent().find('.note-editor').css('border', '1px solid #00000032');
+                      }
+                  });*/
+                if (errors) {
+                    $('html, body').animate({
+                        scrollTop: $($(':invalid')[1]).offset().top - 20 // класс объекта к которому приезжаем
+                    }, 500); // Скорость прокрутки
+                }
+            }, false);
+        });
+    }, false);
+})();

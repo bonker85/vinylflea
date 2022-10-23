@@ -31,6 +31,9 @@ class AdvertService {
             $select = Advert::select('id')->where('status', $status);
             if (!User::isAdmin()) {
                 $select->where('user_id', $userId);
+            } else {
+                //убрать служебное объявление
+                $select->where('id', '!=', 4235);
             }
             $advert_counts[$name] = $select->count();
         }
