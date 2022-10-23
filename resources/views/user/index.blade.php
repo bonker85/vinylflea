@@ -84,11 +84,11 @@
                                                                     </div>
                                                                 </a>
                                                                 <div class="cart-detail col-lg-9 text-center text-lg-start">
-                                                                    <h6 class="mb-0"><a href="{{route('vinyls.details', $advert->url)}}" class="user-links" target="_blank">{{$advert->name}}</a></h6>
+                                                                    <h6 class="mb-0"><a href="{{route('vinyls.details', $advert->url)}}" class="user-links" >{{$advert->name}}</a></h6>
                                                                     @if ($advert->author)
                                                                         <div class="m-style"><b>{{$advert->author}}</b></div>
                                                                     @endif
-                                                                    <div class="m-style"><a href="{{route('vinyls.style', $advert->style->slug)}}" class="user-links" target="_blank">{{$advert->style->name}}</a></div>
+                                                                    <div class="m-style"><a href="{{route('vinyls.style', $advert->style->slug)}}" class="user-links" >{{$advert->style->name}}</a></div>
                                                                     <h5 class="mb-0">
                                                                         @if ($advert->deal == 'sale')
                                                                             {{str_replace('.00', '', $advert->price)}} Руб.
@@ -101,7 +101,7 @@
                                                                     <div class="d-flex gap-2 mt-2 user-button">
                                                                         <div class="d-grid gap-2">
                                                                             @if (auth()->check() && auth()->user()->id == $advert->user_id)
-                                                                                <a href="{{route('vinyls.details', $advert->url)}}" class="user-mess-button btn btn-dark btn-ecomm" target="_blank"><i class="bx bxs-show"></i>Просмотр пластинки</a>
+                                                                                <a href="{{route('vinyls.details', $advert->url)}}" class="user-mess-button btn btn-dark btn-ecomm" ><i class="bx bxs-show"></i>Просмотр пластинки</a>
                                                                             @else
                                                                                 <a @if (auth()->check()) href="javascript:;" data-bs-toggle="modal" data-bs-target="#message-modal" data-name="{{$advert->name}}" data-id="{{$advert->id}}" data-button="" @else href="{{route('login')}}" @endif" class="user-mess-button btn btn-dark btn-ecomm" ><i class="bx bx-message"></i>Отправить сообщение</a>
                                                                             @endif

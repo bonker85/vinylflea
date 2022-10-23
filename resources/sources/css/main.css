@@ -154,6 +154,9 @@ body.offcanvas-active {
 }
 
 @media all and (max-width:992px) {
+    .ad-search {
+        margin-top: 15px!important;
+    }
     .header-wrapper {
         position: sticky;
         z-index: 2;
@@ -2342,6 +2345,13 @@ i.icon i.fa-search {
     background: #F8F9FA;
     padding: 5px;
     border: 1px solid #DEE2E6;
+}
+
+.u-search {
+    margin-bottom: 15px;
+}
+.u-search .input-group, .ad-search .input-group {
+    padding-bottom: 0;
 }
 .ad-search {
     margin-bottom: 15px;

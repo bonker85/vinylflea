@@ -102,7 +102,7 @@
                                         <dd class="col-sm-9">{{\App\Services\AdvertService::STATES[$advert->state]}}</dd>
                                     @endif
                                     @if ($advert->condition)
-                                        <dt class="col-sm-3 condition-block"><a href="{{route('news', 'sistemy-otsenki-vinilovyh-plastinok')}}" target="_blank">Оценка</a></dt>
+                                        <dt class="col-sm-3 condition-block"><a href="{{route('news', 'sistemy-otsenki-vinilovyh-plastinok')}}">Оценка</a></dt>
                                         <dd class="col-sm-9">{{$advert->condition}}</dd>
                                     @endif
                                 </dl>
@@ -110,7 +110,7 @@
                                 <h5>Предложение от пользователя</h5>
                                 <dl class="row mt-3">
                                     <dt class="col-sm-3">Имя</dt>
-                                    <dd class="col-sm-9"><a href="{{route('user', $advert->user_id)}}" target="_blank">{{$advert->user->name}}</a></dd>
+                                    <dd class="col-sm-9"><a href="{{route('user', $advert->user_id)}}" >{{$advert->user->name}}</a></dd>
                                     @if ($advert->user->city)
                                         <dt class="col-sm-3">Город</dt>
                                         <dd class="col-sm-9">{{$advert->user->city}}</dd>
