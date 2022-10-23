@@ -54,7 +54,7 @@
                                                             @endif
                                                             @if (count($advert->images))
                                                                 @foreach ($advert->images as $image)
-                                                                    <img src="{{asset('/storage' . $image->path)}}" width="130" alt="">
+                                                                    <img src="{{cdn_url(asset('/storage' ). $image->path, $image)}}" width="130" alt="">
                                                                     @break
                                                                 @endforeach
                                                             @else
@@ -89,7 +89,7 @@
                                                                         <input type="hidden" name="id" value="{{$advert->user_id}}" />
                                                                         <button type="submit">
                                                                             @if ($advert->user->avatar)
-                                                                                <img src="{{asset('/storage' . $advert->user->avatar)}}"/>
+                                                                                <img src="{{cdn_url(asset('/storage') . $advert->user->avatar, $advert->user)}}"/>
                                                                             @else
                                                                                 <img src="{{asset('/assets/images/avatars/no-avatar.png')}}" />
                                                                             @endif

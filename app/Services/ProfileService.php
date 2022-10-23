@@ -31,6 +31,7 @@ class ProfileService {
                     if(make_directory($avatarPath, 0777, true)) {
                         if (copy($tmpAvatarPath . $avatarName, $avatarPath . $avatarName)) {
                             $user->avatar =  '/users/' . $userId .'/avatar/' . $avatarName;
+                            $user->cdn_status = 0;
                         } else {
                             request()->session()->flash('error', 'Произошла ошибка при сохранении изображения');
                         }
@@ -107,8 +108,10 @@ class ProfileService {
         $avatar = '';
         if (auth()->user()->id == $advertDialog->from_user_id) {
             $avatar = $advertDialog->toUser->avatar;
+            $user = $advertDialog->toUser;
         } else {
             $avatar = $advertDialog->fromUser->avatar;
+            $user = $advertDialog->fromUser;
         }
         foreach ($messages as $message) {
             $html .=
@@ -117,11 +120,16 @@ class ProfileService {
                 .'">';
             $html .= '<div class="mess-dt">' . $message->getFormatDate() . '</div>';
             if (($message->to_id == auth()->user()->id)) {
-                $html .= '<div>
-                            <img class="avatar-mess" src="' .
-                                    asset($avatar ? 'storage' . $avatar : '/assets/images/avatars/no-avatar.png') .
-                            '"/>
-                        </div>';
+                if ($avatar) {
+                    $html .= '<div>
+                                <img class="avatar-mess" src="' . cdn_url(asset( 'storage' . $avatar), $user) . '"/>
+                            </div>';
+                } else {
+                    $html .= '<div>
+                                <img class="avatar-mess" src="' . asset('/assets/images/avatars/no-avatar.png') . '"/>
+                            </div>';
+                }
+
             }
             $html .= $message->message . '</li>';
         }

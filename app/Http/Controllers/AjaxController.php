@@ -97,8 +97,10 @@ class AjaxController extends Controller
                     $userId = auth()->user()->id;
                     $file = Storage::disk('public')->getConfig()['root'] . '/tmp/' .
                         $userId . '/vinyl' . $id . '.' . $ext;
-                    if (file_exists($file) && !$image) {
-                        unlink($file);
+                    if (!$image) {
+                        if (file_exists($file)) {
+                            unlink($file);
+                        }
                         $originalFile = str_replace('/vinyl', '/vinyl_original', $file);
                         if (file_exists($originalFile)) {
                             unlink($originalFile);
@@ -261,12 +263,12 @@ class AjaxController extends Controller
                            break;
                    }
                    $searchRes[$key]['url'] = $result->url;
-                   $image = AdvertImage::select('path')
+                   $image = AdvertImage::select()
                                ->where('advert_id', $result->id)
                                ->orderBy('id')
                                ->first();
                    if ($image) {
-                       $searchRes[$key]['image'] = asset('/storage' . $image->path);
+                       $searchRes[$key]['image'] = cdn_url(asset('/storage' . $image->path), $image);
                    }
                 }
                 return [

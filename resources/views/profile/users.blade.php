@@ -36,7 +36,7 @@
                                                                     <a href="{{route('user', $user->id)}}" target="_blank">
                                                                         <div class="cart-img text-center text-lg-start">
                                                                             @if ($user->avatar)
-                                                                                <img src="{{asset('/storage' . $user->avatar)}}" width="130" alt="">
+                                                                                <img src="{{cdn_url(asset('/storage' . $user->avatar), $user)}}" width="130" alt="">
                                                                             @else
                                                                                 <img src="{{asset('/assets/images/avatars/no-avatar.png')}}" width="130" alt="">
                                                                             @endif

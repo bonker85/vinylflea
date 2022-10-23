@@ -15,6 +15,7 @@ use App\Models\Message;
 use App\Models\Style;
 use App\Models\User;
 use App\Services\AdvertService;
+use App\Services\Utility\CDNService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -354,13 +355,21 @@ class IndexController extends BaseController
             }
             $advert->update($data);
             $i = 1;
+            if ($vinyl && env('CDN_ENABLE')) {
+                $cdnService = new CDNService();
+            }
+            $offset = 0;
             foreach ($vinyl as $url) {
                 if (!$url) {
-                    $advertImage = AdvertImage::select()->where('advert_id', $advert->id)
-                        ->where('path', 'LIKE', '%vinyl' . $i . '%')->first();
+                   $advertImage = AdvertImage::select()->where('advert_id', $advert->id)
+                        ->where('path', 'LIKE', '%vinyl' . ($i+$offset) . '%')->first();
                     if ($advertImage) {
+                        if (env('CDN_ENABLE')) {
+                            $cdnService->deleteObject($advertImage->path);
+                        }
                         $advertImage->delete();
                     }
+                    $offset++;
                     continue;
                 }
                 //если уже были загружены изображения раньше и у них сменился рендж (удалили в середине например)
@@ -373,12 +382,29 @@ class IndexController extends BaseController
                             ->orderBy('created_at', 'DESC')
                             ->first();
                         if ($advertImage) {
-                            $advertImage->path = $path;
-                            $advertImage->save();
-                            rename(
-                                Storage::disk('public')->getConfig()['root'] . $oldPath,
-                                Storage::disk('public')->getConfig()['root'] . $path
-                            );
+                             $cdnPath = $advertImage->path;
+                             $advertImage->path = $path;
+                             $advertImage->cdn_status=0;
+                             $advertImage->cdn_update_time = time();
+                             $advertImage->save();
+                            //@todo если файла нет на диске, качаем его с cdn и после удаляем с cdn
+                            $realOldPath = Storage::disk('public')->getConfig()['root'] . $oldPath;
+                            if (env('CDN_ENABLE')
+                                && !file_exists($realOldPath)) {
+                                $cdnResult = $cdnService
+                                    ->downloadFile($cdnPath, $realOldPath);
+                            }
+                            if (file_exists($realOldPath)) {
+                                rename(
+                                    Storage::disk('public')->getConfig()['root'] . $oldPath,
+                                    Storage::disk('public')->getConfig()['root'] . $path
+                                );
+                                if (env('CDN_ENABLE')) {
+                                    $cdnService->deleteObject($cdnPath);
+                                }
+
+                            }
+
                         }
                     }
                     $i++;
@@ -398,7 +424,9 @@ class IndexController extends BaseController
                                 ['path' => $path],
                                 [
                                     'advert_id' => $advert->id,
-                                    'path' => str_replace('public/users', '/users', substr($path, strpos($path, 'public/users')))
+                                    'path' => str_replace('public/users', '/users', substr($path, strpos($path, 'public/users'))),
+                                    'cdn_status' => 0,
+                                    'cdn_update_time' => time()
                                 ]);
                         }
                     }
@@ -422,9 +450,25 @@ class IndexController extends BaseController
         $imagePath = Storage::disk('public')->getConfig()['root'] . '/users/' . $userId . '/' . $advertId . '/';
         $realImagesOnDisk = scandir($imagePath);
         $advertImages = AdvertImage::select()->where('advert_id', $advertId)->get();
+        $cdnFilesName = [];
+        if (env('CDN_ENABLE')) {
+            $cdnService = new CDNService();
+            $cdnResult = $cdnService->getStorageObjects('/users/1/4289/');
+            if (!$cdnResult['error']) {
+                $cdnObjects = json_decode($cdnResult['body']);
+                foreach ($cdnObjects as $sdnObject) {
+                    $cdnFilesName[] = $sdnObject->ObjectName;
+                }
+            }
+        }
         // соотвествие картинок в базе и на диске, чистим в базе лишние имаги если есть
         foreach ($advertImages as $image) {
             if (!file_exists(Storage::disk('public')->getConfig()['root'] . $image->path)) {
+                if (!empty($cdnFilesName) && $image->cdn_status) {
+                    if (in_array(pathinfo($image->path, PATHINFO_BASENAME), $cdnFilesName)) {
+                        continue;
+                    }
+                }
                 $image->delete();
                 continue;
             }

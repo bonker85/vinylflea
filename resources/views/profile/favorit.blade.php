@@ -37,7 +37,7 @@
                                                                     <div class="cart-img text-center text-lg-start">
                                                                         @if (count($favorit->advert->images))
                                                                             @foreach ($favorit->advert->images as $image)
-                                                                                <img src="{{asset('/storage' . $image->path)}}" width="130" alt="">
+                                                                                <img src="{{cdn_url(asset('/storage' . $image->path), $image)}}" width="130" alt="">
                                                                                 @break
                                                                             @endforeach
                                                                         @else

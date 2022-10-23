@@ -42,7 +42,7 @@
                                                     <div>
                                                         @if ($item->advert->images && count($item->advert->images))
                                                             @foreach ($item->advert->images as $image)
-                                                                <img src="{{asset('/storage' . $image->path)}}" class="advert-img-mess"   alt="{{$item->advert->name}}" loading="lazy">
+                                                                <img src="{{cdn_url(asset('/storage' . $image->path), $image)}}" class="advert-img-mess"   alt="{{$item->advert->name}}" loading="lazy">
                                                                 @break
                                                             @endforeach
                                                         @else
@@ -77,7 +77,7 @@
                                             @endif
                                             @if ($advertDialog->advert->images && count($advertDialog->advert->images))
                                                 @foreach ($advertDialog->advert->images as $image)
-                                                    <img src="{{asset('/storage' . $image->path)}}" class="advert-img-mess"   alt="{{$advertDialog->advert->name}}" loading="lazy">
+                                                    <img src="{{cdn_url(asset('/storage' . $image->path), $image)}}" class="advert-img-mess"   alt="{{$advertDialog->advert->name}}" loading="lazy">
                                                     @break
                                                 @endforeach
                                             @else
@@ -97,8 +97,13 @@
                                             <div class="advert-mess-h del-advert-name">Пластинка удалена</div>
                                         @endif
                                             <a @if ($advertDialog->advert_id == 4235 && !\App\Models\User::isAdmin()) href="javascript;" @else href="{{route('user', (auth()->user()->id == $advertDialog->from_user_id) ? $advertDialog->toUser->id : $advertDialog->fromUser->id)}}" @endif class="advert-mess-author-block" target="_blank">
-                                            @if (auth()->user()->id == $advertDialog->from_user_id) @php $avatar = $advertDialog->toUser->avatar @endphp @else @php $avatar = $advertDialog->fromUser->avatar @endphp @endif
-                                            <img src="{{asset($avatar ? 'storage' . $avatar : '/assets/images/avatars/no-avatar.png')}}" />
+                                            @if (auth()->user()->id == $advertDialog->from_user_id) @php $avatar = $advertDialog->toUser->avatar; $user = $advertDialog->toUser; @endphp @else @php $avatar = $advertDialog->fromUser->avatar; $user = $advertDialog->fromUser; @endphp @endif
+                                                @if ($avatar)
+                                                    <img src="{{cdn_url(asset('storage' . $avatar), $user)}}" />
+                                                @else
+                                                    <img src="{{asset('/assets/images/avatars/no-avatar.png')}}" />
+                                                @endif
+
                                             <p> @if (auth()->user()->id == $advertDialog->from_user_id) {{$advertDialog->toUser->name}} @else {{$advertDialog->fromUser->name}} @endif</p>
                                         </a>
                                     </div>
@@ -113,7 +118,11 @@
                                                     <div class="mess-dt">{{$message->getFormatDate()}}</div>
                                                     @if($message->to_id == auth()->user()->id)
                                                     <div>
-                                                        <img class="avatar-mess" src="{{asset($avatar ? 'storage' . $avatar : '/assets/images/avatars/no-avatar.png')}}"/>
+                                                        @if ($avatar)
+                                                            <img class="avatar-mess" src="{{cdn_url(asset('storage' . $avatar), $user)}}"/>
+                                                        @else
+                                                            <img class="avatar-mess" src="{{asset('/assets/images/avatars/no-avatar.png')}}"/>
+                                                        @endif
                                                     </div>
                                                     @endif
                                                    {{$message->message}}

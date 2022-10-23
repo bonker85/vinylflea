@@ -45,7 +45,7 @@
                                                     @csrf
                                                     <input type="hidden" name="id" value="{{$user->id}}" />
                                                     <button type="submit">
-                                                        <img src="{{ (($user->avatar) ? asset('/storage') . $user->avatar : asset('/assets/images/avatars/no-avatar.png'))}}" width="30px" height="30px"/></td>
+                                                        <img src="{{ (($user->avatar) ? cdn_url(asset('/storage') . $user->avatar, $user) : asset('/assets/images/avatars/no-avatar.png'))}}" width="30px" height="30px"/></td>
                                                     </button>
                                                 </form>
                                             <td>

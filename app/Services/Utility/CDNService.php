@@ -45,7 +45,7 @@ class CDNService {
     public function getStorageObjects($path)
     {
         $normalizedPath = $this->normalizePath($path, true);
-        return json_decode($this->sendHttpRequest($normalizedPath));
+        return $this->sendHttpRequest($normalizedPath);
     }
 
     /**

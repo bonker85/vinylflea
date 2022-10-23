@@ -29,7 +29,7 @@
                                         <div class="user-data">
                                             <div class="user-img">
                                                 @if ($user->avatar)
-                                                    <img src="{{asset('/storage') . $user->avatar}}" loading="lazy" alt="{{$user->name}}"/>
+                                                    <img src="{{cdn_url(asset('/storage') . $user->avatar, $user)}}" loading="lazy" alt="{{$user->name}}"/>
                                                 @else
                                                     <img src="{{asset('/assets/images/avatars/no-avatar.png')}}" loading="lazy" alt="{{$user->name}}"/>
                                                 @endif
@@ -63,7 +63,7 @@
                                                                     <div class="cart-img text-center text-lg-start">
                                                                         @if (count($advert->images))
                                                                             @foreach ($advert->images as $image)
-                                                                                <img src="{{asset('/storage' . $image->path)}}" loading="lazy" width="130" alt="">
+                                                                                <img src="{{cdn_url(asset('/storage' . $image->path), $image)}}" loading="lazy" width="130" alt="">
                                                                                 @break
                                                                             @endforeach
                                                                         @else

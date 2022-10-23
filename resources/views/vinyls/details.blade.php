@@ -38,8 +38,8 @@
                                     <div class="item">
                                         @if (count($advert->images))
                                             @foreach ($advert->images as $image)
-                                                <a href="{{asset('/storage' . $image->path)}}" data-fancybox="gallery" data-caption="{{$advert->name}} (Изображение {{$loop->iteration}})">
-                                                    <img src="{{asset('/storage' . $image->path)}}" class="img-fluid"   alt="{{$advert->name}}" loading="lazy">
+                                                <a href="{{cdn_url(asset('/storage' . $image->path), $image)}}" data-fancybox="gallery" data-caption="{{$advert->name}} (Изображение {{$loop->iteration}})">
+                                                    <img src="{{cdn_url(asset('/storage' . $image->path), $image)}}" class="img-fluid"   alt="{{$advert->name}}" loading="lazy">
                                                 </a>
                                                 @break
                                             @endforeach
@@ -53,8 +53,8 @@
                                         @php unset($advert->images[0]); @endphp
                                         @foreach ($advert->images as $image)
                                             <button class="owl-thumb-item">
-                                                <a href="{{asset('/storage' . $image->path)}}" data-fancybox="gallery" data-caption="{{$advert->name}} (Изображение {{++$loop->iteration}})">
-                                                    <img src="{{asset('/storage' . $image->path)}}" class="" alt="{{$advert->name}} (Изображение {{$loop->iteration}})"  loading="lazy">
+                                                <a href="{{cdn_url(asset('/storage' . $image->path), $image)}}" data-fancybox="gallery" data-caption="{{$advert->name}} (Изображение {{++$loop->iteration}})">
+                                                    <img src="{{cdn_url(asset('/storage' . $image->path), $image)}}" class="" alt="{{$advert->name}} (Изображение {{$loop->iteration}})"  loading="lazy">
                                                 </a>
                                             </button>
                                         @endforeach

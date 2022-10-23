@@ -73,7 +73,7 @@
                                     <li class="nav-item cart-list">
                                         @if(auth()->check())
                                             @if (auth()->user()->avatar)
-                                                <img src="{{asset('/storage') . auth()->user()->avatar}}" class="avatar-img" />
+                                                <img src="{{cdn_url(asset('/storage') . auth()->user()->avatar, auth()->user())}}" class="avatar-img" />
                                             @else
                                                 <img src="{{asset('/assets/images/avatars/no-avatar.png')}}" class="avatar-img" />
                                             @endif
