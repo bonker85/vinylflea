@@ -1,4 +1,4 @@
-<div class="col col-md order-4 order-md-2 ui search ">
+<div class="col col-md order-2 order-md-2 ui search ">
     <div class=" input-group flex-nowrap px-xl-4 search-box">
         <div class="ui left icon input">
             <i class="bx bx-search icon"></i>

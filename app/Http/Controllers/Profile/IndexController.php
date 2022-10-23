@@ -385,7 +385,7 @@ class IndexController extends BaseController
                              $cdnPath = $advertImage->path;
                              $advertImage->path = $path;
                              $advertImage->cdn_status=0;
-                             $advertImage->cdn_update_time = time();
+                             $advertImage->cdn_update_time = 0;
                              $advertImage->save();
                             //@todo если файла нет на диске, качаем его с cdn и после удаляем с cdn
                             $realOldPath = Storage::disk('public')->getConfig()['root'] . $oldPath;
@@ -426,7 +426,7 @@ class IndexController extends BaseController
                                     'advert_id' => $advert->id,
                                     'path' => str_replace('public/users', '/users', substr($path, strpos($path, 'public/users'))),
                                     'cdn_status' => 0,
-                                    'cdn_update_time' => time()
+                                    'cdn_update_time' => 0
                                 ]);
                         }
                     }

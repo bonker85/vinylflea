@@ -253,7 +253,7 @@ class AjaxController extends Controller
                    }
                    switch ($result->deal) {
                        case "sale":
-                           $searchRes[$key]['price'] = $result->price . ' Руб.';
+                           $searchRes[$key]['price'] = str_replace('.00', '', $result->price) . ' р.';
                            break;
                        case "free":
                            $searchRes[$key]['price'] = 'Отдам даром';

@@ -46,7 +46,7 @@
 
 <body>
 
-<b class="screen-overlay"></b>
+
 <!--wrapper-->
 <div class="wrapper">
     <!--start top header wrapper-->
@@ -54,7 +54,7 @@
         <div class="header-content pb-md-0">
             <div class="container">
                 <div class="row align-items-center">
-                    <div class="col-8 col-md-auto">
+                    <div class="col-auto">
                         <div class="d-flex align-items-center">
                             <div class="mobile-toggle-menu d-lg-none px-lg-2" data-trigger="#navbar_main"><i class='bx bx-menu'></i>
                             </div>
@@ -66,7 +66,7 @@
                         </div>
                     </div>
                     @include('includes.search-block')
-                    <div class="col-4 col-md-auto order-2 order-md-4 block-icons">
+                    <div class="col-auto order-4 order-md-4 block-icons">
                         <div class="top-cart-icons float-end">
                             <nav class="navbar navbar-expand">
                                 <ul class="navbar-nav ms-auto">
