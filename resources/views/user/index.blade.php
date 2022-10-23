@@ -49,6 +49,18 @@
                             </div>
                         </div>
                         <div class="col-lg-8">
+                            @if ($advertList->total() > $advertList->perPage())
+                                <div class="ui search focus u-search" style="">
+                                    <div class=" input-group flex-nowrap  search-box">
+                                        <div class="ui left icon input">
+                                            <i class="bx bx-search icon"></i>
+                                            <input type="hidden" name="user" value="{{$user->id}}" id="s-user"/>
+                                            <input type="text" class="form-control w-100 prompt" placeholder="Поиск пластинки у пользователя {{$user->name}}" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="results"></div>
+                                </div>
+                            @endif
                             <div class="adverts-block card shadow-none mb-0">
                                 <div class="card-body px-0 py-4">
                                     @if ($advertList->count())

@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Storage;
 
 class IndexController extends BaseController
 {
-    public function index(Request $request, $status = 'activated')
+    public function index(Request $request, $status = 'activated', $advert = null)
     {
         $statusId = AdvertService::getStatusByName($status);
         if ($statusId) {
@@ -36,8 +36,13 @@ class IndexController extends BaseController
             } else {
                 $select->where('id', '!=', '4235');
             }
+            $search = false;
+            if (is_numeric($advert)) {
+                $select->where('id', $advert);
+                $search = true;
+            }
             $advertList = $select->paginate(10);;
-            return view('profile.adverts', compact('status', 'advert_counts', 'advertList', ));
+            return view('profile.adverts', compact('status', 'advert_counts', 'advertList', 'search'));
         } else {
             return abort(404);
         }

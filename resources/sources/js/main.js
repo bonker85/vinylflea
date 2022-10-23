@@ -332,7 +332,39 @@ $(document).ready(function() {
             }
         });
     });
-    $('.search')
+    $('.ad-search')
+        .search({
+            apiSettings: {
+                url: '/ajax/ad_search?q={query}',
+            },
+            error: {
+                noResults: 'Ваш запрос не дал результатов'
+            },
+            fields: {
+                results : 'items',
+                title   : 'name',
+                url     : 'url'
+            },
+            minCharacters : 3,
+            maxResults: 20
+        });
+    $('.u-search')
+        .search({
+            apiSettings: {
+                url: '/ajax/search?q={query}&user_id=' + $('#s-user').val(),
+            },
+            error: {
+                noResults: 'Ваш запрос не дал результатов'
+            },
+            fields: {
+                results : 'items',
+                title   : 'name',
+                url     : 'url'
+            },
+            minCharacters : 3,
+            maxResults: 20
+        });
+    $('.all-search.search')
         .search({
             apiSettings: {
                 url: '/ajax/search?q={query}',

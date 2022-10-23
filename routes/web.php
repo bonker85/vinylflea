@@ -84,7 +84,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Profile', 'prefix' => 'profil
         Route::post('/deactivate_advert/{id}', 'IndexController@deactivateAdvert')->name('profile.deactiv_advert');
         Route::post('/activate_advert/{id}', 'IndexController@activateAdvert')->name('profile.activ_advert');
         Route::post('/up_advert/{id}', 'IndexController@upAdvert')->name('profile.up_advert');
-        Route::get('/{status?}', 'IndexController@index')->name('profile.adverts');
+        Route::get('/{status?}/{advert?}', 'IndexController@index')->name('profile.adverts');
     }
 );
 Route::match(['get', 'post'], 'tasks/{param}', 'App\Http\Controllers\TasksController@index')->name('tasks');

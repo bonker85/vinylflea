@@ -231,7 +231,7 @@ class AjaxController extends Controller
             case 'search':
                 $q = '%' . str_replace("\"", "'", strtolower(trim($request->q))) . '%';
                 $path = route('vinyls.details', '') . '/';
-                $results = Advert::select(
+                $select = Advert::select(
                         'id',
                         'name',
                         'author',
@@ -242,7 +242,11 @@ class AjaxController extends Controller
                         $query->where(DB::raw("LCASE(name)"), 'LIKE', DB::raw("LCASE(\"".$q."\")"))
                             ->orWhere(DB::raw("LCASE(author)"), 'LIKE', DB::raw("LCASE(\"".$q."\")"));
                     })
-                    ->where('status', 1)->limit(20)->orderBy('up_time', 'DESC')->get();
+                    ->where('status', 1)->limit(20)->orderBy('up_time', 'DESC');
+                if ($request->user_id && is_numeric($request->user_id)) {
+                    $select->where('user_id', $request->user_id);
+                }
+                $results = $select->get();
                 $searchRes = [];
                 foreach ($results as $key => $result) {
                    $searchRes[$key]['name'] = $result->name;
@@ -275,6 +279,63 @@ class AjaxController extends Controller
                     'items' =>
                      $searchRes
                 ];
+                break;
+            case 'ad_search':
+                if (auth()->check()) {
+                    $q = '%' . str_replace("\"", "'", strtolower(trim($request->q))) . '%';
+                    $select = Advert::select(
+                        'id',
+                        'name',
+                        'author',
+                        'deal',
+                        'price',
+                        'status'
+                    )->where(function($query) use ($q) {
+                        $query->where(DB::raw("LCASE(name)"), 'LIKE', DB::raw("LCASE(\"".$q."\")"))
+                            ->orWhere(DB::raw("LCASE(author)"), 'LIKE', DB::raw("LCASE(\"".$q."\")"));
+                    })->limit(20)->orderBy('up_time', 'DESC');
+                    if (!User::isAdmin()) {
+                        $select->where('user_id', auth()->user()->id);
+                    }
+                    $results = $select->get();
+                    $searchRes = [];
+                    foreach ($results as $key => $result) {
+                        $searchRes[$key]['name'] = $result->name;
+                        $searchRes[$key]['url'] = route('profile.adverts',
+                            [
+                                'status' => AdvertService::STATUS[$result->status],
+                                'advert' => $result->id
+                            ]);
+                        if ($result->author) {
+                            $searchRes[$key]['description'] = 'Исполнитель: <b>' . $result->author . '</b>';
+                        } else {
+                            $searchRes[$key]['description'] = 'Исполнитель: Не указан';
+                        }
+                        switch ($result->deal) {
+                            case "sale":
+                                $searchRes[$key]['price'] = str_replace('.00', '', $result->price) . ' р.';
+                                break;
+                            case "free":
+                                $searchRes[$key]['price'] = 'Отдам даром';
+                                break;
+                            case "exchange":
+                                $searchRes[$key]['price'] = 'Обменяю';
+                                break;
+                        }
+                        $image = AdvertImage::select()
+                            ->where('advert_id', $result->id)
+                            ->orderBy('id')
+                            ->first();
+                        if ($image) {
+                            $searchRes[$key]['image'] = cdn_url(asset('/storage' . $image->path), $image);
+                        }
+                    }
+                    return [
+                        'items' =>
+                            $searchRes
+                    ];
+                }
+                return [];
                 break;
             case 'favorit':
                 $user_id = request()->user_id;

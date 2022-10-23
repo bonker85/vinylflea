@@ -39,6 +39,15 @@
                                         </table>
                                     </div>
                                     @if ($advertList->count())
+                                    <div class="ui search focus ad-search" style="">
+                                        <div class=" input-group flex-nowrap  search-box">
+                                            <div class="ui left icon input">
+                                                <i class="bx bx-search icon"></i>
+                                                <input type="text" class="form-control w-100 prompt" placeholder="Поиск пластинки" autocomplete="off">
+                                            </div>
+                                        </div>
+                                        <div class="results"></div>
+                                    </div>
                                     <div class="col-12">
                                         <div class="shop-cart-list mb-3 p-3">
                                             @foreach($advertList as $advert)
@@ -158,23 +167,27 @@
                                     @else
                                         <div class="col-12">
                                             <div class="shop-cart-list favorit-blocks mb-3 p-3">
-                                                <p>
-                                                    У Вас пока нет
-                                                    @switch ($status)
-                                                        @case ('activated')
-                                                            активных пластинок
-                                                            @break
-                                                        @case ('moderation')
-                                                            пластинок на модерации
-                                                            @break
-                                                        @case ('rejected')
-                                                            отклоненных пластинок
-                                                            @break
-                                                        @case ('deactivated')
-                                                            неактивных пластинок
-                                                            @break
-                                                    @endswitch
-                                                </p>
+                                                @if ($search)
+                                                    Нет такой пластинки
+                                                @else
+                                                    <p>
+                                                        У Вас пока нет
+                                                        @switch ($status)
+                                                            @case ('activated')
+                                                                активных пластинок
+                                                                @break
+                                                            @case ('moderation')
+                                                                пластинок на модерации
+                                                                @break
+                                                            @case ('rejected')
+                                                                отклоненных пластинок
+                                                                @break
+                                                            @case ('deactivated')
+                                                                неактивных пластинок
+                                                                @break
+                                                        @endswitch
+                                                    </p>
+                                                @endif
                                                 @if ($status == 'activated')
                                                     <div class="add-vinyl">
                                                         <a href="{{route('profile.add_advert')}}" class="rounded-3 list-group-item  d-flex justify-content-between align-items-center"><i class="bx bx-plus fs-5"></i> Добавить</a>

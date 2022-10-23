@@ -318,6 +318,9 @@ body.offcanvas-active {
 }
 
 @media (min-width: 992px) {
+    .u-search {
+        margin-bottom: 15px!important;
+    }
     #navbar_main {
         display: flex;
         justify-content: space-between;
@@ -2332,4 +2335,14 @@ i.icon i.fa-search {
 }
 .dropdown-menu {
     background: #F8F9FA;
+}
+.u-search, .ad-search {
+    margin-top: 0;
+    margin-bottom: 5px;
+    background: #F8F9FA;
+    padding: 5px;
+    border: 1px solid #DEE2E6;
+}
+.ad-search {
+    margin-bottom: 15px;
 }
