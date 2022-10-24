@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Message;
 use App\Models\User;
+use App\Services\Utility\ImageService;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -147,6 +148,16 @@ class ProfileService {
             }
             $advertDialog->save();
         }
+    }
+
+    public function createAdvertThumbnail($path) {
+        $imageService = new ImageService();
+        $filePath = storage_path('app/public') . $path;
+        $fileThumbPath =
+            storage_path('app/public') .
+            str_replace('/users/',
+                '/advert_thumbs/', $path);
+        return $imageService->createImageThumbnail($filePath, $fileThumbPath);
     }
 }
 ?>

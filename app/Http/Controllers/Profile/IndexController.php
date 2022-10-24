@@ -16,6 +16,7 @@ use App\Models\Style;
 use App\Models\User;
 use App\Services\AdvertService;
 use App\Services\Utility\CDNService;
+use App\Services\Utility\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -150,11 +151,24 @@ class IndexController extends BaseController
                 $path = preg_replace('#vinyl_original[1-4]#is', 'vinyl' . $i, $path);
                 if (make_directory(pathinfo($path)['dirname'], 0777, true)) {
                     if(rename($pathTmp, $path)) {
+                        //изображение нарезается только для гланой картинки
+                        $thumb = 0;
+                        $thumb_update_time = 0;
+                        $pathForBase =
+                            str_replace('public/users', '/users', substr($path, strpos($path, 'public/users')));
+                        if ($i === 1) {
+                            if ($this->service->createAdvertThumbnail($pathForBase)) {
+                                $thumb = 1;
+                                $thumb_update_time = time();
+                            }
+                        }
                         AdvertImage::firstOrCreate(
                             ['path' => $path],
                             [
                                 'advert_id' => $advert->id,
-                                'path' => str_replace('public/users', '/users', substr($path, strpos($path, 'public/users')))
+                                'path' => $pathForBase,
+                                'thumb' => $thumb,
+                                'thumb_update_time' => $thumb_update_time
                             ]);
                     }
                 }
@@ -365,6 +379,8 @@ class IndexController extends BaseController
             }
             $offset = 0;
             foreach ($vinyl as $url) {
+                $thumb = 0;
+                $thumb_update_time = 0;
                 if (!$url) {
                    $advertImage = AdvertImage::select()->where('advert_id', $advert->id)
                         ->where('path', 'LIKE', '%vinyl' . ($i+$offset) . '%')->first();
@@ -387,23 +403,31 @@ class IndexController extends BaseController
                             ->orderBy('created_at', 'DESC')
                             ->first();
                         if ($advertImage) {
-                             $cdnPath = $advertImage->path;
-                             $advertImage->path = $path;
-                             $advertImage->cdn_status=0;
-                             $advertImage->cdn_update_time = 0;
-                             $advertImage->save();
-                            //@todo если файла нет на диске, качаем его с cdn и после удаляем с cdn
+                            $cdnPath = $advertImage->path;
                             $realOldPath = Storage::disk('public')->getConfig()['root'] . $oldPath;
                             if (env('CDN_ENABLE')
                                 && !file_exists($realOldPath)) {
-                                $cdnResult = $cdnService
-                                    ->downloadFile($cdnPath, $realOldPath);
+                                $cdnService->downloadFile($cdnPath, $realOldPath);
                             }
                             if (file_exists($realOldPath)) {
-                                rename(
+                                if(rename(
                                     Storage::disk('public')->getConfig()['root'] . $oldPath,
                                     Storage::disk('public')->getConfig()['root'] . $path
-                                );
+                                )) {
+                                    //изображение нарезается только для гланой картинки
+                                    if ($i === 1) {
+                                        if ($this->service->createAdvertThumbnail($path)) {
+                                            $thumb = 1;
+                                            $thumb_update_time = time();
+                                        }
+                                    }
+                                    $advertImage->path = $path;
+                                    $advertImage->cdn_status=0;
+                                    $advertImage->cdn_update_time = 0;
+                                    $advertImage->thumb = $thumb;
+                                    $advertImage->thumb_update_time = $thumb_update_time;
+                                    $advertImage->save();
+                                }
                                 if (env('CDN_ENABLE')) {
                                     $cdnService->deleteObject($cdnPath);
                                 }
@@ -425,13 +449,23 @@ class IndexController extends BaseController
                     $path = preg_replace('#vinyl_original[1-4]#is', 'vinyl' . $i, $path);
                     if (make_directory(pathinfo($path)['dirname'], 0777, true)) {
                         if (rename($pathTmp, $path)) {
+                            $path = str_replace('public/users', '/users', substr($path, strpos($path, 'public/users')));
+                            //режим изобржаение для главной картинки
+                            if ($i === 1) {
+                                if ($this->service->createAdvertThumbnail($path)) {
+                                    $thumb = 1;
+                                    $thumb_update_time = time();
+                                }
+                            }
                             AdvertImage::firstOrCreate(
                                 ['path' => $path],
                                 [
                                     'advert_id' => $advert->id,
-                                    'path' => str_replace('public/users', '/users', substr($path, strpos($path, 'public/users'))),
+                                    'path' => $path,
                                     'cdn_status' => 0,
-                                    'cdn_update_time' => 0
+                                    'cdn_update_time' => 0,
+                                    'thumb' => $thumb,
+                                    'thumb_update_time' => $thumb_update_time
                                 ]);
                         }
                     }

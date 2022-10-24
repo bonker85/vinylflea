@@ -95,9 +95,24 @@ class TasksController extends Controller
                 break;
             case 'create_ad_thumb':
                 $imageService = new ImageService();
-                $advertImages = AdvertImage::select()
+            /*
+               $time = time();
+               $advertImages = AdvertImage::select()
                     ->where('thumb', 0)->where('path','LIKE', '%vinyl1%')->get();
-                $time = time();
+            */
+                $advertImages = AdvertImage::select()
+                    ->where('path','LIKE', '%vinyl1%')->where('advert_id', 4235)->first();
+
+                $image = $advertImages;
+                $filePath = storage_path('app/public') . $image->path;
+                if (file_exists($filePath)) {
+                    $fileThumbPath =
+                        storage_path('app/public') .
+                        str_replace('/users/',
+                            '/advert_thumbs/', $image->path);
+                    dd($imageService->createImageThumbnail($filePath, $fileThumbPath));exit();
+                }
+                echo 'abahaba';exit();
                 foreach ($advertImages as $image) {
                     $filePath = storage_path('app/public') . $image->path;
                    if (file_exists($filePath)) {

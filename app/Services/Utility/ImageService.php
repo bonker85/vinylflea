@@ -98,10 +98,10 @@ class ImageService {
 
     public function createImageThumbnail($imagePath, $imageThumbnailPath)
     {
-        $img = Image::make($imagePath);
+        $img = Image::make($imagePath)->encode('webp', 100);
         $path = pathinfo($imageThumbnailPath, PATHINFO_DIRNAME);
         if(make_directory($path, 0777, true)) {
-            $img->resize(250, null, function ($constraint) {
+            return $img->resize(250, null, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($imageThumbnailPath);
         } else {
