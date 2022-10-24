@@ -12,6 +12,8 @@
     src: url(../fonts/Roboto-Medium.ttf); /* Путь к файлу со шрифтом */
     font-weight: 500;
 }
+
+
 body {
     font-size: 14px;
     letter-spacing: .5px;
@@ -1724,7 +1726,7 @@ body.bg-theme15 {
     position: absolute;
     left: 60%;
     z-index: 2;
-    top: 4%;
+    top: 70px;
     display: none;
 }
 
@@ -2356,3 +2358,4 @@ i.icon i.fa-search {
 .ad-search {
     margin-bottom: 15px;
 }
+
