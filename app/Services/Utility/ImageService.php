@@ -98,12 +98,12 @@ class ImageService {
 
     public function createImageThumbnail($imagePath, $imageThumbnailPath)
     {
-        $img = Image::make($imagePath)->encode('webp', 100);
+        $img = Image::make($imagePath);
         $path = pathinfo($imageThumbnailPath, PATHINFO_DIRNAME);
         if(make_directory($path, 0777, true)) {
             return $img->resize(250, null, function ($constraint) {
                 $constraint->aspectRatio();
-            })->save($imageThumbnailPath);
+            })->encode('webp', 90)->save(str_replace('.jpg', '.webp',$imageThumbnailPath));
         } else {
             echo "Error Create Dir";exit();
         }

@@ -75,7 +75,9 @@ function cdn_url($url, $item)
 function thumb_url($url, $item)
 {
     if ($item->thumb) {
-        $url = str_replace('/users/', '/advert_thumbs/', $url) . '?tm=' . $item->thumb_update_time;
+        $url = str_replace('/users/', '/advert_thumbs/',
+                str_replace('.' . pathinfo($url, PATHINFO_EXTENSION), '.webp', $url)) . '?tm=' .
+                $item->thumb_update_time;
     } else {
         $url =  cdn_url($url, $item);
     }

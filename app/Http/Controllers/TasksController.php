@@ -95,24 +95,9 @@ class TasksController extends Controller
                 break;
             case 'create_ad_thumb':
                 $imageService = new ImageService();
-            /*
-               $time = time();
-               $advertImages = AdvertImage::select()
-                    ->where('thumb', 0)->where('path','LIKE', '%vinyl1%')->get();
-            */
+                $time = time();
                 $advertImages = AdvertImage::select()
-                    ->where('path','LIKE', '%vinyl1%')->where('advert_id', 4235)->first();
-
-                $image = $advertImages;
-                $filePath = storage_path('app/public') . $image->path;
-                if (file_exists($filePath)) {
-                    $fileThumbPath =
-                        storage_path('app/public') .
-                        str_replace('/users/',
-                            '/advert_thumbs/', $image->path);
-                    dd($imageService->createImageThumbnail($filePath, $fileThumbPath));exit();
-                }
-                echo 'abahaba';exit();
+                    ->where('thumb', 0)->where('path','LIKE', '%vinyl1%')->get();
                 foreach ($advertImages as $image) {
                     $filePath = storage_path('app/public') . $image->path;
                    if (file_exists($filePath)) {
@@ -120,9 +105,10 @@ class TasksController extends Controller
                             storage_path('app/public') .
                             str_replace('/users/',
                                 '/advert_thumbs/', $image->path);
-                        $imageService->createImageThumbnail($filePath, $fileThumbPath);
-                        $image->thumb = 1;
-                        $image->thumb_update_time = $time;
+                        if ($imageService->createImageThumbnail($filePath, $fileThumbPath)) {
+                            $image->thumb = 1;
+                            $image->thumb_update_time = $time;
+                        }
                         $image->save();
                     }
                 }
