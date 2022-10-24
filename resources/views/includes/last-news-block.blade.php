@@ -12,7 +12,7 @@
                     <div class="item">
                         <div class="card rounded-0 product-card border">
                             <a href="{{route('news', $new->url)}}">
-                                <img src="{{asset('/assets/images/posts/' . $new->id . '.jpg')}}" class="card-img-top border-bottom" alt="...">
+                                <img src="{{asset('/assets/images/posts/' . $new->id . '.webp')}}" class="card-img-top border-bottom" alt="...">
                             </a>
                             <div class="card-body">
                                 <div class="news-title">

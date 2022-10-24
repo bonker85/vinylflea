@@ -29,7 +29,7 @@
                     <div class="blog-right-sidebar p-3">
                         @foreach ($newsList as $new)
                             <div class="card mb-4">
-                                <img src="{{asset('/assets/images/posts/'  . $new->id . '.jpg')}}" class="card-img-top" alt="{{$new->name}}">
+                                <img src="{{asset('/assets/images/posts/'  . $new->id . '.webp')}}" class="card-img-top" alt="{{$new->name}}">
                                 <div class="card-body">
                                     <div class="list-inline">
                                         <a href="javascript:;" class="list-inline-item"><i class="bx bx-calendar me-1"></i>{{$new->getFormatDate()}}</a>
