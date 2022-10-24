@@ -75,7 +75,7 @@
                                                                     <div class="cart-img text-center text-lg-start">
                                                                         @if (count($advert->images))
                                                                             @foreach ($advert->images as $image)
-                                                                                <img src="{{cdn_url(asset('/storage' . $image->path), $image)}}" loading="lazy" width="130" alt="">
+                                                                                <img src="{{thumb_url(asset('/storage' . $image->path), $image)}}" loading="lazy" width="130" alt="">
                                                                                 @break
                                                                             @endforeach
                                                                         @else

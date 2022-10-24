@@ -25,7 +25,7 @@
                     @if (count($advert->images))
                         <div class="main-advert-img image-rds">
                             @foreach ($advert->images as $image)
-                                <img src="{{cdn_url(asset('/storage') . $image->path, $image)}}" class="card-img-top"   alt="{{$advert->name}}" loading="lazy">
+                                <img src="{{thumb_url(asset('/storage') . $image->path, $image)}}" class="card-img-top"   alt="{{$advert->name}}" loading="lazy">
                                 @break
                             @endforeach
                     @else

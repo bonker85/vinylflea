@@ -272,7 +272,7 @@ class AjaxController extends Controller
                                ->orderBy('id')
                                ->first();
                    if ($image) {
-                       $searchRes[$key]['image'] = cdn_url(asset('/storage' . $image->path), $image);
+                       $searchRes[$key]['image'] = thumb_url(asset('/storage' . $image->path), $image);
                    }
                 }
                 return [
@@ -327,7 +327,7 @@ class AjaxController extends Controller
                             ->orderBy('id')
                             ->first();
                         if ($image) {
-                            $searchRes[$key]['image'] = cdn_url(asset('/storage' . $image->path), $image);
+                            $searchRes[$key]['image'] = thumb_url(asset('/storage' . $image->path), $image);
                         }
                     }
                     return [

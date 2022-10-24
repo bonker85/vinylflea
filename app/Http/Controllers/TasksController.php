@@ -93,6 +93,26 @@ class TasksController extends Controller
                 }
                 dd('FIN');
                 break;
+            case 'create_ad_thumb':
+                $imageService = new ImageService();
+                $advertImages = AdvertImage::select()
+                    ->where('thumb', 0)->where('path','LIKE', '%vinyl1%')->get();
+                $time = time();
+                foreach ($advertImages as $image) {
+                    $filePath = storage_path('app/public') . $image->path;
+                   if (file_exists($filePath)) {
+                        $fileThumbPath =
+                            storage_path('app/public') .
+                            str_replace('/users/',
+                                '/advert_thumbs/', $image->path);
+                        $imageService->createImageThumbnail($filePath, $fileThumbPath);
+                        $image->thumb = 1;
+                        $image->thumb_update_time = $time;
+                        $image->save();
+                    }
+                }
+                dd('FIN');
+                break;
             case 'parser-vinil-sd-by':
               /*  $adverts = Advert::select('description','id')->where('user_id', 6)->get();
                 foreach ($adverts as $advert) {

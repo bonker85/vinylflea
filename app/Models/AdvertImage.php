@@ -9,4 +9,8 @@ class AdvertImage extends Model
 {
     use HasFactory;
     protected $guarded = false;
+
+    public function advert() {
+        return $this->hasOne(Advert::class, 'id', 'advert_id');
+    }
 }

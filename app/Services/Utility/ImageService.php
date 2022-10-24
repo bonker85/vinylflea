@@ -101,7 +101,7 @@ class ImageService {
         $img = Image::make($imagePath);
         $path = pathinfo($imageThumbnailPath, PATHINFO_DIRNAME);
         if(make_directory($path, 0777, true)) {
-            $img->resize(300, null, function ($constraint) {
+            $img->resize(250, null, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($imageThumbnailPath);
         } else {

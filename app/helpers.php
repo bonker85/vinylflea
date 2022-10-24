@@ -72,4 +72,13 @@ function cdn_url($url, $item)
     }
     return $url;
 }
+function thumb_url($url, $item)
+{
+    if ($item->thumb) {
+        $url = str_replace('/users/', '/advert_thumbs/', $url) . '?tm=' . $item->thumb_update_time;
+    } else {
+        $url =  cdn_url($url, $item);
+    }
+    return $url;
+}
 ?>

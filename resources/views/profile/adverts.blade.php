@@ -63,7 +63,7 @@
                                                             @endif
                                                             @if (count($advert->images))
                                                                 @foreach ($advert->images as $image)
-                                                                    <img src="{{cdn_url(asset('/storage' ). $image->path, $image)}}" width="130" alt="">
+                                                                    <img src="{{thumb_url(asset('/storage' ). $image->path, $image)}}" width="130" alt="">
                                                                     @break
                                                                 @endforeach
                                                             @else

@@ -42,7 +42,7 @@
                                                     <div>
                                                         @if ($item->advert->images && count($item->advert->images))
                                                             @foreach ($item->advert->images as $image)
-                                                                <img src="{{cdn_url(asset('/storage' . $image->path), $image)}}" class="advert-img-mess"   alt="{{$item->advert->name}}" loading="lazy">
+                                                                <img src="{{thumb_url(asset('/storage' . $image->path), $image)}}" class="advert-img-mess"   alt="{{$item->advert->name}}" loading="lazy">
                                                                 @break
                                                             @endforeach
                                                         @else
@@ -77,7 +77,7 @@
                                             @endif
                                             @if ($advertDialog->advert->images && count($advertDialog->advert->images))
                                                 @foreach ($advertDialog->advert->images as $image)
-                                                    <img src="{{cdn_url(asset('/storage' . $image->path), $image)}}" class="advert-img-mess"   alt="{{$advertDialog->advert->name}}" loading="lazy">
+                                                    <img src="{{thumb_url(asset('/storage' . $image->path), $image)}}" class="advert-img-mess"   alt="{{$advertDialog->advert->name}}" loading="lazy">
                                                     @break
                                                 @endforeach
                                             @else
