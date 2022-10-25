@@ -21,7 +21,7 @@
                 <!-- Small boxes (Stat box) -->
                 <div class="row">
                     <div class="col-12">
-                        <form action="{{route('admin.page.store')}}" method="post" class="col-md-6 col-sm-12 pl-0" id="form_admin_create">
+                        <form action="{{route('admin.page.store')}}" method="post" class="col-md-6 col-sm-12 pl-0" id="form_admin_create" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label>Название</label>
@@ -93,6 +93,21 @@
                                 @error('status')
                                 <div class="text-danger">{{$message}}</div>
                                 @enderror
+                            </div>
+                            <div class="form-group">
+                                <div class="door-gallery-img">
+                                    <div class="add-link"><a href="#">Добавить изображениe</a></div>
+                                </div>
+                                <div class="gallery-img">
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" name="add_images[]">
+                                            <label class="custom-file-label">Выбрать</label>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">Обновить</span>
+                                        </div>
+                                    </div>
                             </div>
                             <div class="form-group">
                                 <input type="submit" class="btn btn-primary" value="Добавить"/>

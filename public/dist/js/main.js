@@ -142,6 +142,17 @@ $(document).ready(function() {
             });
         }, false);
     })();
-
+    $('.add-link a').on('click', function(e){
+        e.preventDefault();
+        $('.gallery-img').append(' <div class="input-group">\n' +
+'                                        <div class="custom-file">\n' +
+'                                            <input type="file" class="custom-file-input" name="add_images[]">\n' +
+'                                            <label class="custom-file-label">Выбрать</label>\n' +
+'                                        </div>\n' +
+'                                        <div class="input-group-append">\n' +
+'                                            <span class="input-group-text">Обновить</span>\n' +
+'                                        </div>\n' +
+'                                    </div>');
+    });
 });
 

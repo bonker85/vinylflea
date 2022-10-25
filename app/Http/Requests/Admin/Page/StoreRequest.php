@@ -33,7 +33,9 @@ class StoreRequest extends FormRequest
             'description' => 'nullable',
             'keywords' => 'nullable',
             'header' => 'required|string',
-            'status' => 'in:0,1'
+            'status' => 'in:0,1',
+            'add_images' => 'nullable',
+            'add_images' => 'nullable|array'
         ];
     }
 }

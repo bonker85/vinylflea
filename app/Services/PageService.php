@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Models\Page;
+use App\Services\Utility\ImageService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -11,10 +12,33 @@ class PageService {
 
     public function store($data) {
         $data['position'] = $this->getMaxPosition($data['parent_id']);
-        Page::firstOrCreate(['url' => $data['url']], $data);
+        $images = [];
+        if (isset($data['add_images'])) {
+            $images = $data['add_images'];
+            unset($data['add_images']);
+        }
+        $post = Page::firstOrCreate(['url' => $data['url']], $data);
+        //если новости обрабатываем изображения
+        if ($post && $post->parent_id == 2) {
+                $this->newsImagesProcessing($images, $post->id);
+        }
         cache()->flush();
     }
 
+    private function newsImagesProcessing($files, $newsId)
+    {
+        $imageService = new ImageService();
+        $i = 1;
+        foreach ($files as $file) {
+            if ($i === 1) {
+                $savePath = public_path() . '/assets/images/posts/' . $newsId . '.webp' ;
+            } else {
+                $savePath = public_path() . '/assets/images/posts/' . $newsId . '/' . ($i - 1) . '.webp';
+            }
+            $imageService->createImageThumbnail($file->getRealPath(), $savePath, 800);
+            $i++;
+        }
+    }
     public function update($data, $post) {
            $post->update($data);
            cache()->flush();

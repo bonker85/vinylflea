@@ -20,7 +20,7 @@ class IndexController extends BaseController
             ->where('status', AdvertService::getStatusByName('activated'))
             ->orderBy('up_time', 'DESC')->limit(12)->get();
         $lastNewsList = Page::select()->where('status', 1)->where('parent_id', 2)
-            ->orderBy('created_at')->limit(8)->get();
+            ->orderBy('position')->limit(8)->get();
         $styles = Style::select()->orderBy('name')->get();
         return view('main.index', compact('page', 'lastAdvertsList', 'styles', 'lastNewsList'));
     }
