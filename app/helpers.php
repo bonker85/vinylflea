@@ -90,7 +90,7 @@ function message_to_telegram($text)
     curl_setopt_array(
         $ch,
         array(
-            CURLOPT_URL => 'https://api.telegram.org/bot' . env("TELEGRAM_TOKEN ") . '/sendMessage',
+            CURLOPT_URL => 'https://api.telegram.org/bot' . env("TELEGRAM_TOKEN") . '/sendMessage',
             CURLOPT_POST => TRUE,
             CURLOPT_RETURNTRANSFER => TRUE,
             CURLOPT_TIMEOUT => 10,
