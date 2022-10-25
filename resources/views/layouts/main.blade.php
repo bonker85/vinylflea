@@ -23,7 +23,9 @@
     <link href="{{asset('/assets/css/select2.min.css')}}" rel="stylesheet">
     <meta name="description" content="@yield('description')">
     <title>@yield('title') | VinylFlea.By - Барахолка Виниловых Пластинок</title>
-    @if (env('APP_ENV') == 'production' && !\App\Models\User::isAdmin() && (auth()->check() && (auth()->user()->id == 4 || auth()->user()->id == 11)))
+    @if (env('APP_ENV') == 'local')
+        @if (auth()->check() && (in_array(auth()->user()->id, [1, 4, 11])))
+        @else
     <!-- Yandex.Metrika counter -->
         <script type="text/javascript" >
             (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -41,6 +43,7 @@
         </script>
         <noscript><div><img src="https://mc.yandex.ru/watch/90842576" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
         <!-- /Yandex.Metrika counter -->
+        @endif
     @endif
 </head>
 
