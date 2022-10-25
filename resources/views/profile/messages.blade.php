@@ -99,7 +99,7 @@
                                             <a @if ($advertDialog->advert_id == 4235 && !\App\Models\User::isAdmin()) href="javascript;" @else href="{{route('user', (auth()->user()->id == $advertDialog->from_user_id) ? $advertDialog->toUser->id : $advertDialog->fromUser->id)}}" @endif class="advert-mess-author-block" target="_blank">
                                             @if (auth()->user()->id == $advertDialog->from_user_id) @php $avatar = $advertDialog->toUser->avatar; $user = $advertDialog->toUser; @endphp @else @php $avatar = $advertDialog->fromUser->avatar; $user = $advertDialog->fromUser; @endphp @endif
                                                 @if ($avatar)
-                                                    <img src="{{cdn_url(asset('storage' . $avatar), $user)}}" />
+                                                    <img src="{{asset('storage' . $avatar)}}" />
                                                 @else
                                                     <img src="{{asset('/assets/images/avatars/no-avatar.png')}}" />
                                                 @endif
@@ -119,7 +119,7 @@
                                                     @if($message->to_id == auth()->user()->id)
                                                     <div>
                                                         @if ($avatar)
-                                                            <img class="avatar-mess" src="{{cdn_url(asset('storage' . $avatar), $user)}}"/>
+                                                            <img class="avatar-mess" src="{{asset('storage' . $avatar)}}"/>
                                                         @else
                                                             <img class="avatar-mess" src="{{asset('/assets/images/avatars/no-avatar.png')}}"/>
                                                         @endif

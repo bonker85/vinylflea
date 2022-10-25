@@ -15,12 +15,13 @@
     <link href="{{asset('assets/css/semantic.min.css')}}" rel="stylesheet">
     <link href="{{asset('assets/plugins/metismenu/css/metisMenu.min.css')}}" rel="stylesheet" />
     <!-- loader-->
-    <link href="{{asset('assets/css/pace.min.css')}}" rel="stylesheet" />
+  <!--  <link href="{{asset('assets/css/pace.min.css')}}" rel="stylesheet" />-->
     <!-- Bootstrap CSS -->
     <link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{mix("/assets/css/build.css")}}" rel="stylesheet">
-    <link href="{{asset('/assets/css/icons.css')}}" rel="stylesheet">
-    <link href="{{asset('/assets/css/select2.min.css')}}" rel="stylesheet">
+    @if (auth()->check() && request()->is('profile/*'))
+        <link href="{{asset('/assets/css/select2.min.css')}}" rel="stylesheet">
+    @endif
     <meta name="description" content="@yield('description')">
     <title>@yield('title') | VinylFlea.By - Барахолка Виниловых Пластинок</title>
     @if (env('APP_ENV') == 'production')
@@ -85,7 +86,7 @@
                                     <li class="nav-item cart-list">
                                         @if(auth()->check())
                                             @if (auth()->user()->avatar)
-                                                <img src="{{cdn_url(asset('/storage') . auth()->user()->avatar, auth()->user())}}" class="avatar-img" />
+                                                <img src="{{asset('/storage') . auth()->user()->avatar}}" class="avatar-img" />
                                             @else
                                                 <img src="{{asset('/assets/images/avatars/no-avatar.png')}}" class="avatar-img" />
                                             @endif
@@ -162,10 +163,20 @@
     <script src="{{asset("/assets/plugins/OwlCarousel/js/owl.carousel.min.js")}}"></script>
 @endif
 <script src="{{asset("/assets/js/semantic.min.js")}}"></script>
-<script src="{{asset("/assets/js/jquery.inputmask.min.js")}}"></script>
 <script src="{{asset("/assets/plugins/metismenu/js/metisMenu.min.js")}}"></script>
-<script src="{{asset("/assets/js/pace.min.js")}}"></script>
-<script src="{{asset("/assets/js/select2.min.js")}}"></script>
+<!--<script src="{{asset("/assets/js/pace.min.js")}}"></script>-->
+@if (auth()->check() && request()->is('profile/*'))
+
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+            $(".profile-info-formblock #phone").inputmask({"mask": "+375 (99) 999-99-99"});
+            $(".profile-add_advert-formblock #year").inputmask({"mask": "9999"});
+        });
+    </script>
+    <script src="{{asset("/assets/js/jquery.inputmask.min.js")}}"></script>
+    <script src="{{asset("/assets/js/select2.min.js")}}"></script>
+@endif
 <!--app JS-->
 </body>
 

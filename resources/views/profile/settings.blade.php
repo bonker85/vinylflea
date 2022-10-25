@@ -46,7 +46,7 @@
                                             <div class="avatar-set mb-3">
                                                 <div class="spinner-border mb-3 d-none"></div>
                                                 @if ($user->avatar)
-                                                    <img src="{{cdn_url(asset('storage') . $user->avatar, $user)}}" id="img-avatar" />
+                                                    <img src="{{asset('storage') . $user->avatar}}" id="img-avatar" />
                                                 @else
                                                     <img src="{{asset('assets/images/avatars/no-avatar.png')}}" id="img-avatar" />
                                                 @endif

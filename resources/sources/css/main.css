@@ -13,6 +13,606 @@
     font-weight: 500;
 }
 
+/*
+Template Name: eTrans eCommerce
+Author: codervent
+Email: codervent@gmail.com
+File: icons.css
+*/
+
+@font-face {
+
+    font-family: boxicons;
+
+    font-weight: 400;
+
+    font-style: normal;
+
+    src: url(../fonts/boxicons.eot);
+
+    src: url(../fonts/boxicons.eot) format('embedded-opentype'), url(../fonts/boxicons.woff2) format('woff2'), url(../fonts/boxicons.woff) format('woff'), url(../fonts/boxicons.ttf) format('truetype'), url(../fonts/boxicons.svg?#boxicons) format('svg')
+
+}
+
+.bx {
+
+    font-family: boxicons!important;
+
+    font-weight: 400;
+
+    font-style: normal;
+
+    font-variant: normal;
+
+    line-height: inherit;
+
+    display: inline-block;
+
+    text-transform: none;
+
+    speak: none;
+
+    -webkit-font-smoothing: antialiased;
+
+    -moz-osx-font-smoothing: grayscale
+
+}
+
+.bx-ul {
+
+    margin-left: 2em;
+
+    padding-left: 0;
+
+    list-style: none
+
+}
+
+.bx-ul>li {
+
+    position: relative
+
+}
+
+.bx-ul .bx {
+
+    font-size: inherit;
+
+    line-height: inherit;
+
+    position: absolute;
+
+    left: -2em;
+
+    width: 2em;
+
+    text-align: center
+
+}
+
+@-webkit-keyframes spin {
+
+    0% {
+
+        -webkit-transform: rotate(0);
+
+        transform: rotate(0)
+
+    }
+
+    100% {
+
+        -webkit-transform: rotate(359deg);
+
+        transform: rotate(359deg)
+
+    }
+
+}
+
+@keyframes spin {
+
+    0% {
+
+        -webkit-transform: rotate(0);
+
+        transform: rotate(0)
+
+    }
+
+    100% {
+
+        -webkit-transform: rotate(359deg);
+
+        transform: rotate(359deg)
+
+    }
+
+}
+
+@-webkit-keyframes burst {
+
+    0% {
+
+        -webkit-transform: scale(1);
+
+        transform: scale(1);
+
+        opacity: 1
+
+    }
+
+    90% {
+
+        -webkit-transform: scale(1.5);
+
+        transform: scale(1.5);
+
+        opacity: 0
+
+    }
+
+}
+
+@keyframes burst {
+
+    0% {
+
+        -webkit-transform: scale(1);
+
+        transform: scale(1);
+
+        opacity: 1
+
+    }
+
+    90% {
+
+        -webkit-transform: scale(1.5);
+
+        transform: scale(1.5);
+
+        opacity: 0
+
+    }
+
+}
+
+@-webkit-keyframes flashing {
+
+    0% {
+
+        opacity: 1
+
+    }
+
+    45% {
+
+        opacity: 0
+
+    }
+
+    90% {
+
+        opacity: 1
+
+    }
+
+}
+
+@keyframes flashing {
+
+    0% {
+
+        opacity: 1
+
+    }
+
+    45% {
+
+        opacity: 0
+
+    }
+
+    90% {
+
+        opacity: 1
+
+    }
+
+}
+
+@-webkit-keyframes fade-left {
+
+    0% {
+
+        -webkit-transform: translateX(0);
+
+        transform: translateX(0);
+
+        opacity: 1
+
+    }
+
+    75% {
+
+        -webkit-transform: translateX(-20px);
+
+        transform: translateX(-20px);
+
+        opacity: 0
+
+    }
+
+}
+
+@keyframes fade-left {
+
+    0% {
+
+        -webkit-transform: translateX(0);
+
+        transform: translateX(0);
+
+        opacity: 1
+
+    }
+
+    75% {
+
+        -webkit-transform: translateX(-20px);
+
+        transform: translateX(-20px);
+
+        opacity: 0
+
+    }
+
+}
+
+@-webkit-keyframes fade-right {
+
+    0% {
+
+        -webkit-transform: translateX(0);
+
+        transform: translateX(0);
+
+        opacity: 1
+
+    }
+
+    75% {
+
+        -webkit-transform: translateX(20px);
+
+        transform: translateX(20px);
+
+        opacity: 0
+
+    }
+
+}
+
+@keyframes fade-right {
+
+    0% {
+
+        -webkit-transform: translateX(0);
+
+        transform: translateX(0);
+
+        opacity: 1
+
+    }
+
+    75% {
+
+        -webkit-transform: translateX(20px);
+
+        transform: translateX(20px);
+
+        opacity: 0
+
+    }
+
+}
+
+@-webkit-keyframes fade-up {
+
+    0% {
+
+        -webkit-transform: translateY(0);
+
+        transform: translateY(0);
+
+        opacity: 1
+
+    }
+
+    75% {
+
+        -webkit-transform: translateY(-20px);
+
+        transform: translateY(-20px);
+
+        opacity: 0
+
+    }
+
+}
+
+@keyframes fade-up {
+
+    0% {
+
+        -webkit-transform: translateY(0);
+
+        transform: translateY(0);
+
+        opacity: 1
+
+    }
+
+    75% {
+
+        -webkit-transform: translateY(-20px);
+
+        transform: translateY(-20px);
+
+        opacity: 0
+
+    }
+
+}
+
+@-webkit-keyframes fade-down {
+
+    0% {
+
+        -webkit-transform: translateY(0);
+
+        transform: translateY(0);
+
+        opacity: 1
+
+    }
+
+    75% {
+
+        -webkit-transform: translateY(20px);
+
+        transform: translateY(20px);
+
+        opacity: 0
+
+    }
+
+}
+
+@keyframes fade-down {
+
+    0% {
+
+        -webkit-transform: translateY(0);
+
+        transform: translateY(0);
+
+        opacity: 1
+
+    }
+
+    75% {
+
+        -webkit-transform: translateY(20px);
+
+        transform: translateY(20px);
+
+        opacity: 0
+
+    }
+
+}
+
+@-webkit-keyframes tada {
+
+    from {
+
+        -webkit-transform: scale3d(1, 1, 1);
+
+        transform: scale3d(1, 1, 1)
+
+    }
+
+    10%,
+
+    20% {
+
+        -webkit-transform: scale3d(.95, .95, .95) rotate3d(0, 0, 1, -10deg);
+
+        transform: scale3d(.95, .95, .95) rotate3d(0, 0, 1, -10deg)
+
+    }
+
+    30%,
+
+    50%,
+
+    70%,
+
+    90% {
+
+        -webkit-transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, 10deg);
+
+        transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, 10deg)
+
+    }
+
+    40%,
+
+    60%,
+
+    80% {
+
+        -webkit-transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, -10deg);
+
+        transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, -10deg)
+
+    }
+
+    to {
+
+        -webkit-transform: scale3d(1, 1, 1);
+
+        transform: scale3d(1, 1, 1)
+
+    }
+
+}
+
+@keyframes tada {
+
+    from {
+
+        -webkit-transform: scale3d(1, 1, 1);
+
+        transform: scale3d(1, 1, 1)
+
+    }
+
+    10%,
+
+    20% {
+
+        -webkit-transform: scale3d(.95, .95, .95) rotate3d(0, 0, 1, -10deg);
+
+        transform: scale3d(.95, .95, .95) rotate3d(0, 0, 1, -10deg)
+
+    }
+
+    30%,
+
+    50%,
+
+    70%,
+
+    90% {
+
+        -webkit-transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, 10deg);
+
+        transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, 10deg)
+
+    }
+
+    40%,
+
+    60%,
+
+    80% {
+
+        -webkit-transform: rotate3d(0, 0, 1, -10deg);
+
+        transform: rotate3d(0, 0, 1, -10deg)
+
+    }
+
+    to {
+
+        -webkit-transform: scale3d(1, 1, 1);
+
+        transform: scale3d(1, 1, 1)
+
+    }
+
+}
+
+
+/** my-bx **/
+.bx-menu:before {
+    content: "\eac1"
+}
+.bx-user:before {
+    content: "\ebbf"
+}
+.bx-exit:before {
+    content: "\ea2c"
+}
+.bx-hide:before {
+    content: "\ea70"
+}
+.bx-show:before {
+    content: "\eb69"
+}
+.bxs-lock-open-alt:before {
+    content: "\ed64"
+}
+.bx-arrow-back:before {
+    content: "\e917"
+}
+.bx-search:before {
+    content: "\eb54"
+}
+.bx-plus:before {
+    content: "\eb21"
+}
+.bx-clipboard:before {
+    content: "\e9c0"
+}
+.bx-message:before {
+    content: "\eac5"
+}
+.bx-heart:before {
+    content: "\ea6c"
+}
+.bx-user-circle:before {
+    content: "\ebc1"
+}
+.bx-x-circle:before {
+    content: "\ebea"
+}
+.bx-no-entry:before {
+    content: "\eb02"
+}
+.bx-log-out:before {
+    content: "\eab1"
+}
+.bx-chevron-down:before {
+    content: "\e9ac"
+}
+.bx-calendar:before {
+    content: "\e978"
+}
+.bx-chevrons-right:before {
+    content: "\e9b7"
+}
+.bx-edit:before {
+    content: "\ea21"
+}
+.bx-x:before {
+    content: "\ebe9"
+}
+.bx-chevron-right:before {
+    content: "\e9b2"
+}
+.bxs-up-arrow-alt:before {
+    content: "\ee2e";
+}
+
+@font-face {
+
+    font-family: LineIcons;
+
+    src: url(../fonts/LineIcons.eot);
+
+    src: url(../fonts/LineIcons.eot) format('embedded-opentype'), url(../fonts/LineIcons.woff2) format('woff2'), url(../fonts/LineIcons.woff) format('woff'), url(../fonts/LineIcons.ttf) format('truetype'), url(../fonts/LineIcons.svg) format('svg');
+
+    font-weight: 400;
+
+    font-style: normal
+
+}
+
+
 
 body {
     font-size: 14px;

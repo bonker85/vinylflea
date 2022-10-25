@@ -100,10 +100,11 @@ class ImageService {
     {
         $img = Image::make($imagePath);
         $path = pathinfo($imageThumbnailPath, PATHINFO_DIRNAME);
+        $ext = pathinfo($imagePath, PATHINFO_EXTENSION);
         if(make_directory($path, 0777, true)) {
             return $img->resize($width, $height, function ($constraint) {
                 $constraint->aspectRatio();
-            })->encode('webp', 90)->save(str_replace('.jpg', '.webp',$imageThumbnailPath));
+            })->encode('webp', 90)->save(str_replace('.' . $ext, '.webp',$imageThumbnailPath));
         } else {
             echo "Error Create Dir";exit();
         }

@@ -109,10 +109,8 @@ class ProfileService {
         $avatar = '';
         if (auth()->user()->id == $advertDialog->from_user_id) {
             $avatar = $advertDialog->toUser->avatar;
-            $user = $advertDialog->toUser;
         } else {
             $avatar = $advertDialog->fromUser->avatar;
-            $user = $advertDialog->fromUser;
         }
         foreach ($messages as $message) {
             $html .=
@@ -123,7 +121,7 @@ class ProfileService {
             if (($message->to_id == auth()->user()->id)) {
                 if ($avatar) {
                     $html .= '<div>
-                                <img class="avatar-mess" src="' . cdn_url(asset( 'storage' . $avatar), $user) . '"/>
+                                <img class="avatar-mess" src="' . asset( 'storage' . $avatar) . '"/>
                             </div>';
                 } else {
                     $html .= '<div>
