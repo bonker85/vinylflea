@@ -23,7 +23,7 @@
     <link href="{{asset('/assets/css/select2.min.css')}}" rel="stylesheet">
     <meta name="description" content="@yield('description')">
     <title>@yield('title') | VinylFlea.By - Барахолка Виниловых Пластинок</title>
-    @if (env('APP_ENV') == 'local')
+    @if (env('APP_ENV') == 'production')
         @if (auth()->check() && (in_array(auth()->user()->id, [1, 4, 11])))
         @else
     <!-- Yandex.Metrika counter -->
