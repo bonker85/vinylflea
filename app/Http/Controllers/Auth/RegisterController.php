@@ -64,7 +64,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        if (env("ENABLE_TELEGRAM ")) {
+        if (env("ENABLE_TELEGRAM")) {
             message_to_telegram(print_r($data, true));
         }
         return User::create([
