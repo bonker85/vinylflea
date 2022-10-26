@@ -10,6 +10,7 @@ class Advert extends Model
 {
     use HasFactory;
     protected $guarded = false;
+    const UP_TIME_HOUR = 24;
 
     public function images() {
         return $this->hasMany(AdvertImage::class, 'advert_id', 'id')->orderBy('id');
@@ -47,6 +48,6 @@ class Advert extends Model
     public function isUpTime()
     {
         $carbonLastUpTime = Carbon::createFromFormat('Y-m-d H:i:s', $this->up_time);
-        return ($carbonLastUpTime->addHours(24) < Carbon::now());
+        return ($carbonLastUpTime->addHours(self::UP_TIME_HOUR) < Carbon::now());
     }
 }

@@ -16,6 +16,7 @@ use App\Services\DoorService;
 use App\Services\Utility\CDNService;
 use App\Services\Utility\ImageService;
 use App\Services\Utility\WatermarkService;
+use Carbon\Carbon;
 use DOMDocument;
 use DOMXPath;
 use Faker\Factory;
@@ -247,6 +248,34 @@ class TasksController extends Controller
                     $this->log->error('Не удалось получить html главной страницы сайта ' . $siteUrl);
                 }*/
                 dd('FIN');
+                break;
+            case 'up_adverts':
+                // тянем пластинки которые не обновлялись сутки
+                $adverts = Advert::select()
+                    ->where("status", 1)
+                    ->where("up_time", "<", date("Y-m-d H:i:s", time() - (Advert::UP_TIME_HOUR * 3600)))
+                    ->whereIn("user_id", [4,11, 6])
+                    ->whereIn("style_id", [1, 21, 20, 41, 46, 68])
+                    ->inRandomOrder()
+                    ->limit(12)
+                    ->get();
+           /*     foreach ($adverts as $advert) {
+                    $advert->up_time = date("Y-m-d H:i:s", time() - (Advert::UP_TIME_OUR*3 * rand(1, 3600)));
+                    $advert->save();
+                }
+                echo "FIN";exit();*/
+            //    $date = [];
+            //Обновляем их якобы в течение прошедшего часа
+                foreach ($adverts as $advert) {
+                    $advert->up_time = date("Y-m-d H:i:s", time() - (1 * rand(1, 3600)));
+                   // $date[] = $advert->up_time;
+                    $advert->save();
+                }
+            /*    foreach ($date as $item) {
+                    echo Carbon::createFromFormat('Y-m-d H:i:s', $item) . "<br/>";
+                }
+                dd($date); */
+                dd("FIN");
                 break;
             case 'sync_cdn':
                 $cdnService = new CDNService();
