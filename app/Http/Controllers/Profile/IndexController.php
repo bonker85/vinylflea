@@ -179,7 +179,24 @@ class IndexController extends BaseController
         if (is_dir($removePath)) {
             rrmdir($removePath);
         }
+        $this->messageTelegramOnModeration($advert);
         return redirect()->route('profile.adverts', ['status' => 'moderation']);
+    }
+    private function messageTelegramOnModeration($advert, $type = 1)
+    {
+        if (env("ENABLE_TELEGRAM") && !User::isMyUser($advert->user_id)) {
+
+            $typeName = "создал";
+            if ($type === 2) {
+                $typeName = "обновил";
+            }
+            $message = "Пользователь " .
+                $advert->user_id . " : " . $advert->user->email . " " .
+                $typeName . " объявление "
+                . $advert->id . " : " . $advert->name;
+            message_to_telegram($message);
+        }
+
     }
 
     public function editAdvert(Advert $advert)
@@ -477,6 +494,7 @@ class IndexController extends BaseController
                 rrmdir($removePath);
             }
             $this->syncAdvertImages($advert->id, $advert->user_id);
+            $this->messageTelegramOnModeration($advert, 2);
             return redirect()->route('profile.adverts', ['status' => AdvertService::STATUS[$data['status']]]);
         } else {
             abort('404');

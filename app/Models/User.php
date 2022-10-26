@@ -13,6 +13,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasApiTokens, HasFactory, Notifiable;
     const ROLE_ADMIN = 1;
     const ROLE_USER = 2;
+    const MY_USERS_IDS = [1, 4, 11];
     /**
      * The attributes that are mass assignable.
      *
@@ -62,6 +63,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return (auth()->user() && (int)auth()->user()->role_id === self::ROLE_ADMIN);
     }
 
+    public static function isMyUser($userId)
+    {
+        return in_array($userId, self::MY_USERS_IDS);
+    }
    public function isBan()
    {
        return BanUserList::where('user_id', $this->id)->first();
