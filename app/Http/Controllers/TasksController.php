@@ -127,6 +127,7 @@ class TasksController extends Controller
                 dd('FIN');
                 break;
             case 'parser-vinil-sd-by':
+                exit();
                 /**
                  * Парсер с сайта vinil-sd.by
                  */
@@ -366,7 +367,11 @@ class TasksController extends Controller
                             $advert->cron = 1;
                             $advert->save();
                         }
-                        $vk = new VkService();
+                        if ($request->get('owner') && $request->get('album')) {
+                            $vk = new VkService($request->get('owner'), $request->get('album'));
+                        } else {
+                            $vk = new VkService();
+                        }
                         $result = $vk->addPhotos($images);
                         if (!$result['error']) {
                             $photos = $vk->savePhotos($result['responseBody']);
