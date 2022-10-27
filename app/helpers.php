@@ -75,15 +75,18 @@ function cdn_url($url, $item)
 function thumb_url($url, $item)
 {
     if ($item->thumb) {
-        $url = str_replace('/users/', '/advert_thumbs/',
-                str_replace('.' . pathinfo($url, PATHINFO_EXTENSION), '.webp', $url)) . '?tm=' .
+        $url = thumb_file($url) . '?tm=' .
                 $item->thumb_update_time;
     } else {
         $url =  cdn_url($url, $item);
     }
     return $url;
 }
-
+function thumb_file($path)
+{
+    return str_replace('/users/', '/advert_thumbs/',
+        str_replace('.' . pathinfo($path, PATHINFO_EXTENSION), '.webp', $path));
+}
 function message_to_telegram($text)
 {
     $ch = curl_init();

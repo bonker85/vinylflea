@@ -15,13 +15,16 @@ use App\Models\User;
 use App\Services\DoorService;
 use App\Services\Utility\CDNService;
 use App\Services\Utility\ImageService;
+use App\Services\Utility\VkService;
 use App\Services\Utility\WatermarkService;
 use Carbon\Carbon;
 use DOMDocument;
 use DOMXPath;
 use Faker\Factory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
@@ -37,6 +40,9 @@ class TasksController extends Controller
     {
         set_time_limit(100000);
         switch($param) {
+            /**
+             * Авторизация под конкретным юзером
+             */
             case 'toggle_user':
                 if ($request->post('id')) {
                     $user = User::find($request->get('id'));
@@ -44,13 +50,11 @@ class TasksController extends Controller
                     return redirect()->route('profile.settings');
                 }
                 break;
-            case 'toggle_admin':
-                if ($request->get('user_id')) {
-                    $user = User::find($request->get('user_id'));
-                    auth()->login($user);
-                    return redirect()->route('profile.adverts');
-                }
             case 'seeds':
+                /**
+                 * Заполнение базы левыми данными (уже не надо)
+                 */
+                exit();
                 $users = [4, 5];
                 $styles = Style::select()->pluck('id')->toArray();
                 $editions = Edition::select()->pluck('id')->toArray();
@@ -87,6 +91,10 @@ class TasksController extends Controller
                 dd('FIN');
                 break;
             case 'create_slug_for_styles':
+                /**
+                 * Заполнение таблицы стилей алиасами (уже не надо)
+                 */
+                exit();
                 $styles  = Style::select()->where('slug', '')->get();
                 foreach ($styles as $style) {
                     $style->slug = translate_url($style->name);
@@ -95,6 +103,9 @@ class TasksController extends Controller
                 dd('FIN');
                 break;
             case 'create_ad_thumb':
+                /**
+                 * Нарезка тумбов на основное изображение
+                 */
                 $imageService = new ImageService();
                 $time = time();
                 $advertImages = AdvertImage::select()
@@ -116,15 +127,18 @@ class TasksController extends Controller
                 dd('FIN');
                 break;
             case 'parser-vinil-sd-by':
+                /**
+                 * Парсер с сайта vinil-sd.by
+                 */
               /*  $adverts = Advert::select('description','id')->where('user_id', 6)->get();
                 foreach ($adverts as $advert) {
                     $advert->description = '<b>Наличие уточняйте</b><br/>' . $advert->description;
                     $advert->save();
                 }*/
-                dd('FIN');
-                $this->log = Log::channel('parser-vinil-sd-by');
-                $siteUrl = 'https://store.tildacdn.com/api/getproductslist/?storepartuid=495183118261&recid=375529451&c=1665522162862&getparts=true&getoptions=true&slice=9&size=500';
-
+              //  dd('FIN');
+             //   $this->log = Log::channel('parser-vinil-sd-by');
+                $slice = 9;
+                $siteUrl = 'https://store.tildacdn.com/api/getproductslist/?storepartuid=495183118261&recid=375529451&c=1665522162862&getparts=true&getoptions=true&slice=' . $slice . '&size=500';
               /*  $parseConfig = [
                     'mezhkomnatnye-dveri' => [
                         'menu_id' => 'dropdown-1'
@@ -135,10 +149,17 @@ class TasksController extends Controller
                 ];*/
                 $data = json_decode(file_get_contents($siteUrl));
                 $products = $data->products;
+                $i_new = 0;
                 foreach ($products as $product) {
                     if (Advert::where('url', translate_url($product->title) . '-' . $product->uid)->first()) {
                         continue;
+                    } else {
+                        echo "New - " . $product->title; echo '<br/>';
+                        $i_new++;
+                        continue;
                     }
+                    echo $i_new;
+                    exit();
                     $data = [
                         'name' => $product->title,
                         'author' => '',
@@ -190,66 +211,13 @@ class TasksController extends Controller
 
                         }
                     }
-
-                  /*  if ($id &&
-                        $imageService->isImage(request()->file($fileName))) {
-                        if ($imageService->isFileMoreSize(request()->file($fileName)->getSize())) {
-                            $error = 'Файл не должен превышать ' . format_size(env('MAX_FILE_SIZE'));
-                        } else {
-                            if ($imageService->createTmpImage(request()->file($fileName), $fileName)) {
-                                $userId = auth()->user()->id;
-                                $ext = strtolower(request()->file($fileName)->getClientOriginalExtension());
-                                return [
-                                    'error' => $error,
-                                    'url' => asset('storage/tmp/' . $userId . '/' . $fileName . '.' . $ext . '?t=') . time()
-                                ];
-                            } else {
-                                $error = "Произошла ошибка при загрузке файла";
-                            }
-                        }
-                    }*/
                 }
-              /*  if ($siteMainPageContent) {
-                    $doc = new DOMDocument();
-                    @$doc->loadHTML('<meta http-equiv="content-type" content="text/html; charset=utf-8">' . $siteMainPageContent);
-                    $xpath = new DOMXPath($doc);
-                    $this->log->info('Начало парсинга');
-                    foreach ($parseConfig as $menu_name => $config) {
-                        $this->log->info('Парсинг раздела ' . $menu_name);
-                        $subMenuLinks =
-                            $xpath->query("//div[@id='" . $config['menu_id'] . "']/a[@class='dropdown-item']");
-                        if ($subMenuLinks->length) {
-                            foreach ($subMenuLinks as $link) {
-                                $linkSubDoors = trim($link->getAttribute('href'));
-                                //$linkSubDoors = 'https://dveri-vdk.ru/category/mezhkomnatnye-dveri/enamel-emal-belaya/';
-                                $subDoorName = trim($link->nodeValue);
-                                $this->log->info('Категория: ' . $subDoorName . ' | Url: ' . $linkSubDoors);
-                                $catalog = Catalog::select()->where('name', $subDoorName)->first();
-                                if (!$catalog) {
-                                    $this->log->error('Каталог ' . $subDoorName . ' не найден в базе!');
-                                    dd('Каталог ' . $subDoorName . ' не найден в базе');
-                                }
-                                $pageContent = file_get_contents($linkSubDoors);
-                                if ($pageContent) {
-                                    $this->parseProductsPage($pageContent, $linkSubDoors, $catalog);
-                                    $this->log->info('Конец парсинга каталога ' . $catalog->name);
-                                    $this->log->info('-------------------------------------------------------');
-                                } else {
-                                    $this->log->error('Не удалось получить html страницы url ' . $linkSubDoors);
-                                }
-                            }
-                        } else {
-                            $this->log->error('Не удалось выпарсить меню ' . $menu_name);
-                        }
-
-                    }
-                    echo 'Fin';exit();
-                } else {
-                    $this->log->error('Не удалось получить html главной страницы сайта ' . $siteUrl);
-                }*/
                 dd('FIN');
                 break;
             case 'up_adverts':
+                /**
+                 * Рыба для обновлений пластинок на главной
+                 */
                 // тянем пластинки которые не обновлялись сутки
                 $adverts = Advert::select()
                     ->where("status", 1)
@@ -278,14 +246,16 @@ class TasksController extends Controller
                 dd("FIN");
                 break;
             case 'sync_cdn':
-                $cdnService = new CDNService();
+                /**
+                 * Синхронизация изображений объявлений с cdn
+                 */
                 //update user avatar images
+            /**
                 $userAvatarImages = User::select("id", "avatar", "cdn_status")
                                             ->where("avatar", "!=", "")
                                             ->where("cdn_status", 0)
                                             ->get();
-                $now = now();
-                $time = time();
+
                 foreach ($userAvatarImages as $uImage) {
                     $path = $uImage->avatar;
                     $filePath = storage_path('app/public') . $path;
@@ -313,8 +283,11 @@ class TasksController extends Controller
                             'updated_at' => $now
                         ]);
                     }
-                }
+                }**/
                 //update advert avatar images
+                $cdnService = new CDNService();
+                $now = now();
+                $time = time();
                 $advertImages = AdvertImage::select("id", "path", "cdn_status")
                     ->where("cdn_status", 0)
                     ->get();
@@ -344,6 +317,85 @@ class TasksController extends Controller
                             'created_at' => $now,
                             'updated_at' => $now
                         ]);
+                    }
+                }
+                dd("FIN");
+                break;
+            case 'cron_vk_post':
+                $styles = Style::select()->where('cron', 0)->get();
+                if (!$styles) {
+                    DB::table('styles')->update(['cron' => 0]);
+                    $styles = Style::select()->where('cron', 0)->get();
+                }
+                foreach ($styles as $style) {
+                    $adverts = Advert::select()
+                        ->where('style_id', $style->id)->where('status', 1)
+                        ->orderBy('up_time', 'DESC')
+                        ->limit(5)
+                        ->get();
+                    if (count($adverts)) {
+                        $i = 1;
+                        $message = "Пластинки в жанре " . mb_strtoupper($style->name) . "\r\n";
+                        $images = [];
+                        foreach ($adverts as $advert) {
+                            $message .= $i . ")" . $advert->name ."\r\n";
+                            if ($advert->author) {
+                                $message .= "Автор: " . $advert->author . "\r\n";
+                            }
+                            $price = '';
+                            switch ($advert->deal) {
+                                case "sale":
+                                    $price = "Цена: " . str_replace('.00', '', $advert->price) . ' р.';
+                                    break;
+                                case "free":
+                                    $price = 'Даром';
+                                    break;
+                                case "exchange":
+                                    $price = 'Обмен';
+                                    break;
+                            }
+                            $price .= "\r\n";
+                            if ($advert->images) {
+                                foreach ($advert->images as $image) {
+                                    $images[] = thumb_file(storage_path('app/public') . $image->path);
+                                    break;
+                                }
+                            }
+                            $message .= $price ." ЗАБРАТЬ ПЛАСТИНКУ - " . route('vinyls.details', $advert->url) ."\r\n";
+                            $i++;
+                            $advert->cron = 1;
+                            $advert->save();
+                        }
+                        $vk = new VkService();
+                        $result = $vk->addPhotos($images);
+                        if (!$result['error']) {
+                            $photos = $vk->savePhotos($result['responseBody']);
+                            if ($photos) {
+                                $vk->addPost($message, $photos);
+                            } else {
+                                $details = [
+                                    'subject' => 'VK CRON ERROR',
+                                    'message' => 'Изображения не сохранены'
+                                ];
+
+                                Mail::to(env('MAIL_FROM_ADDRESS'))->send(new \App\Mail\ErrorReporting($details));
+                            }
+
+                        } else {
+                            $details = [
+                                'subject' => 'VK CRON ERROR',
+                                'message' => $result['error']
+                            ];
+
+                            Mail::to(env('MAIL_FROM_ADDRESS'))->send(new \App\Mail\ErrorReporting($details));
+                        }
+                        $style->cron = 1;
+                        $style->save();
+                        echo "ADD POST FOR STYLE: " . $style->name ." SUCCESS";exit();
+                    } else {
+                        $style->cron = 1;
+                        $style->save();
+                        continue;
                     }
                 }
                 dd("FIN");

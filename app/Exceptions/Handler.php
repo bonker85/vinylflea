@@ -3,7 +3,9 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Mail;
 use Throwable;
+use VK\Exceptions\VKApiException;
 
 class Handler extends ExceptionHandler
 {
@@ -35,7 +37,6 @@ class Handler extends ExceptionHandler
         'password',
         'password_confirmation',
     ];
-
     /**
      * Register the exception handling callbacks for the application.
      *
@@ -44,7 +45,20 @@ class Handler extends ExceptionHandler
     public function register()
     {
         $this->reportable(function (Throwable $e) {
-            //
+            if ($e instanceof VKApiException) {
+                $reportingMessage = "";
+                $reportingMessage .= "Message: <b>" . $e->getMessage() . "</b><br/>";
+                $reportingMessage .= "Trace:<br/>";
+                foreach ($e->getTrace() as $trace) {
+                    $reportingMessage .= "File: " . $trace['file'] . " Line: " . $trace['line'] . "<br/>";
+                }
+                $details = [
+                    'subject' => 'VK SDK',
+                    'message' => $reportingMessage
+                ];
+
+                Mail::to(env('MAIL_FROM_ADDRESS'))->send(new \App\Mail\ErrorReporting($details));
+            }
         });
     }
 }
