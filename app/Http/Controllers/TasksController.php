@@ -328,7 +328,7 @@ class TasksController extends Controller
                     exit();
                 }
                 $styles = Style::select()->where('cron', 0)->get();
-                if (!$styles) {
+                if (!count($styles)) {
                     DB::table('styles')->update(['cron' => 0]);
                     $styles = Style::select()->where('cron', 0)->get();
                 }
