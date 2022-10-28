@@ -323,10 +323,10 @@ class TasksController extends Controller
                 dd("FIN");
                 break;
             case 'cron_vk_post':
-                $lock = (int)date('i');
+             /*   $lock = (int)date('i');
                 if ($lock < 10) {
                     exit();
-                }
+                }*/
                 $styles = Style::select()->where('cron', 0)->get();
                 if (!count($styles)) {
                     DB::table('styles')->update(['cron' => 0]);
