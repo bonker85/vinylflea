@@ -386,15 +386,6 @@ class TasksController extends Controller
                         } else {
                             $vk = new VkService();
                         }
-                        send_telegram('sendMediaGroup', [
-                            'chat_id' => env('TELEGRAM_GROUP'),
-                            'media' => json_encode($dataMedia)
-                        ]);
-                        send_telegram('sendMessage', [
-                            'chat_id' => env('TELEGRAM_GROUP'),
-                            'text' => $message
-                        ]);
-
                         $result = $vk->addPhotos($images);
                         if (!$result['error']) {
                             $photos = $vk->savePhotos($result['responseBody']);
@@ -419,6 +410,14 @@ class TasksController extends Controller
                         }
                         $style->cron = 1;
                         $style->save();
+                        send_telegram('sendMediaGroup', [
+                            'chat_id' => env('TELEGRAM_GROUP'),
+                            'media' => json_encode($dataMedia)
+                        ]);
+                        send_telegram('sendMessage', [
+                            'chat_id' => env('TELEGRAM_GROUP'),
+                            'text' => $message
+                        ]);
                         echo "ADD POST FOR STYLE: " . $style->name ." SUCCESS";exit();
                     } else {
                         $style->cron = 1;

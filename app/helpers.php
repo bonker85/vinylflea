@@ -1,4 +1,7 @@
 <?php
+
+use Illuminate\Support\Facades\Mail;
+
 if (!function_exists('translate_url')) {
     function translate_url($name) {
         $ru = explode('-', "А-а-Б-б-В-в-Ґ-ґ-Г-г-Д-д-Е-е-Ё-ё-Є-є-Ж-ж-З-з-И-и-І-і-Ї-ї-Й-й-К-к-Л-л-М-м-Н-н-О-о-П-п-Р-р-С-с-Т-т-У-у-Ф-ф-Х-х-Ц-ц-Ч-ч-Ш-ш-Щ-щ-Ъ-ъ-Ы-ы-Ь-ь-Э-э-Ю-ю-Я-я");
@@ -102,6 +105,14 @@ function send_telegram($method, $data)
             CURLOPT_POSTFIELDS => $data,
         )
     );
-    curl_exec($ch);
+    $res = curl_exec($ch);
+    if (env("DEBUG_TELEGRAM")) {
+        $details = [
+            'subject' => 'TELEGRAM DEBUG',
+            'message' => print_r($res, true)
+        ];
+        Mail::to(env('MAIL_FROM_ADDRESS'))->send(new \App\Mail\ErrorReporting($details));
+    }
+
 }
 ?>
