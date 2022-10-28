@@ -335,6 +335,7 @@ class TasksController extends Controller
                 foreach ($styles as $style) {
                     $adverts = Advert::select()
                         ->where('style_id', $style->id)->where('status', 1)
+                        ->where('cron', 0)
                         ->orderBy('up_time', 'DESC')
                         ->limit(5)
                         ->get();
