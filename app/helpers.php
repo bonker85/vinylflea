@@ -87,20 +87,19 @@ function thumb_file($path)
     return str_replace('/users/', '/advert_thumbs/',
         str_replace('.' . pathinfo($path, PATHINFO_EXTENSION), '.webp', $path));
 }
-function message_to_telegram($text)
+
+
+function send_telegram($method, $data)
 {
     $ch = curl_init();
     curl_setopt_array(
         $ch,
         array(
-            CURLOPT_URL => 'https://api.telegram.org/bot' . env("TELEGRAM_TOKEN") . '/sendMessage',
+            CURLOPT_URL => 'https://api.telegram.org/bot' . env("TELEGRAM_TOKEN") . '/' . $method,
             CURLOPT_POST => TRUE,
             CURLOPT_RETURNTRANSFER => TRUE,
             CURLOPT_TIMEOUT => 10,
-            CURLOPT_POSTFIELDS => array(
-                'chat_id' => env('TELEGRAM_CHAT'),
-                'text' => $text,
-            ),
+            CURLOPT_POSTFIELDS => $data,
         )
     );
     curl_exec($ch);

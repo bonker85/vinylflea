@@ -184,6 +184,7 @@ class IndexController extends BaseController
     }
     private function messageTelegramOnModeration($advert, $type = 1)
     {
+        if (User::isAdmin()) return;
         if (env("ENABLE_TELEGRAM") && !User::isMyUser($advert->user_id)) {
 
             $typeName = "создал";
@@ -194,7 +195,10 @@ class IndexController extends BaseController
                 $advert->user_id . " : " . $advert->user->email . " " .
                 $typeName . " объявление "
                 . $advert->id . " : " . $advert->name;
-            message_to_telegram($message);
+            send_telegram('sendMessage', [
+                'text' => $message,
+                'chat_id' => env('TELEGRAM_CHAT')
+            ]);
         }
 
     }
@@ -505,7 +509,10 @@ class IndexController extends BaseController
     {
         $imagesInBase = [];
         $imagePath = Storage::disk('public')->getConfig()['root'] . '/users/' . $userId . '/' . $advertId . '/';
-        $realImagesOnDisk = scandir($imagePath);
+        $realImagesOnDisk = [];
+        if (is_dir($imagePath)) {
+            $realImagesOnDisk = scandir($imagePath);
+        }
         $advertImages = AdvertImage::select()->where('advert_id', $advertId)->get();
         $cdnFilesName = [];
         if (env('CDN_ENABLE')) {

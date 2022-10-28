@@ -343,10 +343,14 @@ class TasksController extends Controller
                         $i = 1;
                         $message = "Пластинки в жанре " . mb_strtoupper($style->name) . "\r\n";
                         $images = [];
+                        $dataMedia = [];
                         foreach ($adverts as $advert) {
-                            $message .= $i . ")" . $advert->name ."\r\n";
+                            $message .= $i . ") " . $advert->name ."\r\n";
                             if ($advert->author) {
                                 $message .= "Автор: " . $advert->author . "\r\n";
+                                $caption  = $advert->author . " | " . $advert->name;
+                            } else {
+                                $caption = $advert->name;
                             }
                             $price = '';
                             switch ($advert->deal) {
@@ -364,6 +368,11 @@ class TasksController extends Controller
                             if ($advert->images) {
                                 foreach ($advert->images as $image) {
                                     $images[] = thumb_file(storage_path('app/public') . $image->path);
+                                    array_push($dataMedia, [
+                                        'type'=> 'photo',
+                                        'caption' => $caption,
+                                        'media' =>  cdn_url(env('APP_URL') . $image->path, $image)
+                                    ]);
                                     break;
                                 }
                             }
@@ -377,6 +386,15 @@ class TasksController extends Controller
                         } else {
                             $vk = new VkService();
                         }
+                        send_telegram('sendMediaGroup', [
+                            'chat_id' => env('TELEGRAM_GROUP'),
+                            'media' => json_encode($dataMedia)
+                        ]);
+                        send_telegram('sendMessage', [
+                            'chat_id' => env('TELEGRAM_GROUP'),
+                            'text' => $message
+                        ]);
+
                         $result = $vk->addPhotos($images);
                         if (!$result['error']) {
                             $photos = $vk->savePhotos($result['responseBody']);
