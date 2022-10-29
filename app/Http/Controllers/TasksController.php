@@ -22,12 +22,14 @@ use DOMDocument;
 use DOMXPath;
 use Faker\Factory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
+use Xyrotech\Orin;
 
 
 class TasksController extends Controller
@@ -321,6 +323,11 @@ class TasksController extends Controller
                     }
                 }
                 dd("FIN");
+                break;
+            case 'cron_discogs':
+                  $discog = new Orin(Config::get('discogs'));
+                  $artist = $discog->search("R. E. M. Out Of Time",["type"=>"release"]);
+                  dd($artist);
                 break;
             case 'cron_vk_post':
              /*   $lock = (int)date('i');

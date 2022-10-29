@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "95907f74cd6707b05b01c73c10ef039a",
+    "content-hash": "468a453820fa34dea77d393e8421f98e",
     "packages": [
         {
             "name": "brick/math",
@@ -3683,6 +3683,58 @@
             "time": "2022-05-30T08:30:32+00:00"
         },
         {
+            "name": "spatie/guzzle-rate-limiter-middleware",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/guzzle-rate-limiter-middleware.git",
+                "reference": "8679f7a22e46edc182046f18b83bacbc627b0600"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/guzzle-rate-limiter-middleware/zipball/8679f7a22e46edc182046f18b83bacbc627b0600",
+                "reference": "8679f7a22e46edc182046f18b83bacbc627b0600",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.3|^7.0",
+                "php": "^7.1|^8.0"
+            },
+            "require-dev": {
+                "larapack/dd": "^1.0",
+                "phpunit/phpunit": "^9.3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\GuzzleRateLimiterMiddleware\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian De Deyne",
+                    "email": "sebastiandedeyne@gmail.com",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A rate limiter for Guzzle",
+            "homepage": "https://github.com/spatie/guzzle-rate-limiter-middleware",
+            "keywords": [
+                "guzzle-rate-limiter-middleware",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/guzzle-rate-limiter-middleware/issues",
+                "source": "https://github.com/spatie/guzzle-rate-limiter-middleware/tree/2.0.1"
+            },
+            "time": "2020-12-19T18:47:06+00:00"
+        },
+        {
             "name": "spatie/image",
             "version": "2.2.4",
             "source": {
@@ -6699,6 +6751,60 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
+        },
+        {
+            "name": "xyrotech/orin",
+            "version": "v1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/xyrotech/orin.git",
+                "reference": "e26698b84924bfda8fa6f3e30ad758cf63fee0dc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/xyrotech/orin/zipball/e26698b84924bfda8fa6f3e30ad758cf63fee0dc",
+                "reference": "e26698b84924bfda8fa6f3e30ad758cf63fee0dc",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.0",
+                "php": ">=7.4",
+                "spatie/guzzle-rate-limiter-middleware": "^2.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "phpunit/phpunit": "^9.5",
+                "spatie/ray": "^1.10",
+                "vimeo/psalm": "^4.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Xyrotech\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adekunle Adelakun",
+                    "email": "kunle@xyrotech.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Discog PHP Client",
+            "homepage": "https://github.com/xyrotech/orin",
+            "keywords": [
+                "orin",
+                "xyrotech"
+            ],
+            "support": {
+                "issues": "https://github.com/xyrotech/orin/issues",
+                "source": "https://github.com/xyrotech/orin/tree/v1.1.2"
+            },
+            "time": "2021-07-06T02:16:42+00:00"
         }
     ],
     "packages-dev": [

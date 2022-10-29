@@ -14,7 +14,8 @@
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.0",
         "spatie/laravel-sitemap": "^6.2",
-        "vkcom/vk-php-sdk": "^5.101"
+        "vkcom/vk-php-sdk": "^5.101",
+        "xyrotech/orin": "^1.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
