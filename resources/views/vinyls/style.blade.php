@@ -45,7 +45,16 @@
                 </h5>
             </div>
             <hr/>
-            @include('includes.advert-block', ['adverts' => $adverts])
+            @if ($searchMess)
+                {!! $searchMess !!}
+            @endif
+            @if ($adverts->total())
+                @include('includes.advert-block', ['adverts' => $adverts])
+            @elseif ($lastAdvertInStyle)
+                <h5 class="text-uppercase">Последние обновления в стиле {{$style->name}}</h5>
+                <hr class="mb-4"/>
+                @include('includes.advert-block', ['adverts' => $lastAdvertInStyle])
+            @endif
         </div>
     </section>
     <!--end Featured product-->

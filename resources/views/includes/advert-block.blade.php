@@ -79,7 +79,11 @@
                     $adverts->total() > $adverts->perPage())
             <div class="my-4 border-top"></div>
             <div class="d-flex justify-content-between">
-                {{ $adverts->links()}}
+                @if (request()->get('q'))
+                    {{$adverts->appends(['q' => request()->get('q')])->links()}}
+                @else
+                    {{$adverts->links()}}
+                @endif
             </div>
         @endif
     </div>

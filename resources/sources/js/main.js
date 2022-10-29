@@ -362,9 +362,21 @@ $(document).ready(function() {
             minCharacters : 3,
             maxResults: 20
         });
-    $('.all-search select').on("change", function() {
-            location.href = $(this).val();
+    $('.search').on('keydown', function(e){
+        if (e.keyCode === 13) {
+            searchReloadPage($('input', $(this)), $('select', $(this)))
+        }
     });
+    $('.all-search select').on("change", function() {
+        searchReloadPage($('.all-search input'), $(this));
+    });
+    const searchReloadPage = function(inputElement, selectElement) {
+        let param = '';
+        if (inputElement.val()) {
+            param = '?q=' + inputElement.val();
+        }
+        location.href = selectElement.val() + param;
+    }
     $('.all-search.search')
         .search({
             apiSettings: {

@@ -242,7 +242,7 @@ class AjaxController extends Controller
                         $query->where(DB::raw("LCASE(name)"), 'LIKE', DB::raw("LCASE(\"".$q."\")"))
                             ->orWhere(DB::raw("LCASE(author)"), 'LIKE', DB::raw("LCASE(\"".$q."\")"));
                     })
-                    ->where('status', 1)->limit(20)->orderBy('up_time', 'DESC');
+                    ->where('status', 1)->limit(5)->orderBy('up_time', 'DESC');
                 if ($request->user_id && is_numeric($request->user_id)) {
                     $select->where('user_id', $request->user_id);
                 }
@@ -278,6 +278,11 @@ class AjaxController extends Controller
                        $searchRes[$key]['image'] = thumb_url(asset('/storage' . $image->path), $image);
                    }
                 }
+                if ($searchRes) {
+                    $key = count($searchRes);
+                    $searchRes[$key]['url'] = route('vinyls.styles') . '?q=' . $request->q;
+                    $searchRes[$key]['description'] = '<div class="button-search">Смотреть все результаты</div>';
+                }
                 return [
                     'items' =>
                      $searchRes
@@ -296,7 +301,7 @@ class AjaxController extends Controller
                     )->where(function($query) use ($q) {
                         $query->where(DB::raw("LCASE(name)"), 'LIKE', DB::raw("LCASE(\"".$q."\")"))
                             ->orWhere(DB::raw("LCASE(author)"), 'LIKE', DB::raw("LCASE(\"".$q."\")"));
-                    })->limit(20)->orderBy('up_time', 'DESC');
+                    })->limit(5)->orderBy('up_time', 'DESC');
                     if (!User::isAdmin()) {
                         $select->where('user_id', auth()->user()->id);
                     }
@@ -332,6 +337,11 @@ class AjaxController extends Controller
                         if ($image) {
                             $searchRes[$key]['image'] = thumb_url(asset('/storage' . $image->path), $image);
                         }
+                    }
+                    if ($searchRes) {
+                        $key = count($searchRes);
+                        $searchRes[$key]['url'] = route('vinyls.styles') . '?q=' . $request->q;
+                        $searchRes[$key]['description'] = '<div class="button-search">Смотреть все результаты</div>';
                     }
                     return [
                         'items' =>

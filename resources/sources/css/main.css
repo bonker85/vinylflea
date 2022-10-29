@@ -2974,15 +2974,19 @@ i.icon i.fa-search {
     border-radius: 0;
     height: 34px;
 }
-a{
-    color: #666;
-    -webkit-transition: all 0.3s ease-out;
-    -moz-transition: all 0.3s ease-out;
-    -o-transition: all 0.3s ease-out;
-    -ms-transition: all 0.3s ease-out;
+.button-search {
+    font-size: 16px;
+    font-weight: bold;
+    color: #6c6363;
+    text-align: center;
 }
-a:hover{
-    cursor: pointer;
-    color: #000;
-    text-decoration: none;
+.search .result:last-child {
+    background-color: #E9ECEF;
+}
+.search .result:last-child:hover {
+    background-color: #E9ECEF!important;
+}
+.search-title {
+    font-size: 30px;
+    text-align: center;
 }
