@@ -756,6 +756,9 @@ body.offcanvas-active {
 }
 
 @media all and (max-width:992px) {
+    .search-style {
+        width: 1% !important;
+    }
     .ad-search {
         margin-top: 15px!important;
     }
@@ -2958,4 +2961,28 @@ i.icon i.fa-search {
 .ad-search {
     margin-bottom: 15px;
 }
-
+.search-box div.ui {
+    position: relative;
+}
+.search-style {
+    width: 20%;
+    position: absolute;
+    right: 12px;
+    border: 0;
+    border-left: 1px solid #ccc;
+    top: 2px;
+    border-radius: 0;
+    height: 34px;
+}
+a{
+    color: #666;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+}
+a:hover{
+    cursor: pointer;
+    color: #000;
+    text-decoration: none;
+}

@@ -246,6 +246,9 @@ class AjaxController extends Controller
                 if ($request->user_id && is_numeric($request->user_id)) {
                     $select->where('user_id', $request->user_id);
                 }
+                if ($request->style && is_numeric($request->style)) {
+                    $select->where('style_id', $request->style);
+                }
                 $results = $select->get();
                 $searchRes = [];
                 foreach ($results as $key => $result) {

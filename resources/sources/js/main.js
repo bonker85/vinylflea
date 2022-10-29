@@ -362,10 +362,13 @@ $(document).ready(function() {
             minCharacters : 3,
             maxResults: 20
         });
+    $('.all-search select').on("change", function() {
+            location.href = $(this).val();
+    });
     $('.all-search.search')
         .search({
             apiSettings: {
-                url: '/ajax/search?q={query}',
+                url: '/ajax/search?q={query}&style=' + $(':selected', this).attr('data-id'),
             },
             error: {
                 noResults: 'Ваш запрос не дал результатов'
