@@ -29,6 +29,7 @@ class IndexController extends BaseController
     public function allStyles(Request $request)
     {
         $searchMess = "";
+        $lastAdvertInStyle = [];
         if (isset($request->q)) {
             $q = strip_tags(trim($request->q));
             $adverts = $this->getSearchResults($q)->paginate(12);
@@ -38,7 +39,7 @@ class IndexController extends BaseController
             $adverts = Advert::select()->where('status', 1)->orderBy('up_time', 'DESC')->paginate(12);
         }
         $all = true;
-        return view('vinyls.style', compact('adverts', 'all', 'searchMess'));
+        return view('vinyls.style', compact('adverts', 'all', 'searchMess', 'lastAdvertInStyle'));
     }
 
     public function details(Advert $advert)

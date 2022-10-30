@@ -346,10 +346,11 @@ $(document).ready(function() {
             minCharacters : 3,
             maxResults: 20
         });
+
     $('.u-search')
         .search({
             apiSettings: {
-                url: '/ajax/search?q={query}&user_id=' + $('#s-user').val(),
+                url: '/ajax/search?q={query}&user_id=' + $('#s-user').val() + '&style=' + $('.search-style :selected', $('.u-search')).attr('data-id'),
             },
             error: {
                 noResults: 'Ваш запрос не дал результатов'
@@ -364,16 +365,24 @@ $(document).ready(function() {
         });
     $('.search').on('keydown', function(e){
         if (e.keyCode === 13) {
-            searchReloadPage($('input', $(this)), $('select', $(this)))
+            searchReloadPage($('input[type="text"]', $(this)), $('select', $(this)))
         }
     });
     $('.all-search select').on("change", function() {
         searchReloadPage($('.all-search input'), $(this));
     });
+    $('.u-search select').on("change", function() {
+        searchReloadPage($('.u-search input[type="text"]'), $(this));
+    });
     const searchReloadPage = function(inputElement, selectElement) {
+        let blockSearch = inputElement.parent().parent().parent();
         let param = '';
         if (inputElement.val()) {
-            param = '?q=' + inputElement.val();
+            if (blockSearch.find('#s-user').length) {
+                param = '?uq=' + inputElement.val();
+            } else {
+                param = '?q=' + inputElement.val();
+            }
         }
         location.href = selectElement.val() + param;
     }

@@ -89,7 +89,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Profile', 'prefix' => 'profil
 );
 Route::match(['get', 'post'], 'tasks/{param}', 'App\Http\Controllers\TasksController@index')->name('tasks');
 Route::get('/sitemap.xml', 'App\Http\Controllers\SitemapController@index');
-Route::get('/user/{user}', 'App\Http\Controllers\Profile\IndexController@user')->name('user');
+Route::get('/user/{user}/{style_id?}', 'App\Http\Controllers\Profile\IndexController@user')->name('user');
 
 Route::group(['namespace' => 'App\Http\Controllers\Vinyl', 'prefix' => 'vinyls'], function() {
     Route::get('/details/{advert:url}', 'IndexController@details')->name('vinyls.details');

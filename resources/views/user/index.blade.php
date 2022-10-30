@@ -49,13 +49,19 @@
                             </div>
                         </div>
                         <div class="col-lg-8">
-                            @if ($advertList->total() > $advertList->perPage())
+                            @if ($advertList->total() > $advertList->perPage() || request()->route('style_id') || request()->uq)
                                 <div class="ui search focus u-search" style="">
                                     <div class=" input-group flex-nowrap  search-box">
                                         <div class="ui left icon input">
                                             <i class="bx bx-search icon"></i>
                                             <input type="hidden" name="user" value="{{$user->id}}" id="s-user"/>
-                                            <input type="text" class="form-control w-100 prompt" placeholder="Поиск пластинки у пользователя {{$user->name}}" autocomplete="off">
+                                            <input type="text" class="form-control w-100 prompt" @if(request()->uq)value="{{request()->uq}}"@endif placeholder="Поиск пластинки у пользователя {{$user->name}}" autocomplete="off">
+                                            <select class="search-style form-select flex-shrink-0" aria-label="Default select example" >
+                                                <option value="{{route("user", $user->id)}}">Все стили</option>
+                                                @foreach ($styles as $style)
+                                                    <option value="{{route('user', ['user' => $user->id, 'style_id' => $style->id])}}" data-id="{{$style->id}}" @if (request()->route('style_id') && request()->route('style_id') == $style->id) selected @endif>{{$style->name}}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="results"></div>

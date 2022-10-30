@@ -303,7 +303,7 @@ class IndexController extends BaseController
         return redirect()->route('profile.messages', $advertDialog->id);
     }
 
-    public function user(User $user)
+    public function user(User $user, $style_id = null)
     {
         if ((int)$user->role_id === User::ROLE_ADMIN) {
             abort('404');
@@ -311,13 +311,19 @@ class IndexController extends BaseController
         $advertList = Advert::select()
                         ->where('status', AdvertService::getStatusByName('activated'))
                         ->where('user_id', $user->id)
-                        ->orderBy('up_time', 'DESC')->paginate(20);
-      /*  foreach ($advertList as $advert) {
-            echo $advert->style_id;echo '<br/>';
-            $advert->style->name;
+                        ->orderBy('up_time', 'DESC');
+        if (request()->uq) {
+            $uq = strip_tags(trim(request()->uq));
+            $advertList->where(function($query) use ($uq) {
+                $query->where('name', 'LIKE', '%' . $uq . '%')->orWhere('author', 'LIKE', '%' . $uq . '%');
+            });
         }
-        exit();*/
-        return view('user.index', compact('user', 'advertList'));
+        if ($style_id && is_numeric($style_id)) {
+            $advertList->where('style_id', $style_id);
+        }
+        $advertList = $advertList->paginate(20);
+        $styles = Style::select()->orderBy('name')->get();
+        return view('user.index', compact('user', 'advertList', 'styles'));
     }
     public function favorit()
     {
