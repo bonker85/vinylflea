@@ -68,14 +68,12 @@
                                                 </span>
                                             @enderror
                                         </div>
-                                        <div class="col-12">
+                                        <div class="col-12 ui search search-edition search-box">
                                             <label class="form-label" for="edition_id">Издание</label>
-                                            <select class="form-control select2" name="edition_id" style="width: 100%; height: 50px">
-                                                <option value="">Выберите издание</option>
-                                                @foreach ($editions as $edition)
-                                                    <option value="{{$edition->id}}" @if(old('edition_id') == $edition->id) selected @endif>{{$edition->name}}</option>
-                                                @endforeach
-                                            </select>
+                                            <div class="ui left icon input">
+                                                <i class="bx bx-search icon"></i>
+                                                <input type="text" class="form-control prompt" id="edition_name" name="edition" value="{{old('edition')}}"/>
+                                            </div>
                                         </div>
                                         <div class="col-12">
                                             <label class="form-label">Год издания</label>

@@ -38,7 +38,7 @@ class EditRequest extends FormRequest
             'year' => 'nullable|integer',
             'author' => 'nullable|max:60',
             'deal' => 'required|in:sale,exchange,free',
-            'edition_id' => 'nullable|exists:editions,id',
+            'edition' => 'nullable|string',
             'style_id' => 'required|exists:styles,id',
             'description' => 'nullable|string|max:1000',
             'price' => 'required|regex:/^[0-9]{0,4}\.?[0-9]{0,2}$/i',

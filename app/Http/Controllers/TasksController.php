@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
+use SimpleXMLElement;
 use Xyrotech\Orin;
 
 
@@ -325,9 +326,28 @@ class TasksController extends Controller
                 dd("FIN");
                 break;
             case 'cron_discogs':
+             /*   $xml = new SimpleXMLElement('discogs_20220101_labels.xml', LIBXML_NOCDATA,true);
+                foreach ($xml->label as $label) {
+                    $name = trim($label->name);
+                    Db::table('discogs_labels')->insert([
+                        'id' => $label->id,
+                        'name' => $name
+                    ]);
+                    $editions = Edition::select()->where('name', $name)->first();
+                    if ($editions) {
+                        $editions->discogs_id = $label->id;
+                        $editions->save();
+                    }
+                }*/
+                echo 'abah';exit();
                   $discog = new Orin(Config::get('discogs'));
-                  $artist = $discog->search("R. E. M. Out Of Time",["type"=>"release"]);
-                  dd($artist);
+                  $labels = $discog->label(1959999);
+                  dd($labels);
+                  //поиск пластинки
+                  $result = $discog->search("Владимир Высоцкий Владимир Высоцкий 1",["type"=>["author"], "format" => "Vinyl"]);
+                //  $artist = $discog->search("Владимир Высоцкий Владимир Высоцкий 1",["type"=>"release", "format" => "Vinyl"]);
+                 // $artist = $discog->artist("Владимир Высоцкий", ["type"=>"artist"]);
+                  dd($result);
                 break;
             case 'cron_vk_post':
              /*   $lock = (int)date('i');

@@ -33,7 +33,7 @@ class AddRequest extends FormRequest
                     ->where('user_id', auth()->user()->id)
             ],
             'year' => 'nullable|integer',
-            'edition_id' => 'nullable|exists:editions,id',
+            'edition' => 'nullable|string',
             'style_id' => 'required|exists:styles,id',
             'description' => 'nullable|string|max:1000',
             'author' => 'nullable|max:60',

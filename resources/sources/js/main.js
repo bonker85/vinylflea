@@ -346,7 +346,21 @@ $(document).ready(function() {
             minCharacters : 3,
             maxResults: 20
         });
-
+    $('.search-edition')
+        .search({
+            apiSettings: {
+                url: '/ajax/search_edition?q={query}',
+            },
+            error: {
+                noResults: 'Ваш запрос не дал результатов'
+            },
+            fields: {
+                results : 'items',
+                title   : 'name'
+            },
+            minCharacters : 1,
+            maxResults: 20
+        });
     $('.u-search')
         .search({
             apiSettings: {

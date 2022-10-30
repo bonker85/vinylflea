@@ -123,13 +123,17 @@ class IndexController extends BaseController
     public function addAdvert()
     {
         $styles = Style::select()->orderBy('name')->get();
-        $editions = Edition::select()->orderBy('name')->get();
-        return view('profile.add_advert', compact('styles', 'editions'));
+       // $editions = Edition::select()->orderBy('name')->get();
+        return view('profile.add_advert', compact('styles'));
     }
 
     public function storeAdvert(AddRequest $request)
     {
         $data = $request->validated();
+        if (!empty($data['edition'])) {
+            $data['edition_id'] = Edition::getIdByName($data['edition']);
+            unset($data['edition']);
+        }
         $data['user_id'] = auth()->user()->id;
         $data['url'] = translate_url($data['name']) . '-u' . $data['user_id'];
         $data['description'] = strip_tags(nl2br($data['description']),'<br><b>');
@@ -208,8 +212,11 @@ class IndexController extends BaseController
         if (($advert->user_id == auth()->user()->id &&
             $advert->status != AdvertService::getStatusByName('moderation')) || User::isAdmin()) {
             $styles = Style::select()->orderBy('name')->get();
-            $editions = Edition::select()->orderBy('name')->get();
-            return view('profile.edit_advert', compact('styles', 'editions', 'advert'));
+            if ($advert->edition_id) {
+                $edition = Edition::find($advert->edition_id)->name;
+            }
+          //  $editions = Edition::select()->orderBy('name')->get();
+            return view('profile.edit_advert', compact('styles', 'advert', 'edition'));
         } else {
             abort('404');
         }
@@ -382,6 +389,10 @@ class IndexController extends BaseController
         if (($advert->user_id == auth()->user()->id &&
                 $advert->status != AdvertService::getStatusByName('moderation')) || User::isAdmin()) {
             $data = $request->validated();
+            if (!empty($data['edition'])) {
+                $data['edition_id'] = Edition::getIdByName($data['edition']);
+                unset($data['edition']);
+            }
             $data['user_id'] = $advert->user_id;
             if (!User::isAdmin()) {
                 $data['url'] = translate_url($data['name']) . '-u' . $data['user_id'];

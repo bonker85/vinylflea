@@ -2993,3 +2993,7 @@ i.icon i.fa-search {
 .search-info {
     padding-bottom: 10px;
 }
+
+.search-edition .results{
+    top: 60px!important;
+}

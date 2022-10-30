@@ -5,6 +5,7 @@ use App\Models\Advert;
 use App\Models\AdvertDialog;
 use App\Models\AdvertFavorit;
 use App\Models\AdvertImage;
+use App\Models\Edition;
 use App\Models\Message;
 use App\Models\Style;
 use App\Models\User;
@@ -229,6 +230,14 @@ class AjaxController extends Controller
                     }
                 }
                 return ['error' => $error];
+            case 'search_edition':
+                $q = str_replace("\"", "'", strtolower(trim($request->q))) . '%';
+                $labels = Edition::select()
+                    ->where(DB::raw("LCASE(name)"), 'LIKE', DB::raw("LCASE(\"".$q."\")"))->limit(10)->get();
+                return [
+                    'items' => $labels
+                ];
+                break;
             case 'search':
                 $q = '%' . str_replace("\"", "'", strtolower(trim($request->q))) . '%';
                 $path = route('vinyls.details', '') . '/';
