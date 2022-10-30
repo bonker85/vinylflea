@@ -226,7 +226,7 @@ class TasksController extends Controller
                     ->where("status", 1)
                     ->where("up_time", "<", date("Y-m-d H:i:s", time() - (Advert::UP_TIME_HOUR * 3600)))
                     ->whereIn("user_id", [4,11, 6])
-                    ->whereIn("style_id", [1, 21, 20, 41, 46, 68])
+                    ->whereIn("style_id", [1, 19, 21, 20, 41, 46, 47, 48, 68])
                     ->inRandomOrder()
                     ->limit(12)
                     ->get();
