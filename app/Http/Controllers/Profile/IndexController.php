@@ -214,6 +214,8 @@ class IndexController extends BaseController
             $styles = Style::select()->orderBy('name')->get();
             if ($advert->edition_id) {
                 $edition = Edition::find($advert->edition_id)->name;
+            } else {
+                $edition = '';
             }
           //  $editions = Edition::select()->orderBy('name')->get();
             return view('profile.edit_advert', compact('styles', 'advert', 'edition'));
