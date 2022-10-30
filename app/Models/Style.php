@@ -14,4 +14,14 @@ class Style extends Model
     public function adverts() {
         return $this->hasMany(Advert::class, 'style_id', 'id')->where('status', 1)->orderBy('up_time', 'DESC');
     }
+
+    public static function getSlugById($id)
+    {
+        $res = self::find($id);
+        if ($res) {
+            return $res->slug;
+        } else {
+            return 'all';
+        }
+    }
 }

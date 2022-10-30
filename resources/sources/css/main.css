@@ -2990,3 +2990,6 @@ i.icon i.fa-search {
     font-size: 30px;
     text-align: center;
 }
+.search-info {
+    padding-bottom: 10px;
+}

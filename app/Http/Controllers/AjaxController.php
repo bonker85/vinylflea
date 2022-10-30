@@ -6,6 +6,7 @@ use App\Models\AdvertDialog;
 use App\Models\AdvertFavorit;
 use App\Models\AdvertImage;
 use App\Models\Message;
+use App\Models\Style;
 use App\Models\User;
 use App\Services\AdvertService;
 use App\Services\Utility\ImageService;
@@ -280,7 +281,24 @@ class AjaxController extends Controller
                 }
                 if ($searchRes) {
                     $key = count($searchRes);
-                    $searchRes[$key]['url'] = route('vinyls.styles') . '?q=' . $request->q;
+                    if ($request->user_id && is_numeric($request->user_id)) {
+                        if ($request->style && is_numeric($request->style)) {
+                            $searchRes[$key]['url'] =
+                                route('user', [
+                                    'user' => $request->user_id,
+                                    'style_id' => $request->style
+                                ]) . '?uq=' . $request->q;
+                        } else {
+                            $searchRes[$key]['url'] = route('user', $request->user_id) . '?uq=' . $request->q;
+                        }
+                    } else {
+                        if ($request->style && is_numeric($request->style)) {
+                            $searchRes[$key]['url'] = route('vinyls.style', Style::getSlugById($request->style)) . '?q=' . $request->q;
+                        } else {
+                            $searchRes[$key]['url'] = route('vinyls.styles') . '?q=' . $request->q;
+                        }
+
+                    }
                     $searchRes[$key]['description'] = '<div class="button-search">Смотреть все результаты</div>';
                 }
                 return [

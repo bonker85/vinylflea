@@ -58,7 +58,13 @@
                                             <input type="text" class="form-control w-100 prompt" @if(request()->uq)value="{{request()->uq}}"@endif placeholder="Поиск пластинки у пользователя {{$user->name}}" autocomplete="off">
                                             <select class="search-style form-select flex-shrink-0" aria-label="Default select example" >
                                                 <option value="{{route("user", $user->id)}}">Все стили</option>
+                                                @php $currentStyle = 'Все стили' @endphp
                                                 @foreach ($styles as $style)
+                                                    @php
+                                                        if (\Illuminate\Support\Facades\Request::route('style_id') && \Illuminate\Support\Facades\Request::route('style_id') == $style->id) {
+                                                            $currentStyle = $style->name;
+                                                        }
+                                                    @endphp
                                                     <option value="{{route('user', ['user' => $user->id, 'style_id' => $style->id])}}" data-id="{{$style->id}}" @if (request()->route('style_id') && request()->route('style_id') == $style->id) selected @endif>{{$style->name}}</option>
                                                 @endforeach
                                             </select>
@@ -72,6 +78,7 @@
                                     @if ($advertList->count())
                                         <div class="col-12">
                                             <div class="shop-cart-list mb-3 p-3">
+                                                <div class="search-info">В разделе <b>{{$currentStyle}}</b>@if(request()->uq) по запросу <b>"{{request()->uq}}"</b>@endif {{num_word($advertList->total(), ["найдена", "найдено", "найдено"], false)}} <b>{!! $advertList->total() . '</b> ' . num_word($advertList->total(), ["пластинка", "пластинки", "пластинок"], false)!!} </div>
                                                 @foreach($advertList as $advert)
                                                     <div class="row align-items-center g-3">
                                                         <div class="col-12">
@@ -128,6 +135,10 @@
                                                     </div>
                                                 @endif
                                             </div>
+                                        </div>
+                                    @else
+                                        <div class="col-12">
+                                                <div class="search-info">В разделе <b>{{$currentStyle}}</b>@if(request()->uq) по запросу <b>"{{request()->uq}}"</b>@endif @if($advertList->total()){{num_word($advertList->total(), ["найдена", "найдено", "найдено"], false)}} <b>{!! $advertList->total() . '</b> ' . num_word($advertList->total(), ["пластинка", "пластинки", "пластинок"], false)!!}@else ничего не найдено@endif</div>
                                         </div>
                                     @endif
                                 </div>
