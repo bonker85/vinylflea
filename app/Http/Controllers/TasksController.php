@@ -325,27 +325,77 @@ class TasksController extends Controller
                 }
                 dd("FIN");
                 break;
-            case 'cron_discogs':
-             /*   $xml = new SimpleXMLElement('discogs_20220101_labels.xml', LIBXML_NOCDATA,true);
-                foreach ($xml->label as $label) {
-                    $name = trim($label->name);
-                    Db::table('discogs_labels')->insert([
-                        'id' => $label->id,
-                        'name' => $name
-                    ]);
-                    $editions = Edition::select()->where('name', $name)->first();
-                    if ($editions) {
-                        $editions->discogs_id = $label->id;
-                        $editions->save();
+            case 'update_old_price':
+                $oldPrice = Db::table('adverts_old')->where('user_id', 6)->get();
+                foreach ($oldPrice as $item) {
+                    $advert = Advert::find($item->id);
+                    if ($advert) {
+                        $advert->price = $item->price;
+                        $advert->save();
                     }
-                }*/
-                echo 'abah';exit();
-                  $discog = new Orin(Config::get('discogs'));
-                  $labels = $discog->label(1959999);
-                  dd($labels);
+                }
+                dd('FIN');
+                break;
+            case 'cron_discogs':
+                $discog = new Orin(Config::get('discogs'));
+                $adverts = Advert::select('author', 'name', 'year')->where('check_discogs', 0)->get();
+                foreach ($adverts as $advert) {
+                    $query = $advert->name;
+                    $params = [
+                        "format" => "Vinyl",
+                        "type" => "release"
+                    ];
+                    if ($advert->author) {
+                        $authorSystem = 0;
+                        if ($advert->author == 'Various (Сборник)') {
+                            $authorSystem = 1;
+                            $query = 'Various - ' . $query;
+                        } else {
+                            $query = $advert->author . '  ' . $query;
+                        }
+                    }
+                    if ($advert->year && $advert->year > 1900) {
+                        $params['year'] = $advert->year;
+                    }
+                    //ищем релиз по заданным году, автору и названию
+                    $searchRelease = $discog->search($query,$params);
+                    if ($searchRelease->status_code == 200) {
+                        if ($searchRelease->results) {
+                            // проверяем на мастера
+                            echo "check master";exit();
+                        } else {
+                            unset($params['year']);
+                            $searchRelease = $discog->search($query,$params);
+                            if ($searchRelease->status_code == 200) {
+                                if ($searchRelease->results) {
+                                    //проверяем на мастера
+                                    print_r($searchRelease->results);exit();
+                                } else {
+                                    //баста карапузики ничего не найдено
+                                    echo 'Ничего в базе дискорга нет';exit();
+                                }
+                            } else {
+                                echo "code not 200 LINE " . __LINE__;exit();
+                            }
+                        }
+                    } else {
+                        echo "code not 200 LINE " . __LINE__;exit();
+                    }
+                }
+                echo 'dsfadfsa';exit();
+
+                 // $adverts = Advert::select()->where()
+                    //конкретный релиз
+            //dd($discog->master_release(184877));
+
+               //  $result = $discog->master_release(184877);
+                // dd($result);
+             //     $result = $discog->master_release_versions(184877, ['format' => 'Vinyl']);
+                   //dd($result);
                   //поиск пластинки
-                  $result = $discog->search("Владимир Высоцкий Владимир Высоцкий 1",["type"=>["author"], "format" => "Vinyl"]);
-                //  $artist = $discog->search("Владимир Высоцкий Владимир Высоцкий 1",["type"=>"release", "format" => "Vinyl"]);
+                  $result = $discog->search("Концерт Одной Песни",["type"=>"master", "format" => "Vinyl"]);
+                dd($result);
+                  $artist = $discog->search("Владимир Высоцкий Владимир Высоцкий 1",["type"=>"release", "format" => "Vinyl"]);
                  // $artist = $discog->artist("Владимир Высоцкий", ["type"=>"artist"]);
                   dd($result);
                 break;
