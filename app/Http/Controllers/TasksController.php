@@ -326,6 +326,7 @@ class TasksController extends Controller
                 dd("FIN");
                 break;
             case 'update_old_price':
+                exit();
                 $oldPrice = Db::table('adverts_old')->where('user_id', 6)->get();
                 foreach ($oldPrice as $item) {
                     $advert = Advert::find($item->id);
