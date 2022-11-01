@@ -259,8 +259,8 @@ $(document).ready(function() {
             type: "GET",
             url: '/ajax/show_phone?' + data.params,
             success: function(data){
-                if (data.error == '') {
-                    $('.button-phone').text(data.phone).css('cursor', 'unset').off();
+                if (data.mess) {
+                    $('.button-phone').text(data.mess).css('cursor', 'unset').off();
                 }
             }
         });
