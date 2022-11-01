@@ -117,7 +117,7 @@ class DiscogsService {
                         "images" => false,
                         "realname" => false,
                         "profile" => false,
-                        "urls" => false,
+                   /*     "urls" => false, */
                         "namevariations" => false
                     ];
                     if ((int)$artist->id) {
@@ -136,7 +136,7 @@ class DiscogsService {
                             $images['images'][$k]['height'] = $image->height;
                             $i++;
                         }
-                        $data['images'] = json_encode($images['images']);
+                        $data['images'] = $images['images'];
                     }
                     if ($artist->name) {
                         $data['name'] = $artist->name;
@@ -147,9 +147,9 @@ class DiscogsService {
                     if ($artist->profile) {
                         $data['profile'] = $artist->profile;
                     }
-                    if ($artist->urls) {
+                /*    if ($artist->urls) {
                         $data['urls'] = json_encode($artist->urls);
-                    }
+                    } */
                     if ($artist->namevariations) {
                         $data['namevariations'] = json_encode($artist->namevariations);
                     }

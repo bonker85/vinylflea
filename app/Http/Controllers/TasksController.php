@@ -7,6 +7,7 @@ use App\Models\AdvertImage;
 use App\Models\CanvasSize;
 use App\Models\Catalog;
 use App\Models\Color;
+use App\Models\DiscogsArtist;
 use App\Models\DiscogsMaster;
 use App\Models\Door;
 use App\Models\Log as DbLog;
@@ -340,17 +341,25 @@ class TasksController extends Controller
                 dd('FIN');
                 break;
             case 'cron_discogs':
-                exit();
 
                 $adverts = Advert::select('id','author', 'name', 'year', 'discogs_author_id', 'check_discogs')
                     ->where('check_discogs', 0)->where('id', 4293)->get();
                 foreach ($adverts as $advert) {
                     $discogsService = new DiscogsService($advert);
                     $masterReleaseData = $discogsService->getMasterReleaseData($advert);
-                    dump($discogsService->getSearchRelease());
-                    dump($masterReleaseData);
+                  //  dump($discogsService->getSearchRelease());
+                 //   dump($masterReleaseData);
                     $artistsData = $discogsService->getArtistsData();
-                    dd($artistsData);
+                    foreach ($artistsData as $aData) {
+                        $aData['discogs_artist_id'] = $aData['artist_id'];
+                        $images = $aData['images'];
+                        unset($aData['artist_id']);
+                        unset($aData['images']);
+                        $artist =
+                            DiscogsArtist::firstOrCreate(['discogs_artist_id' => $aData['discogs_artist_id']], $aData);
+                        dd($artist);
+                        //$discogsService->addArtistImagesToCDN($aData['images']);
+                    }
 
                 }
                 echo 'dsfadfsa';exit();

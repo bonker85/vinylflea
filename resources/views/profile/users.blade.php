@@ -84,7 +84,7 @@
                                                 @if ($usersList->total() > $usersList->perPage())
                                                     <div class="my-4 border-top"></div>
                                                     <div class="d-flex justify-content-between">
-                                                        {{ $usersList->links()}}
+                                                        {{ $usersList->onEachSide(1)->links()}}
                                                     </div>
                                                 @endif
                                             </div>

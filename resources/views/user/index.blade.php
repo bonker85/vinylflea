@@ -128,14 +128,15 @@
                                                         <div class="my-4 border-top"></div>
                                                     @endif
                                                 @endforeach
-                                                @if ($advertList->total() > $advertList->perPage())
-                                                    <div class="my-4 border-top"></div>
-                                                    <div class="d-flex justify-content-between">
-                                                        {{ $advertList->links()}}
-                                                    </div>
-                                                @endif
+
                                             </div>
                                         </div>
+                                        @if ($advertList->total() > $advertList->perPage())
+                                            <div class="my-4 border-top"></div>
+                                            <div class="d-flex justify-content-between">
+                                                {{ $advertList->onEachSide(1)->appends(['uq' => request()->get('uq')])->links()}}
+                                            </div>
+                                        @endif
                                     @else
                                         <div class="col-12">
                                                 <div class="search-info">В разделе <b>{{$currentStyle}}</b>@if(request()->uq) по запросу <b>"{{request()->uq}}"</b>@endif @if($advertList->total()){{num_word($advertList->total(), ["найдена", "найдено", "найдено"], false)}} <b>{!! $advertList->total() . '</b> ' . num_word($advertList->total(), ["пластинка", "пластинки", "пластинок"], false)!!}@else ничего не найдено@endif</div>

@@ -12,7 +12,7 @@
                 @if (\App\Models\User::isAdmin())
                     <a href="{{route('profile.users')}}" class="list-group-item @if ($route_name == 'profile.users') active @endif d-flex justify-content-between align-items-center">Пользователи <i class='bx bx-no-entry fs-5'></i></a>
                 @endif
-                <a href="{{route('logout')}}" class="list-group-item d-flex justify-content-between align-items-center">Выйти <i class='bx bx-log-out fs-5'></i></a>
+                <a href="#" class="logout_link list-group-item d-flex justify-content-between align-items-center">Выйти <i class='bx bx-log-out fs-5'></i></a>
             </div>
         </div>
     </div>

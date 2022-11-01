@@ -576,6 +576,9 @@ File: icons.css
 .bx-log-out:before {
     content: "\eab1"
 }
+.bx-chevron-left:before {
+    content: "\e9af"
+}
 .bx-chevron-down:before {
     content: "\e9ac"
 }
@@ -2852,6 +2855,10 @@ i.icon i.fa-search {
     margin-right: 15px;
 }
 @media (max-width: 360px) {
+    .page-link {
+        padding-left: 9px;
+        padding-right: 9px;
+    }
     .info-block p {
         font-size: 14px;
     }
@@ -2997,4 +3004,14 @@ i.icon i.fa-search {
 
 .search-edition .results{
     top: 60px!important;
+}
+
+.page-link-chevron {
+    padding-right: 1px;
+    padding-left: 1px;
+}
+.page-link-chevron .page-link{
+    padding-left: 3px;
+    padding-right: 3px;
+    background-color: #F8F9FA;
 }

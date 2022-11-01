@@ -80,9 +80,9 @@
             <div class="my-4 border-top"></div>
             <div class="d-flex justify-content-between">
                 @if (request()->get('q'))
-                    {{$adverts->appends(['q' => request()->get('q')])->links()}}
+                    {{$adverts->appends(['q' => request()->get('q')])->onEachSide(1)->links()}}
                 @else
-                    {{$adverts->links()}}
+                    {{$adverts->onEachSide(1)->links()}}
                 @endif
             </div>
         @endif

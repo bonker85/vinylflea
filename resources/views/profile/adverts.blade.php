@@ -156,13 +156,14 @@
                                                 <div class="my-4 border-top"></div>
                                             @endif
                                             @endforeach
-                                            @if ($advertList->total() > $advertList->perPage())
-                                                <div class="my-4 border-top"></div>
-                                                <div class="d-flex justify-content-between">
-                                                    {{ $advertList->links()}}
-                                                </div>
-                                            @endif
+
                                         </div>
+                                        @if ($advertList->total() > $advertList->perPage())
+                                            <div class="my-4 border-top"></div>
+                                            <div class="d-flex justify-content-between">
+                                                {{ $advertList->onEachSide(1)->links()}}
+                                            </div>
+                                        @endif
                                     </div>
                                     @else
                                         <div class="col-12">
