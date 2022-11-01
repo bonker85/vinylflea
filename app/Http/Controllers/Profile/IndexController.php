@@ -132,8 +132,8 @@ class IndexController extends BaseController
         $data = $request->validated();
         if (!empty($data['edition'])) {
             $data['edition_id'] = Edition::getIdByName($data['edition']);
-            unset($data['edition']);
         }
+        unset($data['edition']);
         $data['user_id'] = auth()->user()->id;
         $data['url'] = translate_url($data['name']) . '-u' . $data['user_id'];
         $data['description'] = strip_tags(nl2br($data['description']),'<br><b>');
@@ -393,8 +393,8 @@ class IndexController extends BaseController
             $data = $request->validated();
             if (!empty($data['edition'])) {
                 $data['edition_id'] = Edition::getIdByName($data['edition']);
-                unset($data['edition']);
             }
+            unset($data['edition']);
             $data['user_id'] = $advert->user_id;
             if (!User::isAdmin()) {
                 $data['url'] = translate_url($data['name']) . '-u' . $data['user_id'];
