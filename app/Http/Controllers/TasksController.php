@@ -7,6 +7,7 @@ use App\Models\AdvertImage;
 use App\Models\CanvasSize;
 use App\Models\Catalog;
 use App\Models\Color;
+use App\Models\DiscogsMaster;
 use App\Models\Door;
 use App\Models\Log as DbLog;
 use App\Models\Edition;
@@ -14,6 +15,7 @@ use App\Models\Style;
 use App\Models\User;
 use App\Services\DoorService;
 use App\Services\Utility\CDNService;
+use App\Services\Utility\DiscogsService;
 use App\Services\Utility\ImageService;
 use App\Services\Utility\VkService;
 use App\Services\Utility\WatermarkService;
@@ -338,50 +340,18 @@ class TasksController extends Controller
                 dd('FIN');
                 break;
             case 'cron_discogs':
-                $discog = new Orin(Config::get('discogs'));
-                $adverts = Advert::select('author', 'name', 'year')->where('check_discogs', 0)->get();
+                exit();
+
+                $adverts = Advert::select('id','author', 'name', 'year', 'discogs_author_id', 'check_discogs')
+                    ->where('check_discogs', 0)->where('id', 4293)->get();
                 foreach ($adverts as $advert) {
-                    $query = $advert->name;
-                    $params = [
-                        "format" => "Vinyl",
-                        "type" => "release"
-                    ];
-                    if ($advert->author) {
-                        $authorSystem = 0;
-                        if ($advert->author == 'Various (Сборник)') {
-                            $authorSystem = 1;
-                            $query = 'Various - ' . $query;
-                        } else {
-                            $query = $advert->author . '  ' . $query;
-                        }
-                    }
-                    if ($advert->year && $advert->year > 1900) {
-                        $params['year'] = $advert->year;
-                    }
-                    //ищем релиз по заданным году, автору и названию
-                    $searchRelease = $discog->search($query,$params);
-                    if ($searchRelease->status_code == 200) {
-                        if ($searchRelease->results) {
-                            // проверяем на мастера
-                            echo "check master";exit();
-                        } else {
-                            unset($params['year']);
-                            $searchRelease = $discog->search($query,$params);
-                            if ($searchRelease->status_code == 200) {
-                                if ($searchRelease->results) {
-                                    //проверяем на мастера
-                                    print_r($searchRelease->results);exit();
-                                } else {
-                                    //баста карапузики ничего не найдено
-                                    echo 'Ничего в базе дискорга нет';exit();
-                                }
-                            } else {
-                                echo "code not 200 LINE " . __LINE__;exit();
-                            }
-                        }
-                    } else {
-                        echo "code not 200 LINE " . __LINE__;exit();
-                    }
+                    $discogsService = new DiscogsService($advert);
+                    $masterReleaseData = $discogsService->getMasterReleaseData($advert);
+                    dump($discogsService->getSearchRelease());
+                    dump($masterReleaseData);
+                    $artistsData = $discogsService->getArtistsData();
+                    dd($artistsData);
+
                 }
                 echo 'dsfadfsa';exit();
 

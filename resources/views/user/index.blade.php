@@ -48,6 +48,7 @@
                                 </div>
                             </div>
                         </div>
+                        @php $currentStyle = 'Все стили'; @endphp
                         <div class="col-lg-8">
                             @if ($advertList->total() > $advertList->perPage() || request()->route('style_id') || request()->uq)
                                 <div class="ui search focus u-search" style="">
@@ -58,7 +59,6 @@
                                             <input type="text" class="form-control w-100 prompt" @if(request()->uq)value="{{request()->uq}}"@endif placeholder="Поиск пластинки у пользователя {{$user->name}}" autocomplete="off">
                                             <select class="search-style form-select flex-shrink-0" aria-label="Default select example" >
                                                 <option value="{{route("user", $user->id)}}">Все стили</option>
-                                                @php $currentStyle = 'Все стили' @endphp
                                                 @foreach ($styles as $style)
                                                     @php
                                                         if (\Illuminate\Support\Facades\Request::route('style_id') && \Illuminate\Support\Facades\Request::route('style_id') == $style->id) {
