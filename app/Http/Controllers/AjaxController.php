@@ -162,8 +162,7 @@ class AjaxController extends Controller
                                 $user = User::find($id);
                                 if ($user) {
                                     return [
-                                        'error' => '',
-                                        'phone' => $user->phone
+                                        'mess' => $user->phone
                                     ];
                                 }
                             break;
