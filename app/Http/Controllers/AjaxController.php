@@ -284,6 +284,8 @@ class AjaxController extends Controller
                                ->first();
                    if ($image) {
                        $searchRes[$key]['image'] = thumb_url(asset('/storage' . $image->path), $image);
+                   } else {
+                       $searchRes[$key]['image'] = asset('/assets/images/release/no-release.png');
                    }
                 }
                 if ($searchRes) {
@@ -361,6 +363,8 @@ class AjaxController extends Controller
                             ->first();
                         if ($image) {
                             $searchRes[$key]['image'] = thumb_url(asset('/storage' . $image->path), $image);
+                        } else {
+                            $searchRes[$key]['image'] = asset('/assets/images/release/no-release.png');
                         }
                     }
                     if ($searchRes) {

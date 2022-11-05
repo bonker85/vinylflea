@@ -600,7 +600,9 @@ File: icons.css
 .bxs-up-arrow-alt:before {
     content: "\ee2e";
 }
-
+.bxs-skip-previous-circle:before {
+    content: "\edff"
+}
 @font-face {
 
     font-family: LineIcons;
@@ -3014,4 +3016,24 @@ i.icon i.fa-search {
     padding-left: 3px;
     padding-right: 3px;
     background-color: #F8F9FA;
+}
+.backpage {
+    margin-left: -15px;
+    font-size: 22px;
+    top: 2px;
+    position: relative;
+}
+
+.h-release {
+    padding: 3px;
+    font-weight: bold;
+}
+.d-release {
+    padding: 3px;
+}
+.releases-block .img-release img {
+    width: 100%;
+}
+.image-zoom-section .product-gallery img {
+    min-height: 309px;
 }

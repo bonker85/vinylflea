@@ -29,7 +29,11 @@
                     <div class="row g-0">
                         <div class="col-12 col-lg-7 h3-mobile">
                             <div class="product-info-section p-3 py-0">
-                                <h3 class=" mt-lg-0 mb-4">{{$advert->name}}</h3>
+                                <h3 class=" mt-lg-0 mb-4">
+                                    <h3 class=" mt-lg-0 mb-4">
+                                        <a href="@if(url()->previous() == url()->full())/@else{{url()->previous()}}@endif" class="backpage bx bxs-skip-previous-circle"></a>
+                                    {{$advert->name}}
+                                </h3>
                             </div>
                         </div>
                         <div class="col-12 col-lg-5">
@@ -87,7 +91,13 @@
                                     <dd class="col-sm-9">{{$advert->style->name}}</dd>
                                     @if ($advert->author)
                                         <dt class="col-sm-3">Исполнитель</dt>
-                                        <dd class="col-sm-9">{{$advert->author}}</dd>
+                                        <dd class="col-sm-9">
+                                            @if ($artistLinks)
+                                                {!! $artistLinks !!}
+                                            @else
+                                                {{$advert->author}}
+                                            @endif
+                                        </dd>
                                     @endif
                                     @if ($advert->edition_id)
                                         <dt class="col-sm-3">Издание</dt>

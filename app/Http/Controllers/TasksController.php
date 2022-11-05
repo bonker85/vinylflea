@@ -17,23 +17,17 @@ use App\Models\User;
 use App\Services\DoorService;
 use App\Services\Utility\CDNService;
 use App\Services\Utility\DiscogsService;
+use App\Services\Utility\GoogleTranslateService;
 use App\Services\Utility\ImageService;
 use App\Services\Utility\VkService;
-use App\Services\Utility\WatermarkService;
-use Carbon\Carbon;
 use DOMDocument;
 use DOMXPath;
-use Faker\Factory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
-use SimpleXMLElement;
-use Xyrotech\Orin;
 
 
 class TasksController extends Controller
@@ -328,39 +322,167 @@ class TasksController extends Controller
                 }
                 dd("FIN");
                 break;
-            case 'update_old_price':
-                exit();
-                $oldPrice = Db::table('adverts_old')->where('user_id', 6)->get();
-                foreach ($oldPrice as $item) {
-                    $advert = Advert::find($item->id);
-                    if ($advert) {
-                        $advert->price = $item->price;
-                        $advert->save();
-                    }
-                }
-                dd('FIN');
-                break;
-            case 'cron_discogs':
+            case 'cron_translate':
+                $trans = new GoogleTranslateService();
+                $source = 'en';
+                $target = 'ru';
+               $artists = DiscogsArtist::select()->whereRaw('profile_translate IS NULL')->get();
+               foreach ($artists as $artist) {
+                   if ($artist->profile) {
+                       $result = $trans->translate($source, $target, $artist->profile);
+                       sleep(2);
+                       if ($result) {
+                           $artist->profile_translate = $result;
+                           $artist->save();
+                       } else {
+                           dd($result);
+                       }
+                   }
 
-                $adverts = Advert::select('id','author', 'name', 'year', 'discogs_author_id', 'check_discogs')
-                    ->where('check_discogs', 0)->where('id', 4293)->get();
+               }
+               echo 'abahaba';exit();
+
+                /*$profiles = DiscogsArtist::select()->where("profile", "LIKE", '%[a=%')->get();
+                foreach ($profiles as $profile) {
+                    $profile->profile = preg_replace('#\[a=(.+?)]#is','$1' ,$profile->profile);
+                    $profile->save();
+                }
+                exit();*/
+                /**
+                 * SELECT id, profile FROM `discogs_artists` WHERE profile LIKE '%[a%';
+                 * Замена [a3432432] на artistName
+                 */
+                /*
+                $discogApi = new Orin(Config::get('discogs'));
+                $profiles = DiscogsArtist::select()->where("profile", "LIKE", '%[a%')->get();
+                foreach ($profiles as $profile) {
+                    if (preg_match_all("#\[a(\d+?)]#is", $profile->profile, $pockets)) {
+                        foreach ($pockets as $key => $pocket) {
+                            for ($i=0;$i<count($pocket);$i++) {
+                                $artistId = str_replace(["[a", "]"], "", $pocket[$i]);
+                                $artist = $discogApi->artist($artistId);
+                                if ($artist->name) {
+                                    $profile->profile = str_replace($pocket[$i], $artist->name, $profile->profile);
+                                } else {
+                                    echo 'Artist not found for ID ' . $profile->id;exit();
+                                }
+                                sleep(1);
+                            }
+                        }
+                        $profile->save();
+                    } else {
+                        echo "Nichego";exit();
+                    }
+                }*/
+                /**
+                 * SELECT id, profile FROM `discogs_artists` WHERE profile LIKE '%[l=%';
+                 * Замена лейблов [l=***]
+                 */
+                $profiles = DiscogsArtist::select()->where("profile", "LIKE", '%[b=%')->get();
+                foreach ($profiles as $profile) {
+                    $profile->profile = preg_replace('#\[l=(.+?)]#is','$1' ,$profile->profile);
+                    $profile->save();
+                }
+                echo 'abahaba';exit();
+                exit();
+                break;
+       /*     case 'peregon':
+                $adverts = Advert::select('id', 'discogs_author_ids', 'check_discogs')->get();
+                $sql = '';
+                foreach ($adverts as $advert) {
+                    $sql .= "UPDATE `adverts` SET discogs_author_ids='" . $advert->discogs_author_ids . "', check_discogs=1 WHERE id=" . $advert->id.';';
+                }
+                file_put_contents('progon.sql', $sql);exit();
+                break;*/
+            case 'cron_discogs_stop':
+               /* DiscogsService::uploadReleasesFileOnDisc();
+                echo 'aba';exit();*/
+               /* DiscogsService::updateArtistReleases();
+                echo 'abahaba';exit();*/
+                $adverts = Advert::select('id','author', 'name', 'year', 'discogs_author_ids', 'check_discogs')
+                    ->where('check_discogs', 0)->get();
+                $artistsList = [];
                 foreach ($adverts as $advert) {
                     $discogsService = new DiscogsService($advert);
                     $masterReleaseData = $discogsService->getMasterReleaseData($advert);
-                  //  dump($discogsService->getSearchRelease());
-                 //   dump($masterReleaseData);
+                    if (!$masterReleaseData) {
+                        /**
+                         * По разным причинам не получен например тупа нет в каталоге самого discogs
+                         * Такие вещи помечаю check_discogs = 1 и  discogs_master_id = 0;
+                         */
+                        $advert->discogs_master_id = 0;
+                        $advert->check_discogs = 1;
+                        $advert->save();
+                        continue;
+                        echo 'Не получен мастер AdvertID: ' . $advert->id .
+                            ', поисковый запрос' . $discogsService->getQuery();
+                        exit();
+                    }
+                    //первое что нужно сделать это проверить если ли уже такой мастер релиз
+                    $master = DiscogsMaster::select()->where('master_id', $masterReleaseData['master_id'])->first();
+                    //если релиз уже есть в базе подвязываем его к advert и переходим к след.
+                    if ($master) {
+                        // подвязываем артистов
+                        $advert->discogs_author_ids = $master->artists;
+                        if ((trim($advert->name) == trim($advert->author)) || empty($advert->author)) {
+                            //возможный мастер
+                            $advert->discogs_master_id = 0;
+                            $advert->check_discogs = $master->master_id;
+                        } else {;
+                            $advert->discogs_master_id = $master->master_id;
+                            $advert->check_discogs = 1;
+                        }
+
+                        $advert->save();
+                        continue;
+                    }
                     $artistsData = $discogsService->getArtistsData();
+                    $authorsIds = [];
+                    $imagesList = [];
+                    $artistsList = [];
                     foreach ($artistsData as $aData) {
+                        if ($aData['artist_id'] == DiscogsService::DISCOGS_SYSTEM_ID) continue;
+                        $authorsIds[] = $aData['artist_id'];
+                      /*  $artist = DiscogsArtist::select()->where('discogs_artist_id', $aData['artist_id'])->first();
+                        if ($artist) {
+                            continue;
+                        }*/
                         $aData['discogs_artist_id'] = $aData['artist_id'];
-                        $images = $aData['images'];
+                        $imagesList[] = $aData['images'];
                         unset($aData['artist_id']);
                         unset($aData['images']);
-                        $artist =
+                        $artistsList[] =
                             DiscogsArtist::firstOrCreate(['discogs_artist_id' => $aData['discogs_artist_id']], $aData);
-                        dd($artist);
-                        //$discogsService->addArtistImagesToCDN($aData['images']);
                     }
+                    //После того как новые артисты добавлены в базу, загружаем изображения к ним в cdn
+                    $discogsService->addArtistImagesInCDN($imagesList, $artistsList);
 
+                     /* -------------- инфа по артисту добавлено, добавляем мастер -------------*/
+
+                    //связываем артистов discogs с advert
+                    $advert->discogs_author_ids = (implode(',', $authorsIds));
+                    // и сохраняем
+                    $advert->save();
+
+                    $images = $masterReleaseData['images'];
+                    unset($masterReleaseData['images']);
+                    $master = DiscogsMaster::firstOrCreate(['master_id' => $masterReleaseData['master_id']],
+                        $masterReleaseData);
+                    //добавляем изображения к мастеру на cdn
+                    if ($images) {
+                        $discogsService->addMasterReleaseImagesInCDN($images, $master);
+                    }
+                    //подвязываем мастер релиз к адверту и переводим в статус check_discogs = 1
+                    if ((trim($advert->name) == trim($advert->author)) || empty($advert->author)) {
+                        //возможный мастер
+                        $advert->discogs_master_id = 0;
+                        $advert->check_discogs = $master->master_id;
+                    } else {
+                        $advert->discogs_master_id = $master->master_id;
+                        $advert->check_discogs = 1;
+                    }
+                    $advert->save();
+                    exit();
                 }
                 echo 'dsfadfsa';exit();
 

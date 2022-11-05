@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--favicon-->
     <link rel="icon" href="{{asset('/images/favicon.ico')}}" type="image/png" />
-    @if(Request::is('vinyls/details/*'))
+    @if(Request::is('vinyls/details/*') || Request::is('artist/*'))
         <link href="{{asset('assets/css/fancybox.css')}}" rel="stylesheet">
     @elseif(Request::is('/'))
         <link href="{{asset('assets/plugins/OwlCarousel/css/owl.carousel.min.css')}}" rel="stylesheet" />
@@ -157,7 +157,7 @@
 <script src="{{asset("/assets/js/bootstrap.bundle.min.js")}}"></script>
 <script src="{{asset("/assets/js/jquery.min.js")}}"></script>
 <script src="{{mix("/assets/js/build.js")}}"></script>
-@if(Request::is('vinyls/details/*'))
+@if(Request::is('vinyls/details/*') || Request::is('artist/*'))
     <script src="{{asset("/assets/js/fancybox.js")}}"></script>
 @elseif(Request::is('/'))
     <script src="{{asset("/assets/plugins/OwlCarousel/js/owl.carousel.min.js")}}"></script>

@@ -43,7 +43,14 @@
                                 <p class="product-catergory font-13 mb-1">Стиль: <b>{{$advert->style->name}}</b></p>
                             </a>
                             <p class="product-catergory font-13 mb-1">Исполнитель:
-                                <span class="author">@if ($advert->author) {{$advert->author}} @else не указан @endif</span></p>
+                                <span class="author">
+                                    @if ($advert->author)
+                                        @php $artistsLinks = \App\Services\Utility\DiscogsService::getArtistsLink($advert->discogs_author_ids);
+                                            if ($artistsLinks) { echo $artistsLinks; } else { echo $advert->author;}
+                                        @endphp
+                                    @else не указан
+                                    @endif</span></p>
+
                             <div class="d-flex align-items-center publisher">
                                 <a href="{{route('user', $advert->user_id)}}"> {{$advert->user->name}} </a>
                             </div>
