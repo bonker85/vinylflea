@@ -3037,3 +3037,7 @@ i.icon i.fa-search {
 .image-zoom-section .product-gallery img {
     min-height: 309px;
 }
+.link-messages {
+    font-weight: bold;
+    color: #8b2e2e;
+}

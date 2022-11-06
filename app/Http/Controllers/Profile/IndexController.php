@@ -286,7 +286,11 @@ class IndexController extends BaseController
                 'created_at' => $datetime,
                 'updated_at' => $datetime
             ];
-            if (Message::insert($data)) {
+            if (Message::firstOrCreate([
+                        'message' => $message,
+                        'advert_id' => $advertDialog->advert_id,
+                        'created_at' => $datetime
+                    ],$data)) {
                 if (auth()->user()->id == $advertDialog->to_user_id) {
                     $advertDialog->count_not_view_user_from = ++$advertDialog->count_not_view_user_from;
                 } else {

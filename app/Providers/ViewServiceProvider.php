@@ -40,7 +40,7 @@ class ViewServiceProvider extends ServiceProvider
             $view->with('admin', User::isAdmin());
         });
         /********************** PROFILE ***********************************************/
-        View::composer(["includes.profile-menu", "includes.main-menu"], function($view) {
+        View::composer(["includes.profile-menu", "includes.main-menu", "includes.message"], function($view) {
             // количество непрочитанных сообщений
             if (auth()->check()) {
                 $userId = auth()->user()->id;

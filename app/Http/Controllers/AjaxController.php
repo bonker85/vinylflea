@@ -217,7 +217,11 @@ class AjaxController extends Controller
                                     'created_at' => $datetime,
                                     'updated_at' => $datetime
                                 ];
-                                Message::insert($data);
+                                Message::firstOrCreate([
+                                    'message' => $message,
+                                    'advert_id' => $advertDialog->advert_id,
+                                    'created_at' => $datetime
+                                ], $data);
                                 DB::commit();
                                 return ['error' => '', 'dialog_id' => $advertDialog->id];
                             } catch (\Exception $exception) {
