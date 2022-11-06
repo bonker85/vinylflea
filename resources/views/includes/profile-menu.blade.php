@@ -1,3 +1,4 @@
+@if (auth()->check()))
 <div class="col-lg-4 profile-menu">
     <div class="card shadow-none mb-3 mb-lg-0 border rounded-0">
         <div class="menu-buttons">
@@ -22,3 +23,4 @@
         </div>
     </div>
 </div>
+@endif
