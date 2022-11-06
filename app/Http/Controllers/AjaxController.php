@@ -253,10 +253,19 @@ class AjaxController extends Controller
                     )->where(function($query) use ($q) {
                         $query->where(DB::raw("LCASE(name)"), 'LIKE', DB::raw("LCASE(\"".$q."\")"))
                             ->orWhere(DB::raw("LCASE(author)"), 'LIKE', DB::raw("LCASE(\"".$q."\")"));
-                    })
-                    ->where('status', 1)->limit(5)->orderBy('up_time', 'DESC');
+                    })->limit(5)->orderBy('up_time', 'DESC');
+                if ($request->profile) {
+                    $statusId = AdvertService::getStatusByName($request->profile);
+                    if (is_numeric($statusId)) {
+                        $select->where('status', $statusId);
+                    }
+                } else {
+                    $select->where('status', 1);
+                }
                 if ($request->user_id && is_numeric($request->user_id)) {
-                    $select->where('user_id', $request->user_id);
+                    if (!User::isAdmin()) {
+                        $select->where('user_id', $request->user_id);
+                    }
                 }
                 if ($request->style && is_numeric($request->style)) {
                     $select->where('style_id', $request->style);
@@ -265,6 +274,7 @@ class AjaxController extends Controller
                 $searchRes = [];
                 foreach ($results as $key => $result) {
                    $searchRes[$key]['name'] = $result->name;
+                   $searchRes[$key]['id'] = $result->id;
                    if ($result->author) {
                        $searchRes[$key]['description'] = 'Исполнитель: <b>' . $result->author . '</b>';
                    } else {
@@ -281,7 +291,16 @@ class AjaxController extends Controller
                            $searchRes[$key]['price'] = 'Обменяю';
                            break;
                    }
-                   $searchRes[$key]['url'] = $result->url;
+                   if ($request->profile) {
+                       if ($request->profile !== AdvertService::STATUS[2] || User::isAdmin()) {
+                           $searchRes[$key]['url'] = route('profile.edit_advert', [
+                               'advert' => $searchRes[$key]['id']
+                           ]);
+                       }
+
+                   } else {
+                       $searchRes[$key]['url'] = $result->url;
+                   }
                    $image = AdvertImage::select()
                                ->where('advert_id', $result->id)
                                ->orderBy('id')
@@ -300,6 +319,10 @@ class AjaxController extends Controller
                                 route('user', [
                                     'user' => $request->user_id,
                                     'style_id' => $request->style
+                                ]) . '?uq=' . $request->q;
+                        } else if ($request->profile) {
+                            $searchRes[$key]['url'] = route('profile.adverts', [
+                                    $request->profile
                                 ]) . '?uq=' . $request->q;
                         } else {
                             $searchRes[$key]['url'] = route('user', $request->user_id) . '?uq=' . $request->q;

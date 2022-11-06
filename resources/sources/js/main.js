@@ -364,7 +364,7 @@ $(document).ready(function() {
     $('.u-search')
         .search({
             apiSettings: {
-                url: '/ajax/search?q={query}&user_id=' + $('#s-user').val() + '&style=' + $('.search-style :selected', $('.u-search')).attr('data-id'),
+                url: '/ajax/search?q={query}&user_id=' + $('#s-user').val() + '&style=' + $('.search-style :selected', $('.u-search')).attr('data-id') + '&profile='+ (!$('#s-status').val()?'': $('#s-status').val()),
             },
             error: {
                 noResults: 'Ваш запрос не дал результатов'
@@ -398,7 +398,12 @@ $(document).ready(function() {
                 param = '?q=' + inputElement.val();
             }
         }
-        location.href = selectElement.val() + param;
+        if (typeof selectElement == 'undefined') {
+            location.href = '/profile/' + $('#s-status').val()  + param;
+        } else {
+            location.href = selectElement.val() + param;
+        }
+
     }
     $('.all-search.search')
         .search({

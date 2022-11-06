@@ -1,7 +1,12 @@
 <div class="col-lg-4 profile-menu">
     <div class="card shadow-none mb-3 mb-lg-0 border rounded-0">
-        <div class="card-body add-vinyl">
-            <a href="{{route('profile.add_advert')}}" class="rounded-3 list-group-item  d-flex justify-content-between align-items-center"><i class='bx bx-plus fs-5'></i> Добавить</a>
+        <div class="menu-buttons">
+            <div class="card-body add-vinyl">
+                <a href="{{route('profile.add_advert')}}" class="rounded-3 list-group-item  d-flex justify-content-between align-items-center"><i class='bx bx-plus fs-5'></i> Добавить</a>
+            </div>
+            <div class="card-body view-profile">
+                 <a href="{{route('user', auth()->user()->id)}}" class="rounded-3 list-group-item  d-flex justify-content-between align-items-center"><i class='bx bx-user fs-5'></i> Профиль</a>
+            </div>
         </div>
         <div class="card-body mainmenu">
             <div class="list-group list-group-flush">

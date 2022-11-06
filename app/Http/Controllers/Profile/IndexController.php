@@ -37,6 +37,12 @@ class IndexController extends BaseController
             } else {
                 $select->where('id', '!=', '4235');
             }
+            if (request()->uq) {
+                $uq = strip_tags(trim(request()->uq));
+                $select->where(function($query) use ($uq) {
+                    $query->where('name', 'LIKE', '%' . $uq . '%')->orWhere('author', 'LIKE', '%' . $uq . '%');
+                });
+            }
             $search = false;
             if (is_numeric($advert)) {
                 $select->where('id', $advert);

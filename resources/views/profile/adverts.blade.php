@@ -39,11 +39,13 @@
                                         </table>
                                     </div>
                                     @if ($advertList->count())
-                                    <div class="ui search focus ad-search" style="">
+                                    <div class="ui search focus u-search" style="">
                                         <div class=" input-group flex-nowrap  search-box">
                                             <div class="ui left icon input">
                                                 <i class="bx bx-search icon"></i>
-                                                <input type="text" class="form-control w-100 prompt" placeholder="Поиск пластинки" autocomplete="off">
+                                                <input type="hidden" name="user" value="{{auth()->user()->id}}" id="s-user">
+                                                <input type="hidden" name="status" value="{{$status}}" id="s-status"/>
+                                                <input type="text" class="form-control w-100 prompt" @if(request()->uq)value="{{request()->uq}}"@endif placeholder="Поиск пластинки" autocomplete="off">
                                             </div>
                                         </div>
                                         <div class="results"></div>
