@@ -37,6 +37,7 @@ class DiscogsService {
 
     public static function addImagesInCDN($images, $item, $type = 'master')
     {
+        dd($images);
         if ($item->cdn_count_images) {
             // уже были загружены раньше
             return true;
