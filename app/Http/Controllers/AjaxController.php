@@ -10,6 +10,7 @@ use App\Models\Message;
 use App\Models\Style;
 use App\Models\User;
 use App\Services\AdvertService;
+use App\Services\Utility\DiscogsService;
 use App\Services\Utility\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -86,7 +87,6 @@ class AjaxController extends Controller
                         return ['error' => $error];
                     }
                 } catch (Exception $e) {
-                    dd('dfsf');
                     return ['error' => $e->getMessage()];
                 }
 
@@ -427,6 +427,29 @@ class AjaxController extends Controller
                     }
                 }
                 return ['res' => false];
+                break;
+            case 'check_discogs':
+                $data['name'] = $request->name;
+                $data['author'] = $request->author;
+                $data['year'] = $request->year;
+                $result = DiscogsService::getReleases($data);
+                if (isset($result['error'])) {
+                    return $result['error'];
+                } else {
+                    if (isset($result['error_year'])) {
+                        return  "<div style='color: red; font-weight: bold'> По "
+                            . $data['year'] . " году релиз не найден</div>
+                             <div style='font-weight: bold;margin-bottom: -10px'>Возможные результаты:</div><hr/>";
+                    } else if ($result['releases']){
+                        return '<hr/>' .
+                            view('includes.releases', ['releases' => $result['releases'], 'relation_release' => true]);
+                    } else {
+                        return  "<div style='color: red; font-weight: bold'>
+                                        По запросу исполнитель - " . $data['author'] . ", название - "
+                        . $data['name'] . ', год - ' . $data['year'] . " ничего не найдено</div><hr/>";
+                    }
+
+                }
                 break;
             default:
                 abort('404');

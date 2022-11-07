@@ -70,6 +70,13 @@
                                             <hr/>
                                         @endif
                                         <p class="mb-0">{!!$artist->profile!!}</p>
+                                        @if (auth()->check() && in_array(auth()->user()->id, \App\Models\User::MY_USERS_IDS))
+                                            <form style="border: 1px solid #DEE2E6; padding: 10px;background-color: #F8F9FA;" method="post" action="{{route('artist.edit', $artist->discogs_artist_id)}}" >
+                                                @csrf
+                                                <textarea style="margin: 10px 0" class="form-control"  name="profile">{{$artist->profile}}</textarea>
+                                                <button type="submit" class="btn btn-warning">Изменить</button>
+                                            </form>
+                                        @endif
                                     </div>
                                 @endif
                                 @if ($artist->realname)
@@ -87,60 +94,7 @@
                                 @if ($releases)
                                     <hr/>
                                     <h4>Релизы (Vinyl):</h4>
-                                    @foreach($releases as $release)
-                                        <dl class="row mt-3 releases-block">
-                                            <dt class="col-sm-4 img-release">
-                                                @if ($release->cover_image && !strpos($release->cover_image, 'spacer.gif'))
-                                                    <img src="{{$release->cover_image}}" alt="{{$release->title}}"/>
-                                                @else
-                                                    <img src="{{asset('assets/images/release/no-release.png')}}" alt="{{$release->title}}" width="100" />
-                                                @endif
-                                            </dt>
-                                            <dd class="col-sm-8">
-                                                <dl class="row">
-                                                    <dt class="col-sm-3">
-                                                        Название
-                                                    </dt>
-                                                    <dd class="col-sm-9">
-                                                        @if ($release->title){{$release->title}} @else - @endif
-                                                    </dd>
-                                                    <dt class="col-sm-3">
-                                                        Жанр
-                                                    </dt>
-                                                    <dd class="col-sm-9">
-                                                        @if ($release->genre){{implode(', ', json_decode($release->genre))}} @else - @endif
-                                                    </dd>
-                                                    <dt class="col-sm-3">
-                                                        Стиль
-                                                    </dt>
-                                                    <dd class="col-sm-9">
-                                                        @if ($release->style){{implode(', ', json_decode($release->style))}} @else - @endif
-                                                    </dd>
-                                                    <dt class="col-sm-3">
-                                                        Год
-                                                    </dt>
-                                                    <dd class="col-sm-9">
-                                                        @if ($release->year){{$release->year}} @else - @endif
-                                                    </dd>
-                                                    <dt class="col-sm-3">
-                                                        Страна
-                                                    </dt>
-                                                    <dd class="col-sm-9">
-                                                        @if ($release->country){{$release->country}} @else - @endif
-                                                    </dd>
-                                                    <dt class="col-sm-3">
-                                                        Labels
-                                                    </dt>
-                                                    <dd class="col-sm-9">
-                                                        @if ($release->label){{implode(', ', json_decode($release->label))}} @else - @endif
-                                                    </dd>
-                                                </dl>
-                                            </dd>
-                                            @if (!$loop->last)
-                                                <hr/>
-                                            @endif
-                                        </dl>
-                                    @endforeach
+                                    @include('includes.releases', ['releases' => $releases])
                                 @endif
                             </div>
                         </div>

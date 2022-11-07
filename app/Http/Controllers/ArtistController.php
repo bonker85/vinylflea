@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DiscogsArtist;
+use App\Services\Utility\GoogleTranslateService;
 use Illuminate\Http\Request;
 use function Composer\Autoload\includeFile;
 
@@ -20,6 +21,18 @@ class ArtistController extends Controller
             }
         }
         return view('artists.index', compact('artist', 'releases'));
+    }
+
+    public function edit(Request $request, DiscogsArtist $artist)
+    {
+        if ($request->profile) {
+            $trans = new GoogleTranslateService();
+            $source = 'en';
+            $target = 'ru';
+            $artist->profile_translate = $trans->translate($source, $target, $request->profile);;
+            $artist->save();
+        }
+        return redirect()->route('artist', $artist->discogs_artist_id);
     }
 
 }

@@ -3063,3 +3063,15 @@ i.icon i.fa-search {
 .view-profile i {
     margin-right: 5px;
 }
+.check-button {
+    background: #ccc;
+    border: 1px solid black;
+    float: right;
+}
+
+#releases-ajax-block img {
+    max-width: 150px;
+}
+#releases-ajax-block  .releases-block {
+    min-height: unset!important;
+}

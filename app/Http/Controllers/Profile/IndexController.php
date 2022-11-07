@@ -16,7 +16,7 @@ use App\Models\Style;
 use App\Models\User;
 use App\Services\AdvertService;
 use App\Services\Utility\CDNService;
-use App\Services\Utility\ImageService;
+use App\Services\Utility\DiscogsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -48,7 +48,7 @@ class IndexController extends BaseController
                 $select->where('id', $advert);
                 $search = true;
             }
-            $advertList = $select->paginate(10);;
+            $advertList = $select->paginate(10);
             return view('profile.adverts', compact('status', 'advert_counts', 'advertList', 'search'));
         } else {
             return abort(404);
@@ -136,6 +136,19 @@ class IndexController extends BaseController
     public function storeAdvert(AddRequest $request)
     {
         $data = $request->validated();
+        $artistIds = 0;
+        if (isset($data['relation_release'])) {
+            $result = DiscogsService::updateArtistsAndReleasesData($data['relation_release']);
+            if (is_array($result) && !empty($result)) {
+                if (isset($result['error'])) {
+                    echo $result['error'];exit();
+                } else {
+                    $artistIds = implode(',', $result);
+                }
+            }
+            unset($data['relation_release']);
+        }
+        $data['discogs_author_ids'] = $artistIds;
         if (!empty($data['edition'])) {
             $data['edition_id'] = Edition::getIdByName($data['edition']);
         }
@@ -223,7 +236,6 @@ class IndexController extends BaseController
             } else {
                 $edition = '';
             }
-          //  $editions = Edition::select()->orderBy('name')->get();
             return view('profile.edit_advert', compact('styles', 'advert', 'edition'));
         } else {
             abort('404');
@@ -405,6 +417,18 @@ class IndexController extends BaseController
                 $data['edition_id'] = Edition::getIdByName($data['edition']);
             }
             unset($data['edition']);
+            if (isset($data['relation_release'])) {
+                $result = DiscogsService::updateArtistsAndReleasesData($data['relation_release']);
+                if (is_array($result) && !empty($result)) {
+                    if (isset($result['error'])) {
+                        echo $result['error'];exit();
+                    } else {
+                        $artistIds = implode(',', $result);
+                    }
+                    $data['discogs_author_ids'] = $artistIds;
+                }
+                unset($data['relation_release']);
+            }
             $data['user_id'] = $advert->user_id;
             if (!User::isAdmin()) {
                 $data['url'] = translate_url($data['name']) . '-u' . $data['user_id'];

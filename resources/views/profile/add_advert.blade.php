@@ -184,6 +184,33 @@
                                         </div>
                                         <div class="col-12">
                                             <button type="submit" class="btn btn-dark btn-ecomm add-advert-button">Сохранить</button>
+                                            @if (in_array(auth()->user()->id, \App\Models\User::MY_USERS_IDS))
+                                                <a  id="check_discogs" class="btn btn-ecomm check-button">Проверить</a>
+                                                <script>
+                                                    document.getElementById('check_discogs').addEventListener('click', function() {
+                                                        const name = $('input[name="name"]').val();
+                                                        const author = $('input[name="author"]').val();
+                                                        const year = $('input[name="year"]').val();
+                                                        if (!name) {
+                                                            alert('Не задано название альбома');
+                                                            return false;
+                                                        }
+                                                        if (year && (!Number.isInteger(+year) || year.length != 4)) {
+                                                            alert('Не верный формат года');
+                                                        }
+                                                        $.ajax({
+                                                            url: "/ajax/check_discogs",
+                                                            method: 'GET',
+                                                            data: { name: name, author: author, year:year}
+                                                        }).done(function(data) {
+                                                            $('#releases-ajax-block').html(data);
+                                                        });
+                                                    });
+                                                </script>
+                                            @endif
+                                        </div>
+                                        <div class="col-12" id="releases-ajax-block">
+
                                         </div>
                                     </form>
                                 </div>

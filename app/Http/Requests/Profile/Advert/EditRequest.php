@@ -45,7 +45,8 @@ class EditRequest extends FormRequest
             'state' =>  'required|in:1,2',
             'vinyl' => 'nullable|array',
             'vinyl.*' => 'nullable|string',
-            'condition' => 'nullable|string|max:100'
+            'condition' => 'nullable|string|max:100',
+            'relation_release' => 'nullable'
         ];
     }
 }

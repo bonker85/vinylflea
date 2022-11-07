@@ -91,7 +91,7 @@ Route::match(['get', 'post'], 'tasks/{param}', 'App\Http\Controllers\TasksContro
 Route::get('/sitemap.xml', 'App\Http\Controllers\SitemapController@index');
 Route::get('/user/{user}/{style_id?}', 'App\Http\Controllers\Profile\IndexController@user')->name('user');
 Route::get('artist/{artist:discogs_artist_id}', 'App\Http\Controllers\ArtistController@index')->name('artist');
-
+Route::post('artist/{artist:discogs_artist_id}', 'App\Http\Controllers\ArtistController@edit')->name('artist.edit');
 Route::group(['namespace' => 'App\Http\Controllers\Vinyl', 'prefix' => 'vinyls'], function() {
     Route::get('/details/{advert:url}', 'IndexController@details')->name('vinyls.details');
     Route::get('/all', 'IndexController@allStyles')->name('vinyls.styles');
