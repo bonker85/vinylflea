@@ -37,7 +37,6 @@ class DiscogsService {
 
     public static function addImagesInCDN($images, $item, $type = 'master')
     {
-        dd($images);
         if ($item->cdn_count_images) {
             // уже были загружены раньше
             return true;
@@ -50,38 +49,40 @@ class DiscogsService {
         } else {
             $partCdnPath = $item->id;
         }
-        foreach ($images as $image) {
-            $cdnPath =
-                '/discogs/' . $type . '/' . $partCdnPath .
-                '/' . $type . $i . '.' . pathinfo($image['uri'], PATHINFO_EXTENSION);
-            $content = file_get_contents($image['uri']);
-            if (!$content ||
-                !make_directory(storage_path('app/public/discogs/tmp/' . $type . '/'
-                    . $item->id), 0777, true)) {
-                $item->no_images = 1;
-                $item->save();
-                break;
-            } else {
-                $fileTmpPath = storage_path('app/public/discogs/tmp/'. $type)
-                    . '/' . $item->id. '/' . $type . $i . '.'
-                    . pathinfo($image['uri'], PATHINFO_EXTENSION);
-                file_put_contents($fileTmpPath, $content);
-                $img = Image::make($fileTmpPath);
-                $img->resize(500, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save($fileTmpPath);
-                $imageService->createImageWatermark(
-                    $fileTmpPath,
-                    $fileTmpPath,
-                    public_path('images/watermarks/watermark.png')
-                );
-                if ($cdnService->uploadFile($fileTmpPath,$cdnPath)['error']) {
-                    $item->no_images = 2; //если не все имаги загрузились
+        if ($images) {
+            foreach ($images as $image) {
+                $cdnPath =
+                    '/discogs/' . $type . '/' . $partCdnPath .
+                    '/' . $type . $i . '.' . pathinfo($image['uri'], PATHINFO_EXTENSION);
+                $content = file_get_contents($image['uri']);
+                if (!$content ||
+                    !make_directory(storage_path('app/public/discogs/tmp/' . $type . '/'
+                        . $item->id), 0777, true)) {
+                    $item->no_images = 1;
+                    $item->save();
                     break;
+                } else {
+                    $fileTmpPath = storage_path('app/public/discogs/tmp/'. $type)
+                        . '/' . $item->id. '/' . $type . $i . '.'
+                        . pathinfo($image['uri'], PATHINFO_EXTENSION);
+                    file_put_contents($fileTmpPath, $content);
+                    $img = Image::make($fileTmpPath);
+                    $img->resize(500, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                    })->save($fileTmpPath);
+                    $imageService->createImageWatermark(
+                        $fileTmpPath,
+                        $fileTmpPath,
+                        public_path('images/watermarks/watermark.png')
+                    );
+                    if ($cdnService->uploadFile($fileTmpPath,$cdnPath)['error']) {
+                        $item->no_images = 2; //если не все имаги загрузились
+                        break;
+                    }
+                    $i++;
                 }
-                $i++;
-            }
 
+            }
         }
         $item->cdn_count_images = --$i;
         $item->save();
