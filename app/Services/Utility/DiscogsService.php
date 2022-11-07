@@ -178,8 +178,9 @@ class DiscogsService {
     {
         if ($discogsArtistIds) {
             $systemId = DiscogsService::DISCOGS_SYSTEM_ID;
+            if ($discogsArtistIds == $systemId) return false;
             if ($discogsArtistIds && $discogsArtistIds != $systemId) {
-                $authors_ids = str_replace([$systemId, ',' . $systemId, $systemId . ','], '', $discogsArtistIds);
+                $authors_ids = str_replace([',' . $systemId, $systemId . ','], '', $discogsArtistIds);
                 $authorLists = explode(',', $authors_ids);
                 $links = [];
                 foreach ($authorLists as $artistId) {
