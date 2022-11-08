@@ -187,7 +187,8 @@ class TasksController extends Controller
                                     if (@file_get_contents($image->img)) {
                                         if ($i >= 4) break;
                                         $ext = '.' . pathinfo($image->img, PATHINFO_EXTENSION);
-                                        $path = public_path('storage') .  '/users/6/' . $advert->id . '/vinyl' . $i . $ext;
+                                        $userPath = '/users/6/' . $advert->id . '/vinyl' . $i . $ext;
+                                        $path = public_path('storage') .  $userPath;
                                         if (make_directory(pathinfo($path)['dirname'], 0777, true)) {
                                             $img = Image::make($image->img);
                                             $img->resize(500, null, function ($constraint) {
@@ -200,11 +201,10 @@ class TasksController extends Controller
                                             );
                                             //'/users/6/' . $advert->id . '/vinyl.jpg',
                                             AdvertImage::firstOrCreate(
-                                                ['path' => $path],
+                                                ['path' => $userPath],
                                                 [
                                                     'advert_id' => $advert->id,
-                                                    'path' => str_replace('public\storage', '',
-                                                        substr($path, strpos($path, 'public\storage')))
+                                                    'path' => $userPath
                                                 ]);
                                         }
                                         $i++;
