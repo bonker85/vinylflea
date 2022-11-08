@@ -128,8 +128,8 @@ class TasksController extends Controller
                 /**
                  * Парсер с сайта vinil-sd.by
                  */
-                for ($i=1; $i<=10; $i++) {
-                    $slice = $i;
+                for ($j=1; $j<=10; $j++) {
+                    $slice = $j;
                     $siteUrl = 'https://store.tildacdn.com/api/getproductslist/?storepartuid=495183118261&recid=375529451&c=1665522162862&getparts=true&getoptions=true&slice=' . $slice . '&size=500';
 
                     $data = json_decode(file_get_contents($siteUrl));
