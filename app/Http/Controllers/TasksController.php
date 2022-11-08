@@ -212,7 +212,6 @@ class TasksController extends Controller
 
                                 }
                             }
-                            dd('fin');
                         }
                     }
                 }
