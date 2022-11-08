@@ -322,7 +322,7 @@ class TasksController extends Controller
                         ]);
                     }
                 }
-                dd("FIN");
+                dd("aba");
                 break;
             case 'cron_translate':
                 $trans = new GoogleTranslateService();
