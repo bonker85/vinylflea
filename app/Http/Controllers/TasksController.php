@@ -252,41 +252,6 @@ class TasksController extends Controller
                 /**
                  * Синхронизация изображений объявлений с cdn
                  */
-                //update user avatar images
-            /**
-                $userAvatarImages = User::select("id", "avatar", "cdn_status")
-                                            ->where("avatar", "!=", "")
-                                            ->where("cdn_status", 0)
-                                            ->get();
-
-                foreach ($userAvatarImages as $uImage) {
-                    $path = $uImage->avatar;
-                    $filePath = storage_path('app/public') . $path;
-                    if (file_exists($filePath)) {
-                        $storagePath =  $path;
-                        $res = $cdnService->uploadFile($filePath, $storagePath);
-                        if (!$res["error"]) {
-                            $uImage->cdn_status = 1;
-                            $uImage->cdn_update_time = $time;
-                            $uImage->save();
-                        } else {
-                            DbLog::insert([
-                                'type' => DbLog::TYPES['cdn_error_update_avatar'] ,
-                                'message' => 'Send Request Error: UserId' . $uImage->id . ", Body Output:" . $res['body'],
-                                'created_at' => $now,
-                                'updated_at' => $now
-                            ]);
-                        }
-                    } else {
-                        DbLog::insert([
-                            'type' => DbLog::TYPES['cdn_error_update_avatar'] ,
-                            'message' => 'File Exist Error: UserId ' . $uImage->id . ', ' .
-                                "avatar image don't exist on disc, path: " . $uImage->avatar,
-                            'created_at' => $now,
-                            'updated_at' => $now
-                        ]);
-                    }
-                }**/
                 //update advert avatar images
                 $cdnService = new CDNService();
                 $now = now();
@@ -296,6 +261,7 @@ class TasksController extends Controller
                     ->get();
                 foreach ($advertImages as $aImage) {
                     $path = $aImage->path;
+                    echo storage_path('app/public');exit();
                     $filePath = storage_path('app/public') . $path;
                     if (file_exists($filePath)) {
                         $storagePath =  $path;
