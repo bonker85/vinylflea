@@ -571,7 +571,7 @@ class IndexController extends BaseController
         $cdnFilesName = [];
         if (env('CDN_ENABLE')) {
             $cdnService = new CDNService();
-            $cdnResult = $cdnService->getStorageObjects('/users/1/4289/');
+            $cdnResult = $cdnService->getStorageObjects('/users/' . $userId . '/' . $advertId . '/');
             if (!$cdnResult['error']) {
                 $cdnObjects = json_decode($cdnResult['body']);
                 foreach ($cdnObjects as $sdnObject) {
