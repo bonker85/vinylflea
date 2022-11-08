@@ -261,9 +261,9 @@ class TasksController extends Controller
                     ->get();
                 foreach ($advertImages as $aImage) {
                     $path = $aImage->path;
-                    echo storage_path('app/public');exit();
                     $filePath = storage_path('app/public') . $path;
                     if (file_exists($filePath)) {
+                        echo $filePath;exit();
                         $storagePath =  $path;
                         $res = $cdnService->uploadFile($filePath, $storagePath);
                         if (!$res["error"]) {
@@ -279,6 +279,7 @@ class TasksController extends Controller
                             ]);
                         }
                     } else {
+                        echo 'error:' . $filePath;exit();
                         DbLog::insert([
                             'type' => DbLog::TYPES['cdn_error_update_advert'] ,
                             'message' => 'File Exist Error: AdvertImageId ' . $aImage->id . ', ' .
