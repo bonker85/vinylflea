@@ -44,7 +44,7 @@
                             </a>
                             <p class="product-catergory font-13 mb-1">Исполнитель:
                                 <span class="author">
-                                    @if ($advert->author)
+                                    @if ($advert->author || $advert->discogs_author_ids)
                                         @php $artistsLinks = \App\Services\Utility\DiscogsService::getArtistsLink($advert->discogs_author_ids);
                                             if ($artistsLinks) { echo $artistsLinks; } else { echo $advert->author;}
                                         @endphp

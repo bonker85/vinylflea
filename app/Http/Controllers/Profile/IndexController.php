@@ -443,7 +443,8 @@ class IndexController extends BaseController
             }
             $vinyl = $data['vinyl'];
             unset($data['vinyl']);
-            if ($advert->status == AdvertService::getStatusByName('moderation') && !$advert->up_time) {
+            if (($advert->status == AdvertService::getStatusByName('moderation') ||
+                    $advert->status == AdvertService::getStatusByName('rejected')) && !$advert->up_time) {
                 $advert->up_time = now();
             }
             $advert->update($data);

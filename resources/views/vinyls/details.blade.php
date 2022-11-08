@@ -89,7 +89,7 @@
                                 <dl class="row mt-3">
                                     <dt class="col-sm-3">Стиль</dt>
                                     <dd class="col-sm-9">{{$advert->style->name}}</dd>
-                                    @if ($advert->author)
+                                    @if ($advert->author || $advert->discogs_author_ids)
                                         <dt class="col-sm-3">Исполнитель</dt>
                                         <dd class="col-sm-9">
                                             @if ($artistLinks)
