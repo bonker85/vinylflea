@@ -29,7 +29,8 @@ class ArtistController extends Controller
             $trans = new GoogleTranslateService();
             $source = 'en';
             $target = 'ru';
-            $artist->profile_translate = $trans->translate($source, $target, $request->profile);;
+            $artist->profile = $request->profile;
+            $artist->profile_translate = $trans->translate($source, $target, $request->profile);
             $artist->save();
         }
         return redirect()->route('artist', $artist->discogs_artist_id);
