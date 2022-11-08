@@ -263,7 +263,6 @@ class TasksController extends Controller
                     $path = $aImage->path;
                     $filePath = storage_path('app/public') . $path;
                     if (file_exists($filePath)) {
-                        echo $filePath;exit();
                         $storagePath =  $path;
                         $res = $cdnService->uploadFile($filePath, $storagePath);
                         if (!$res["error"]) {
