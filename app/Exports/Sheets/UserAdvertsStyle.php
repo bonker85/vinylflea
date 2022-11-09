@@ -65,7 +65,7 @@ class UserAdvertsStyle implements FromView, WithTitle, WithStyles
            $table[$row][3] = $advert->price;
            $table[$row][4] = $advert->condition;
            $table[$row][5] = [[
-               'link' => route('vinyls.details', $advert->id),
+               'link' => route('vinyls.details', $advert->url),
                'name' => "Смотреть на сайте пластинку " . $advert->name
            ]];
            $table[$row][6] = $advert->sku;
