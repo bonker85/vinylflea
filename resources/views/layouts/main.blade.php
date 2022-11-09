@@ -25,7 +25,7 @@
     <meta name="description" content="@yield('description')">
     <title>@yield('title') | VinylFlea.By - Барахолка Виниловых Пластинок</title>
     @if (env('APP_ENV') == 'production' && !request()->disable_tag)
-        @if (auth()->check() && (in_array(auth()->user()->id, [1, 4, 11])))
+        @if (auth()->check() && (in_array(auth()->user()->id, \App\Models\User::MY_USERS_IDS)))
         @else
     <!-- Yandex.Metrika counter -->
         <script type="text/javascript" >
