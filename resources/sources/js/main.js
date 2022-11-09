@@ -398,7 +398,8 @@ $(document).ready(function() {
                 param = '?q=' + inputElement.val();
             }
         }
-        if (typeof selectElement == 'undefined') {
+        console.log(selectElement.length);
+        if (typeof selectElement == 'undefined' || !selectElement.length) {
             location.href = '/profile/' + $('#s-status').val()  + param;
         } else {
             location.href = selectElement.val() + param;

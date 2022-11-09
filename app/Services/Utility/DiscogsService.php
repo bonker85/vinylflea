@@ -6,6 +6,7 @@ use App\Models\DiscogsReleases;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Config;
 use Intervention\Image\Facades\Image;
+
 use Xyrotech\Orin;
 
 class DiscogsService {
@@ -18,7 +19,7 @@ class DiscogsService {
     private static $whatReplace = [
         'сборка', 'сборный', 'сборник', 'various', 'разное', 'разные исполнители', 'various(сборник)',
         'сборник(various)', 'сборник (various)', 'various (сборник)'];
-    private static $toReplace = 'Various';
+    public static $toReplace = 'Various (Сборник)';
     private static $various = false; // признак что исполнитель системное значение Various т.е Сборник
     private $artistIds;
     private $query;
@@ -91,7 +92,7 @@ class DiscogsService {
     }
 
 
-    private static function maybeVarious($author)
+    public static function maybeVarious($author)
     {
         if (in_array(mb_strtolower($author), self::$whatReplace)) {
             self::$various = true;
@@ -180,8 +181,8 @@ class DiscogsService {
     {
         if ($discogsArtistIds) {
             $systemId = DiscogsService::DISCOGS_SYSTEM_ID;
-            if ($discogsArtistIds == $systemId) return false;
-            if ($discogsArtistIds && $discogsArtistIds != $systemId) {
+            if ($discogsArtistIds == $systemId) return self::$toReplace;
+            if ($discogsArtistIds != $systemId) {
                 $authors_ids = str_replace([',' . $systemId, $systemId . ','], '', $discogsArtistIds);
                 $authorLists = explode(',', $authors_ids);
                 $links = [];

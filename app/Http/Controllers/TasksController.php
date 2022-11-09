@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UserAdvertsExport;
+use App\Exports\UsersExport;
 use App\Models\Advert;
 use App\Models\AdvertImage;
 use App\Models\CanvasSize;
@@ -26,6 +28,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class TasksController extends Controller
@@ -123,6 +126,9 @@ class TasksController extends Controller
                     }
                 }
                 dd('FIN');
+                break;
+            case 'create_excel':
+                return (new UserAdvertsExport(6))->download('vinyl.xlsx');
                 break;
             case 'parser-vinil-sd-by':
                 /**

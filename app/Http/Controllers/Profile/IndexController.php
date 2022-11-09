@@ -147,8 +147,11 @@ class IndexController extends BaseController
                 }
             }
             unset($data['relation_release']);
+        } else if (DiscogsService::maybeVarious($data['author'])) {
+            $data['discogs_author_ids'] = DiscogsService::DISCOGS_SYSTEM_ID;
+        } else {
+            $data['discogs_author_ids'] = $artistIds;
         }
-        $data['discogs_author_ids'] = $artistIds;
         if (!empty($data['edition'])) {
             $data['edition_id'] = Edition::getIdByName($data['edition']);
         }
@@ -428,6 +431,8 @@ class IndexController extends BaseController
                     $data['discogs_author_ids'] = $artistIds;
                 }
                 unset($data['relation_release']);
+            } else if (DiscogsService::maybeVarious($data['author'])) {
+                $data['discogs_author_ids'] = DiscogsService::DISCOGS_SYSTEM_ID;
             }
             $data['user_id'] = $advert->user_id;
             if (!User::isAdmin()) {
