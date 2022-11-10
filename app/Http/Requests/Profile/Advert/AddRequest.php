@@ -28,9 +28,7 @@ class AddRequest extends FormRequest
             'name' => [
                 'required',
                 'string',
-                'max:100',
-                Rule::unique('adverts', 'name')
-                    ->where('user_id', auth()->user()->id)
+                'max:100'
             ],
             'year' => 'nullable|integer',
             'edition' => 'nullable|string',

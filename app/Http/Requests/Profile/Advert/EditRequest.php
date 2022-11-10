@@ -28,12 +28,7 @@ class EditRequest extends FormRequest
             'name' => [
                 'required',
                 'string',
-                'max:100',
-                Rule::unique('adverts', 'name')
-                    ->where('user_id', auth()->user()->id)
-                    ->where(function ($query) {
-                        return $query->where('id', '!=', $this->id);
-                    })
+                'max:100'
             ],
             'year' => 'nullable|integer',
             'author' => 'nullable|max:60',

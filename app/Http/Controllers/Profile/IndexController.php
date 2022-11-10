@@ -157,11 +157,13 @@ class IndexController extends BaseController
         }
         unset($data['edition']);
         $data['user_id'] = auth()->user()->id;
-        $data['url'] = translate_url($data['name']) . '-u' . $data['user_id'];
+        $data['url'] = translate_url($data['name']) . '-t' . time();
         $data['description'] = strip_tags(nl2br($data['description']),'<br><b>');
         $vinyl = $data['vinyl'];
         unset($data['vinyl']);
         $advert = Advert::firstOrCreate(['url' => $data['url']], $data);
+        $advert->url = preg_replace("#(-t\d.+)#is", "-a" . $advert->id, $advert->url);
+        $advert->save();
         AdvertImage::where('advert_id', $advert->id)->delete();
         $i = 1;
         foreach ($vinyl as $url) {
@@ -435,9 +437,6 @@ class IndexController extends BaseController
                 $data['discogs_author_ids'] = DiscogsService::DISCOGS_SYSTEM_ID;
             }
             $data['user_id'] = $advert->user_id;
-            if (!User::isAdmin()) {
-                $data['url'] = translate_url($data['name']) . '-u' . $data['user_id'];
-            }
             $data['status'] = 2;
             $data['description'] = strip_tags(nl2br($data['description']),'<br><b>');
             if (User::isAdmin()) {
