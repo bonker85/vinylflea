@@ -503,21 +503,6 @@ class IndexController extends BaseController
                                     $advertImage->path = $path;
                                     $advertImage->cdn_status=0;
                                     $advertImage->cdn_update_time = 0;
-                                    if (User::isAdmin()) {
-                                        if (env("CDN_ENABLE")) {
-                                            $filePath = storage_path('app/public') . $path;
-                                            echo $filePath;exit();
-                                            if (file_exists($filePath)) {
-                                                $storagePath = $path;
-                                                $res = $cdnService->uploadFile($filePath, $storagePath);
-                                                if (!$res["error"]) {
-                                                    $advertImage->cdn_status = 1;
-                                                    $advertImage->cdn_update_time = time();
-                                                }
-                                            }
-
-                                        }
-                                    }
                                     $advertImage->thumb = $thumb;
                                     $advertImage->thumb_update_time = $thumb_update_time;
                                     $advertImage->save();
@@ -551,31 +536,13 @@ class IndexController extends BaseController
                                     $thumb_update_time = time();
                                 }
                             }
-                            if (User::isAdmin()) {
-                                if (env("CDN_ENABLE")) {
-                                    $filePath = storage_path('app/public') . $path;
-                                    echo $filePath;exit();
-                                    if (file_exists($filePath)) {
-                                        $storagePath = $path;
-                                        $res = $cdnService->uploadFile($filePath, $storagePath);
-                                        if (!$res["error"]) {
-                                            $cdn_status = 1;
-                                            $cdn_update = time();
-                                        }
-                                    }
-
-                                }
-                            } else {
-                                $cdn_status = 0;
-                                $cdn_update = 0;
-                            }
                             AdvertImage::firstOrCreate(
                                 ['path' => $path],
                                 [
                                     'advert_id' => $advert->id,
                                     'path' => $path,
-                                    'cdn_status' => $cdn_status,
-                                    'cdn_update_time' => $cdn_update,
+                                    'cdn_status' => 0,
+                                    'cdn_update_time' => 0,
                                     'thumb' => $thumb,
                                     'thumb_update_time' => $thumb_update_time
                                 ]);
@@ -589,11 +556,19 @@ class IndexController extends BaseController
                 rrmdir($removePath);
             }
             $this->syncAdvertImages($advert->id, $advert->user_id);
+            if (User::isAdmin()) {
+                AdvertService::updateAdvertsOnCDN();
+            }
             $this->messageTelegramOnModeration($advert, 2);
             return redirect()->route('profile.adverts', ['status' => AdvertService::STATUS[$data['status']]]);
         } else {
             abort('404');
         }
+    }
+
+    private function updateCDNData()
+    {
+
     }
 
     private function syncAdvertImages($advertId, $userId)

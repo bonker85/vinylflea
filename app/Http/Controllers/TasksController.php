@@ -15,6 +15,7 @@ use App\Models\Log as DbLog;
 use App\Models\Edition;
 use App\Models\Style;
 use App\Models\User;
+use App\Services\AdvertService;
 use App\Services\DoorService;
 use App\Services\Utility\CDNService;
 use App\Services\Utility\GoogleTranslateService;
@@ -258,43 +259,7 @@ class TasksController extends Controller
                 /**
                  * Синхронизация изображений объявлений с cdn
                  */
-                //update advert avatar images
-                $cdnService = new CDNService();
-                $now = now();
-                $time = time();
-                $advertImages = AdvertImage::select("id", "path", "cdn_status")
-                    ->where("cdn_status", 0)
-                    ->get();
-                foreach ($advertImages as $aImage) {
-                    $path = $aImage->path;
-                    $filePath = storage_path('app/public') . $path;
-                    if (file_exists($filePath)) {
-                        $storagePath =  $path;
-                        $res = $cdnService->uploadFile($filePath, $storagePath);
-                        if (!$res["error"]) {
-                            $aImage->cdn_status = 1;
-                            $aImage->cdn_update_time = $time;
-                            $aImage->save();
-                            unlink($filePath);
-                        } else {
-                            DbLog::insert([
-                                'type' => DbLog::TYPES['cdn_error_update_advert'] ,
-                                'message' => 'Send Request Error: AdvertImageId' . $aImage->id . ", Body Output:" . $res['body'],
-                                'created_at' => $now,
-                                'updated_at' => $now
-                            ]);
-                        }
-                    } else {
-                        echo 'error:' . $filePath;exit();
-                        DbLog::insert([
-                            'type' => DbLog::TYPES['cdn_error_update_advert'] ,
-                            'message' => 'File Exist Error: AdvertImageId ' . $aImage->id . ', ' .
-                                "image don't exist on disc, path: " . $aImage->path,
-                            'created_at' => $now,
-                            'updated_at' => $now
-                        ]);
-                    }
-                }
+                AdvertService::updateAdvertsOnCDN();
                 dd("aba");
                 break;
             case 'cron_translate':
