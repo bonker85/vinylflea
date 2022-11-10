@@ -128,7 +128,7 @@ class TasksController extends Controller
                 dd('FIN');
                 break;
             case 'create_excel':
-                return (new UserAdvertsExport(6))->download('vinyl.xlsx');
+                return (new UserAdvertsExport(4))->download('vinyl.xlsx');
                 break;
             case 'parser-vinil-sd-by':
                 /**
