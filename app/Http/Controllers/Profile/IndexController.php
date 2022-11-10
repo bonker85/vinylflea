@@ -506,6 +506,7 @@ class IndexController extends BaseController
                                     if (User::isAdmin()) {
                                         if (env("CDN_ENABLE")) {
                                             $filePath = storage_path('app/public') . $path;
+                                            echo $filePath;exit();
                                             if (file_exists($filePath)) {
                                                 $storagePath = $path;
                                                 $res = $cdnService->uploadFile($filePath, $storagePath);
