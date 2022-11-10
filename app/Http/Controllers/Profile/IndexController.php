@@ -143,7 +143,7 @@ class IndexController extends BaseController
                 if (isset($result['error'])) {
                     echo $result['error'];exit();
                 } else {
-                    $artistIds = implode(',', $result);
+                    $data['discogs_author_ids'] = implode(',', $result);
                 }
             }
             unset($data['relation_release']);
