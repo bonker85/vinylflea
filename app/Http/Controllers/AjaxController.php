@@ -172,7 +172,7 @@ class AjaxController extends Controller
                     return ['error' => $error];
             case 'front-message':
                 $error = 'error';
-                if (request()->method() == 'POST' && auth()->check()) {
+                if (request()->method() == 'POST' && auth()->check() && auth()->user()->email_verified_at) {
                     $id = request()->get('id');
                     $message = request()->get('message');
                     $userId = auth()->user()->id;
