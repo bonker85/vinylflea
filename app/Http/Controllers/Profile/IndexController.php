@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Profile;
 
 
+use App\Exports\UserAdvertsExport;
 use App\Http\Requests\Profile\Advert\AddRequest;
 use App\Http\Requests\Profile\Advert\EditRequest;
+use App\Http\Requests\Profile\ExportRequest;
 use App\Models\Advert;
 use App\Models\AdvertDialog;
 use App\Models\AdvertFavorit;
@@ -213,7 +215,7 @@ class IndexController extends BaseController
     private function messageTelegramOnModeration($advert, $type = 1)
     {
         if (User::isAdmin()) return;
-        if (env("ENABLE_TELEGRAM") && !User::isMyUser($advert->user_id)) {
+        if (env("ENABLE_TELEGRAM") && !in_array($advert->user_id, User::MY_USERS_IDS)) {
 
             $typeName = "создал";
             if ($type === 2) {
@@ -566,11 +568,32 @@ class IndexController extends BaseController
         }
     }
 
-    private function updateCDNData()
+    public function export()
     {
-
+        if (User::isMyUsers()) {
+            $isAdvertUserIds = Advert::select('user_id')
+                ->where('status', 1)
+                ->groupBy('user_id')
+                ->pluck('user_id')
+                ->toArray();
+            $users = User::select()->whereRaw('id IN (' . implode(',', $isAdvertUserIds) . ')')
+                ->whereRaw('email_verified_at IS NOT NULL')->orderBy('email')->get();
+            $styles = Style::select()->orderBy('name')->get();
+            return view('profile.export', compact('users', 'styles'));
+        } else {
+            abort('404');
+        }
     }
 
+    public function createExcel(ExportRequest $request)
+    {
+        if (User::isMyUsers()) {
+            $data = $request->validated();
+            return (new UserAdvertsExport($data))->download('vinyl.xlsx');
+        } else {
+            abort('404');
+        }
+    }
     private function syncAdvertImages($advertId, $userId)
     {
         $imagesInBase = [];

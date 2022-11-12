@@ -63,9 +63,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return (auth()->user() && (int)auth()->user()->role_id === self::ROLE_ADMIN);
     }
 
-    public static function isMyUser($userId)
+    public static function isMyUsers()
     {
-        return in_array($userId, self::MY_USERS_IDS);
+        return (auth()->check() && in_array(auth()->user()->id, self::MY_USERS_IDS));
     }
    public function isBan()
    {

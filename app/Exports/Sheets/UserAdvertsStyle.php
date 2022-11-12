@@ -11,11 +11,11 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class UserAdvertsStyle implements FromView, WithTitle, WithStyles
 {
-    private $style;
+    private $list;
 
-    public function __construct ($style, $adverts)
+    public function __construct ($list, $adverts)
     {
-        $this->style = $style;
+        $this->list = $list;
         $this->adverts = $adverts;
     }
 
@@ -24,9 +24,10 @@ class UserAdvertsStyle implements FromView, WithTitle, WithStyles
         $sheet->getColumnDimension("A")->setWidth('70');
         $sheet->getColumnDimension('B')->setWidth('50');
         $sheet->getColumnDimension('C')->setWidth('20');
-        $sheet->getColumnDimension('D')->setWidth('10');
-        $sheet->getColumnDimension('E')->setWidth('70');
-        $sheet->getColumnDimension('F')->setWidth('10');
+        $sheet->getColumnDimension('D')->setWidth('20');
+        $sheet->getColumnDimension('E')->setWidth('10');
+        $sheet->getColumnDimension('F')->setWidth('70');
+        $sheet->getColumnDimension('G')->setWidth('10');
         return [
             // Style the first row as bold text.
             1    => [
@@ -46,6 +47,7 @@ class UserAdvertsStyle implements FromView, WithTitle, WithStyles
         $title = [
             'exp-title' => 'Название',
             'exp-artist' => 'Исполнитель',
+            'Стиль',
             'exp-price' => 'Цена (Руб.)',
             'exp-condition' => 'Оценка',
             'Детальная Информация',
@@ -62,13 +64,14 @@ class UserAdvertsStyle implements FromView, WithTitle, WithStyles
            } else {
                $table[$row][2] = 'unknown';
            }
-           $table[$row][3] = $advert->price;
-           $table[$row][4] = $advert->condition;
-           $table[$row][5] = [[
+           $table[$row][3] = $advert->sname;
+           $table[$row][4] = $advert->price;
+           $table[$row][5] = $advert->condition;
+           $table[$row][6] = [[
                'link' => route('vinyls.details', $advert->url),
-               'name' => "Смотреть на сайте пластинку " . $advert->name
+               'name' => $advert->name
            ]];
-           $table[$row][6] = $advert->sku;
+           $table[$row][7] = $advert->sku;
           // $i++;
            $row++;
         }
@@ -80,7 +83,7 @@ class UserAdvertsStyle implements FromView, WithTitle, WithStyles
      */
     public function title(): string
     {
-        return $this->style;
+        return $this->list;
     }
     //@todo Дублирующийся метод из DiscogsService почему-то на прямую если использовать баг открытия
     private function getArtistsLink($discogsArtistIds)

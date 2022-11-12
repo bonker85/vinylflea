@@ -129,8 +129,8 @@ class TasksController extends Controller
                 dd('FIN');
                 break;
             case 'create_excel':
-                return (new UserAdvertsExport(4))->download('vinyl.xlsx');
-                break;
+              /*  return (new UserAdvertsExport(4))->download('vinyl.xlsx');
+                break;*/
             case 'parser-vinil-sd-by':
                 /**
                  * Парсер с сайта vinil-sd.by
@@ -270,7 +270,7 @@ class TasksController extends Controller
                foreach ($artists as $artist) {
                    if ($artist->profile) {
                        $result = $trans->translate($source, $target, $artist->profile);
-                       sleep(2);
+                       sleep(4);
                        if ($result) {
                            $artist->profile_translate = $result;
                            $artist->save();
@@ -347,6 +347,7 @@ class TasksController extends Controller
                             $message .= $price ." ЗАБРАТЬ ПЛАСТИНКУ - " . route('vinyls.details', $advert->url) ."\r\n";
                             $i++;
                             $advert->cron = 1;
+                            $advert->timestamps = false;
                             $advert->save();
                         }
                         if ($request->get('owner') && $request->get('album')) {

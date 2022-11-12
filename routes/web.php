@@ -84,6 +84,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Profile', 'prefix' => 'profil
         Route::post('/deactivate_advert/{id}', 'IndexController@deactivateAdvert')->name('profile.deactiv_advert');
         Route::post('/activate_advert/{id}', 'IndexController@activateAdvert')->name('profile.activ_advert');
         Route::post('/up_advert/{id}', 'IndexController@upAdvert')->name('profile.up_advert');
+        Route::get('/export', 'IndexController@export')->name('profile.export');
+        Route::post('/export', 'IndexController@createExcel')->name('profile.create_excel');
         Route::get('/{status?}/{advert?}', 'IndexController@index')->name('profile.adverts');
     }
 );

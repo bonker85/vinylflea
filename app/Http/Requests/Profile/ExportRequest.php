@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Profile\Advert;
+namespace App\Http\Requests\Profile;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class AddRequest extends FormRequest
+class ExportRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,23 +25,11 @@ class AddRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
-                'required',
-                'string',
-                'max:100'
-            ],
-            'year' => 'nullable|integer',
-            'edition' => 'nullable|string',
-            'style_id' => 'required|exists:styles,id',
-            'description' => 'nullable|string|max:1000',
-            'author' => 'nullable|max:60',
-            'deal' => 'required|in:sale,exchange,free',
-            'price' => 'required|regex:/^[0-9]{0,4}\.?[0-9]{0,2}$/i',
-            'state' =>  'required|in:1,2',
-            'vinyl' => 'nullable|array',
-            'vinyl.*' => 'nullable|string',
-            'condition' => 'nullable|string|max:100',
-            'relation_release' => 'nullable'
+            'users_ids' => 'nullable|array',
+            'users_ids.*' => 'nullable|integer|exists:users,id',
+            'styles_ids' => 'nullable|array',
+            'styles_ids.*' => 'nullable|integer|exists:styles,id',
+            'sep' => 'string'
         ];
     }
 }

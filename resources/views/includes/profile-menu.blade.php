@@ -17,6 +17,7 @@
                 <a href="{{route('profile.settings')}}" class="list-group-item @if ($route_name == 'profile.settings') active @endif d-flex justify-content-between align-items-center">Настройки <i class='bx bx-user-circle fs-5'></i></a>
                 @if (\App\Models\User::isAdmin())
                     <a href="{{route('profile.users')}}" class="list-group-item @if ($route_name == 'profile.users') active @endif d-flex justify-content-between align-items-center">Пользователи <i class='bx bx-no-entry fs-5'></i></a>
+                    <a href="{{route('profile.export')}}" class="list-group-item @if ($route_name == 'profile.export') active @endif d-flex justify-content-between align-items-center">Выгрузить пластинки <i class='bx bx-export fs-5'></i></a>
                 @endif
                 <a href="#" class="logout_link list-group-item d-flex justify-content-between align-items-center">Выйти <i class='bx bx-log-out fs-5'></i></a>
             </div>

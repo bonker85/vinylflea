@@ -603,6 +603,9 @@ File: icons.css
 .bxs-skip-previous-circle:before {
     content: "\edff"
 }
+.bx-export:before {
+    content: "\ea30"
+}
 @font-face {
 
     font-family: LineIcons;
@@ -2369,6 +2372,10 @@ body.bg-theme15 {
     height: 38px!important;
     border: 1px solid #ced4da!important;
 
+}
+#users_export .select2-selection {
+    padding: unset!important;
+    height: unset!important;
 }
 .select2-selection__arrow {
     top: 6px!important;
