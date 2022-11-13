@@ -23,7 +23,7 @@ class SitemapController extends Controller
         //добавление главной
         $sitemap->add(Url::create('/')->setLastModificationDate($lastModificationDate));
         //добавление артистов
-        $artists = DiscogsArtist::select('discogs_artist_id')->get();
+        $artists = DiscogsArtist::select('discogs_artist_id')->where('discogs_artist_id', '!=', 194)->get();
         foreach ($artists as $artist) {
             $sitemap->add(Url::create(route('artist', $artist->discogs_artist_id))->setLastModificationDate($lastModificationDate));
         }

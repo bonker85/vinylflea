@@ -12,6 +12,9 @@ class ArtistController extends Controller
 
     public function index(Request $request, DiscogsArtist $artist)
     {
+        if ($artist->discogs_artist_id == 194) {
+            abort('404');
+        }
         $filePath = storage_path('app/public/discogs/releases/') . $artist->id. '/' . $artist->id . '.data';
         $releases = [];
         if (file_exists($filePath)) {
