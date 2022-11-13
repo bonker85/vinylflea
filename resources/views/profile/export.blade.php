@@ -55,7 +55,7 @@
                                             </label>
                                         </div>
                                         <div class="form-check mt-3">
-                                            <input class="form-check-input" type="radio" name="sep" value="none">
+                                            <input class="form-check-input" type="radio" checked name="sep" value="none">
                                             <label class="form-check-label">
                                                 Не разбивать на вкладки
                                             </label>

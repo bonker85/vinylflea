@@ -61,7 +61,7 @@ class UserAdvertsExport implements WithMultipleSheets
                 }
             }
         } else {
-            $list['Все стили'] = $adverts;
+            $lists['Все стили'] = $adverts;
         }
         foreach ($lists as $list => $adverts) {
             if ($list == 'Trash Metal') {
