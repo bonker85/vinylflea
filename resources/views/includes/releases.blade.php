@@ -57,7 +57,7 @@
                     Год
                 </dt>
                 <dd class="col-sm-9">
-                    @if (isset($release->year)){{$release->year}} @else - @endif
+                    @if (isset($release->year) && $release->year){{$release->year}} @else - @endif
                 </dd>
                 <dt class="col-sm-3">
                     Страна
