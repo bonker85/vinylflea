@@ -114,6 +114,19 @@ class TasksController extends Controller
                     ->where('thumb', 0)->where('path','LIKE', '%vinyl1%')->get();
                 foreach ($advertImages as $image) {
                     $filePath = storage_path('app/public') . $image->path;
+                    // если файла нет, забираем его с cdn потом удаляем
+                    $fromCdn = false;
+                    if (!file_exists($filePath) && env('CDN_ENABLE') && $image->cdn_status) {
+                        $url = env('CDN_HOST') . $image->path.  '?tm=' . $image->cdn_update_time;
+                        $content = @file_get_contents($url);
+                        if ($content) {
+                            if (make_directory(dirname($filePath), 0777, true)) {
+                                file_put_contents($filePath, $content);
+                                $fromCdn = true;
+                            }
+
+                        }
+                    }
                    if (file_exists($filePath)) {
                         $fileThumbPath =
                             storage_path('app/public') .
@@ -124,6 +137,10 @@ class TasksController extends Controller
                             $image->thumb_update_time = $time;
                         }
                         $image->save();
+                        if ($fromCdn) {
+                            unlink($filePath);
+                            rrmdir(dirname($filePath));
+                        }
                     }
                 }
                 dd('FIN');
