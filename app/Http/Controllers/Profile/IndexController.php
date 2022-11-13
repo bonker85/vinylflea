@@ -360,7 +360,16 @@ class IndexController extends BaseController
             $advertList->where('style_id', $style_id);
         }
         $advertList = $advertList->paginate(20);
-        $styles = Style::select()->orderBy('name')->get();
+        $styleIds = $this->getUserStyleIds($user->id);
+        if ($styleIds) {
+            $styles = Style::select()
+                ->whereRaw('id IN (' . implode(',', $styleIds) . ')')
+                ->orderBy('name')
+                ->get();
+        } else {
+            $styles = [];
+        }
+
         return view('user.index', compact('user', 'advertList', 'styles'));
     }
     public function favorit()
@@ -560,6 +569,7 @@ class IndexController extends BaseController
             $this->syncAdvertImages($advert->id, $advert->user_id);
             if (User::isAdmin()) {
                 AdvertService::updateAdvertsOnCDN();
+                AdvertService::recountStylesAdverts();
             }
             $this->messageTelegramOnModeration($advert, 2);
             return redirect()->route('profile.adverts', ['status' => AdvertService::STATUS[$data['status']]]);
@@ -655,5 +665,16 @@ class IndexController extends BaseController
             request()->session()->flash('success', 'Пластинка (' . $advertName . ') удалена');
             return redirect()->route('profile.adverts');
         }
+    }
+
+    private function getUserStyleIds($userId)
+    {
+        $userStylesIds = Advert::select('style_id')
+            ->where('user_id', $userId)
+            ->where('status', 1)
+            ->groupBy('style_id')
+            ->pluck('style_id')
+            ->toArray();
+        return $userStylesIds;
     }
 }

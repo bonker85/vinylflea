@@ -21,7 +21,7 @@
                             <div class="col-md-4">
                                 <ul class="">
                                     @foreach ($styles as $style)
-                                        <li><a href="{{route('vinyls.style', $style->slug)}}">{{$style->name}} ({{$style->adverts()->count()}})</a></li>
+                                        <li><a href="{{route('vinyls.style', $style->slug)}}">{{$style->name}} ({{$style->count}})</a></li>
                                         @if ($loop->iteration % 15 === 0)
                                             </ul></div><div class="col-md-4"><ul>
                                         @endif

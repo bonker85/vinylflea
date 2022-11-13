@@ -4,8 +4,10 @@ namespace App\Services;
 use App\Models\Advert;
 use App\Models\AdvertImage;
 use App\Models\Log as DbLog;
+use App\Models\Style;
 use App\Models\User;
 use App\Services\Utility\CDNService;
+use Illuminate\Support\Facades\DB;
 
 class AdvertService {
 
@@ -88,6 +90,22 @@ class AdvertService {
                     'created_at' => $now,
                     'updated_at' => $now
                 ]);
+            }
+        }
+    }
+
+    public static function recountStylesAdverts()
+    {
+        $stylesCount = Advert::select('style_id', Db::raw("COUNT(*) AS cnt"))
+            ->groupBy('style_id')
+            ->where('id', '!=', 4235)
+            ->where('status', 1)
+            ->get();
+        foreach ($stylesCount as $stCount) {
+            $style = Style::find($stCount->style_id);
+            if ($style) {
+                $style->count = $stCount->cnt;
+                $style->save();
             }
         }
     }

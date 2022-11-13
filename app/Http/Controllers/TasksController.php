@@ -104,6 +104,10 @@ class TasksController extends Controller
                 }
                 dd('FIN');
                 break;
+            case 'count_styles':
+                AdvertService::recountStylesAdverts();
+                dd("FIN");
+                break;
             case 'create_ad_thumb':
                 /**
                  * Нарезка тумбов на основное изображение

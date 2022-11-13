@@ -78,7 +78,9 @@
                                     @if ($advertList->count())
                                         <div class="col-12">
                                             <div class="shop-cart-list mb-3 p-3">
-                                                <div class="search-info">В разделе <b>{{$currentStyle}}</b>@if(request()->uq) по запросу <b>"{{request()->uq}}"</b>@endif {{num_word($advertList->total(), ["найдена", "найдено", "найдено"], false)}} <b>{!! $advertList->total() . '</b> ' . num_word($advertList->total(), ["пластинка", "пластинки", "пластинок"], false)!!} </div>
+                                                @if ($advertList->total() > $advertList->perPage() || request()->route('style_id') || request()->uq)
+                                                    <div class="search-info">В разделе <b>{{$currentStyle}}</b>@if(request()->uq) по запросу <b>"{{request()->uq}}"</b>@endif {{num_word($advertList->total(), ["найдена", "найдено", "найдено"], false)}} <b>{!! $advertList->total() . '</b> ' . num_word($advertList->total(), ["пластинка", "пластинки", "пластинок"], false)!!} </div>
+                                                @endif
                                                 @foreach($advertList as $advert)
                                                     <div class="row align-items-center g-3">
                                                         <div class="col-12">

@@ -30,7 +30,7 @@ class ViewServiceProvider extends ServiceProvider
         /********************** FRONTAND ***********************************************/
         /* Главное и боковое меню сайта, вывод товаров из каталога */
         View::composer(["includes.main-menu", 'includes.search-block'], function ($view) {
-            $styles = Style::select()->orderBy('name')->get();
+            $styles = Style::select()->where('count', '!=', 0)->orderBy('name')->get();
             $view->with('styles', $styles);
            // $catalog = Catalog::where('status', 1)->orderBy('position')->where('parent_id', 0)->get();
          //   $view->with('catalog', $catalog);
