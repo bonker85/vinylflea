@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\UserAdvertsExport;
 use App\Exports\UsersExport;
 use App\Models\Advert;
 use App\Models\AdvertImage;
@@ -11,13 +10,11 @@ use App\Models\Catalog;
 use App\Models\Color;
 use App\Models\DiscogsArtist;
 use App\Models\Door;
-use App\Models\Log as DbLog;
 use App\Models\Edition;
 use App\Models\Style;
 use App\Models\User;
 use App\Services\AdvertService;
 use App\Services\DoorService;
-use App\Services\Utility\CDNService;
 use App\Services\Utility\GoogleTranslateService;
 use App\Services\Utility\ImageService;
 use App\Services\Utility\VkService;
@@ -29,7 +26,6 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
-use Maatwebsite\Excel\Facades\Excel;
 
 
 class TasksController extends Controller
@@ -316,10 +312,10 @@ class TasksController extends Controller
                 if ($lock < 10) {
                     exit();
                 }*/
-                $styles = Style::select()->where('cron', 0)->get();
+                $styles = Style::select()->where('cron', 0)->where('count', '>', 0)->get();
                 if (!count($styles)) {
                     DB::table('styles')->update(['cron' => 0]);
-                    $styles = Style::select()->where('cron', 0)->get();
+                    $styles = Style::select()->where('cron', 0)->where('count', '>', 0)->get();
                 }
                 foreach ($styles as $style) {
                     $adverts = Advert::select()
