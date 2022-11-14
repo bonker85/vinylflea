@@ -1,9 +1,5 @@
 <section>
     <div class="container popular-grid">
-        <div class="d-flex align-items-center">
-            <h5 class="text-uppercase mb-4 mb-0">Популярное</h5>
-            <hr/>
-        </div>
         <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
             <div class="col">
                 <div class="card rounded-0 border shadow-none">
