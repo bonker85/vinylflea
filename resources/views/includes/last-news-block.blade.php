@@ -1,5 +1,5 @@
 <!--start News-->
-<section class="py-4">
+<section >
     <div class="container">
         <div class="d-flex align-items-center">
             <h5 class="text-uppercase mt-0 mb-0">Новости</h5>

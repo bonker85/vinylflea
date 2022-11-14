@@ -9,6 +9,7 @@ use App\Models\Advert;
 use App\Models\Page;
 use App\Models\Style;
 use App\Services\AdvertService;
+use App\Services\ProfileService;
 
 
 class IndexController extends BaseController

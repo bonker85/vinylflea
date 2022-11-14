@@ -3082,3 +3082,11 @@ i.icon i.fa-search {
 #releases-ajax-block  .releases-block {
     min-height: unset!important;
 }
+.popular-grid .card {
+    margin-bottom: 10px;
+    -webkit-box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
+.popular-img {
+    padding-left: 5px;
+}

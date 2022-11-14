@@ -121,6 +121,8 @@
             @yield('content')
         </div>
     </div>
+
+
     <!--end page wrapper -->
     <!--start footer section-->
     <footer>
