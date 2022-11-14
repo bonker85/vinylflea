@@ -76,6 +76,10 @@ class IndexController extends BaseController
 
     public function activateAdvert($id)
     {
+        if (AdvertService::isUserAdvertsLimit(auth()->user()->id)) {
+            request()->session()->flash('success', 'Лимит активных пластинок ' . AdvertService::ADVERT_LIMIT);
+            return redirect('/profile');
+        }
         $advert = Advert::select()->where('id', $id)->where('user_id', auth()->user()->id)->first();
         if ($advert &&
             $advert->status != AdvertService::getStatusByName('moderation') &&
@@ -130,6 +134,10 @@ class IndexController extends BaseController
 
     public function addAdvert()
     {
+        if (AdvertService::isUserAdvertsLimit(auth()->user()->id)) {
+            request()->session()->flash('success', 'Лимит активных пластинок ' . AdvertService::ADVERT_LIMIT);
+            return redirect('/profile');
+        }
         $styles = Style::select()->orderBy('name')->get();
        // $editions = Edition::select()->orderBy('name')->get();
         return view('profile.add_advert', compact('styles'));
@@ -137,6 +145,9 @@ class IndexController extends BaseController
 
     public function storeAdvert(AddRequest $request)
     {
+        if (AdvertService::isUserAdvertsLimit(auth()->user()->id)) {
+            abort('404');
+        }
         $data = $request->validated();
         $artistIds = 0;
         if (isset($data['relation_release'])) {
@@ -236,7 +247,8 @@ class IndexController extends BaseController
     public function editAdvert(Advert $advert)
     {
         if (($advert->user_id == auth()->user()->id &&
-            $advert->status != AdvertService::getStatusByName('moderation')) || User::isAdmin()) {
+            ($advert->status != AdvertService::getStatusByName('moderation') &&
+                $advert->status != AdvertService::getStatusByName('deactivated'))) || User::isAdmin()) {
             $styles = Style::select()->orderBy('name')->get();
             if ($advert->edition_id) {
                 $edition = Edition::find($advert->edition_id)->name;
@@ -426,6 +438,9 @@ class IndexController extends BaseController
 
     public function updateAdvert(EditRequest $request, Advert $advert)
     {
+        if (AdvertService::isUserAdvertsLimit(auth()->user()->id)) {
+            abort('404');
+        }
         if (($advert->user_id == auth()->user()->id &&
                 $advert->status != AdvertService::getStatusByName('moderation')) || User::isAdmin()) {
             $data = $request->validated();

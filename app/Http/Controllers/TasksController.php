@@ -404,6 +404,7 @@ class TasksController extends Controller
                             'chat_id' => env('TELEGRAM_GROUP'),
                             'text' => $message
                         ]);
+                        DB::table('styles')->update(['cron' => 0]);
                         echo "ADD POST FOR STYLE: " . $style->name ." SUCCESS";exit();
                     } else {
                         $style->cron = 1;

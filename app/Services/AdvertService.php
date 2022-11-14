@@ -27,6 +27,9 @@ class AdvertService {
         'exchange' => 'Обменяю',
         'free' => 'Отдам даром'
     ];
+
+    const ADVERT_LIMIT = 30;
+
     public static function getCountStatus($userId)
     {
         if (!$userId) return false;
@@ -49,6 +52,11 @@ class AdvertService {
         return array_search($status, self::STATUS);
     }
 
+    public static function isUserAdvertsLimit($userId)
+    {
+        if (User::isMyUsers()) return false;
+        return Advert::select()->where('user_id', $userId)->count() > self::ADVERT_LIMIT;
+    }
     public static function getMainImage($advertId)
     {
         return AdvertImage::select()->where('advert_id', $advertId)->orderBy('id')->limit(1);
