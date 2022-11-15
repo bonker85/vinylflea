@@ -95,6 +95,7 @@ class IndexController extends BaseController
 
     public function upAdvert($id)
     {
+
         $select = Advert::select()->where('id', $id);
         $admin = false;
         if ((int)auth()->user()->role_id === User::ROLE_ADMIN) {
@@ -106,7 +107,7 @@ class IndexController extends BaseController
         if ($advert && ($advert->isUpTime() || $admin)) {
             $advert->up_time = now();
             $advert->save();
-            return redirect()->route('profile.adverts', ['status' => 'activated']);
+            return redirect()->route(url()->previous());
         } else {
             abort(404);
         }
