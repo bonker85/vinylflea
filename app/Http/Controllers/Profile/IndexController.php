@@ -107,7 +107,7 @@ class IndexController extends BaseController
         if ($advert && ($advert->isUpTime() || $admin)) {
             $advert->up_time = now();
             $advert->save();
-            return redirect()->route(url()->previous());
+            return redirect(url()->previous());
         } else {
             abort(404);
         }
