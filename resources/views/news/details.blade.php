@@ -35,9 +35,7 @@
                                     <a href="{{route('news')}}"> Новости</a> |
                                     <p>{{$new->title}}</p>
                                 </div>
-                                @if ($new->id != 9)
-                                    <img src="{{asset('/assets/images/posts/'  . $new->id . '.webp')}}" class="card-img-top" alt="{{$new->name}}">
-                                @endif
+                                <img src="{{asset('/assets/images/posts/'  . $new->id . '.webp')}}" class="card-img-top" alt="{{$new->name}}">
                                 <div class="card-body">
                                     <div class="list-inline">
                                         <a href="javascript:;" class="list-inline-item"><i class="bx bx-calendar me-1"></i>{{$new->getFormatDate()}}</a>

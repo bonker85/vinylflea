@@ -22,7 +22,7 @@
                                 </div>
                                 <div class="news-content mb-0">
                                     @if (mb_strlen($new->content) > 300)
-                                        {!! mb_substr($new->content, 0, 200) . '...' !!}
+                                        {!! mb_substr($new->content, 0, 205) . '...' !!}
                                     @else
                                         {!! $new->content !!}
                                     @endif

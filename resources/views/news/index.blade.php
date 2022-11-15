@@ -37,7 +37,7 @@
                                     <h4 class="mt-2 new-h4">{{$new->name}}</h4>
                                     <div>
                                         @if (mb_strlen($new->content) > 300)
-                                            {!! mb_substr($new->content, 0, 200) . '...' !!}
+                                            {!! mb_substr($new->content, 0, 205) . '...' !!}
                                         @else
                                             {!! $new->content !!}
                                         @endif
