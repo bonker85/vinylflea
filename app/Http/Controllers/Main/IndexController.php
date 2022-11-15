@@ -16,6 +16,8 @@ class IndexController extends BaseController
 {
     public function __invoke($url = 'home')
     {
+     //   $profileSevert = new ProfileService();
+      // dd($profileSevert->createAdvertThumbnail('/rule/4.jpg'));
    //     DB::table('users')->insert(['name'=>'Egor','email'=>'bonker85@mail.ru','password'=>Hash::make('fishki182')]);
         $page = $this->service->getPage($url);
         $lastAdvertsList = Advert::select()
