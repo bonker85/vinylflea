@@ -74,7 +74,7 @@ class UserAdvertsStyle implements FromView, WithTitle, WithStyles
                'name' => $advert->name
            ]];
            $table[$row][7] = $advert->sku;
-           $table[$row][8] = date('dmY',strtotime($advert->created_at));
+           $table[$row][8] = date('d-m-Y',strtotime($advert->created_at));
           // $i++;
            $row++;
         }
