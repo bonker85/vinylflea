@@ -119,6 +119,18 @@
         @include('includes.message')
         <div class="page-content">
             @yield('content')
+            <section>
+                <div class="container">
+                    <div class="row">
+                        <div class="list-inline social d-flex justify-content-center">
+                            <a href="https://www.facebook.com/profile.php?id=100087038031409" class="list-inline-item"><i class="bx bxl-facebook-square"></i></a>
+                            <a href="https://vk.com/thisisyouvinyl" class="list-inline-item"><i class="bx bxl-vk"></i></a>
+                            <a href="https://www.instagram.com/vinyl.flea/" class="list-inline-item"><i class="bx bxl-instagram"></i></a>
+                            <a href="https://t.me/vinylflea" class="list-inline-item"><i class="bx bxl-telegram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
 
@@ -128,7 +140,6 @@
     <footer>
         <section class="border-top bg-light">
             <div class="container">
-
                 <div class="row row-cols-1 row-cols-md-2 align-items-center">
                     <div class="col-6 footer-cp">
                         <div class="logo d-lg-flex">

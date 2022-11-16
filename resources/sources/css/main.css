@@ -606,6 +606,31 @@ File: icons.css
 .bx-export:before {
     content: "\ea30"
 }
+.bxl-facebook-square:before {
+    content: "\ee83"
+}
+.bxl-vk:before {
+    content: "\eed0"
+}
+.bxl-instagram:before {
+    content: "\ee93"
+}
+.bxl-telegram:before {
+    content: "\eec7"
+}
+.bxs-heart:before {
+    content: "\ed36"
+}
+.social a {
+    color: #000;
+}
+.social a:hover {
+    color: #EC2028;
+}
+.social .list-inline-item i{
+    font-size: 60px;
+    margin-top: -20px;
+}
 @font-face {
 
     font-family: LineIcons;
@@ -683,7 +708,6 @@ a {
     text-align: center;
     background-color: rgb(255 255 255 / 12%);
     border: 1px solid rgb(255 255 255 / 20%);
-    color: #fff;
     font-size: 24px;
 }
 .blog-sharing a:hover {
