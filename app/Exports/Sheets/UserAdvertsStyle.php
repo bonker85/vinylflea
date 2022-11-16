@@ -28,6 +28,7 @@ class UserAdvertsStyle implements FromView, WithTitle, WithStyles
         $sheet->getColumnDimension('E')->setWidth('10');
         $sheet->getColumnDimension('F')->setWidth('70');
         $sheet->getColumnDimension('G')->setWidth('10');
+        $sheet->getColumnDimension('H')->setWidth('20');
         return [
             // Style the first row as bold text.
             1    => [
@@ -51,7 +52,8 @@ class UserAdvertsStyle implements FromView, WithTitle, WithStyles
             'exp-price' => 'Цена (Руб.)',
             'exp-condition' => 'Оценка',
             'Детальная Информация',
-            'Артикул'
+            'Артикул',
+            'Дата добавления'
         ];
      //   $i = 0;
         foreach ($this->adverts as $advert) {
@@ -72,6 +74,7 @@ class UserAdvertsStyle implements FromView, WithTitle, WithStyles
                'name' => $advert->name
            ]];
            $table[$row][7] = $advert->sku;
+           $table[$row][8] = date('d-m-Y',strtotime($advert->created_at));
           // $i++;
            $row++;
         }
