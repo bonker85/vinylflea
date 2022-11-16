@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 use App\Models\AdvertDialog;
+use App\Models\AdvertFavorit;
 use App\Models\Style;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
@@ -38,6 +39,14 @@ class ViewServiceProvider extends ServiceProvider
         });
         View::composer('*', function ($view) {
             $view->with('admin', User::isAdmin());
+        });
+        View::composer(["includes.advert-block"], function($view) {
+            $favoritUserAdvertsList = [];
+            if (auth()->check()) {
+                $favoritUserAdvertsList = AdvertFavorit::select('advert_id')
+                    ->where('user_id', auth()->user()->id)->pluck('advert_id')->toArray();
+            }
+            $view->with('favoritUserAdvertsList', $favoritUserAdvertsList);
         });
         /********************** PROFILE ***********************************************/
         View::composer(["includes.profile-menu", "includes.main-menu", "includes.message"], function($view) {

@@ -11,7 +11,7 @@
                             @if (auth()->check() && auth()->user()->id != $advert->user_id)
                                 <a class="favorit-link" data-user="{{auth()->user()->id}}" data-advert="{{$advert->id}}">
                                     <div class="product-wishlist">
-                                        <i class='bx bx-heart'></i>
+                                        <i class='bx @if(in_array($advert->id, $favoritUserAdvertsList))bxs-heart @else bx-heart @endif'></i>
                                     </div>
                                 </a>
                             @else
