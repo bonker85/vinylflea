@@ -88,7 +88,9 @@ class DiscogsService {
         $item->cdn_count_images = --$i;
         $item->save();
         //очистка временной папки discogs
-        rrmdir(storage_path('app/public/discogs/tmp/'));
+        if (is_dir(storage_path('app/public/discogs/tmp/'))) {
+            rrmdir(storage_path('app/public/discogs/tmp/'));
+        }
     }
 
 
