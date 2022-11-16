@@ -57,5 +57,6 @@
             @endif
         </div>
     </section>
+    @include('includes.popular-block')
     <!--end Featured product-->
 @endsection
