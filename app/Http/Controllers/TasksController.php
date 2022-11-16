@@ -373,6 +373,7 @@ class TasksController extends Controller
                             $vk = new VkService();
                         }
                         $result = $vk->addPhotos($images);
+                        dd($result);
                         if (!$result['error']) {
                             $photos = $vk->savePhotos($result['responseBody']);
                             if ($photos) {
