@@ -15,17 +15,20 @@ use App\Models\Style;
 use App\Models\User;
 use App\Services\AdvertService;
 use App\Services\DoorService;
+use App\Services\Utility\DiscogsService;
 use App\Services\Utility\GoogleTranslateService;
 use App\Services\Utility\ImageService;
 use App\Services\Utility\VkService;
 use DOMDocument;
 use DOMXPath;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
+use Xyrotech\Orin;
 
 
 class TasksController extends Controller
@@ -148,6 +151,144 @@ class TasksController extends Controller
             case 'create_excel':
               /*  return (new UserAdvertsExport(4))->download('vinyl.xlsx');
                 break;*/
+            case 'parser-kma':
+                $list = file_get_contents('list.txt');
+                $rows = preg_split('/\\r\\n?|\\n/', $list);
+                $bucks = "2.5";
+                $params = [
+                    "format" => "Vinyl",
+                    "type" => "release"
+                ];
+                $imageService = new ImageService();
+                $discogs = new Orin(Config::get('discogs'));
+                foreach ($rows as $row) {
+                    if (empty($row)) continue;
+                   // $row = 'Various - The Many Faces Of Iron Maiden (A Journey Through The Inner World Of Iron Maiden) 2LP 2020new 50.0';
+                    if (preg_match("#(.+)\s([EX|VG|NM].+?)\s(.+?)$#is", $row, $pockets)) {
+                        $search = $pockets[1];
+                        $doubleSearch = Db::table('discogs_search')->where('name', $search)->first();
+                        if ($doubleSearch) {
+                            continue;
+                            echo "Запрос " . $search . " уже существует в базе";exit();
+                        }
+                        $condition = $pockets[2];
+                        $price = (int) str_replace('.0', '', $pockets[3]) * $bucks;
+                        $searchRelease = $discogs->search($search, $params);
+                        $description = '';
+                        if ($searchRelease->status_code !== 200) {
+                            echo 'status code !== 200';exit();
+                        } else if (isset($searchRelease->results[0])) {
+                            $result = $searchRelease->results[0];
+                            if (isset($result->cover_image) && !empty($result->cover_image)) {
+                               $imageUrl = $result->cover_image;
+                            } else {
+                                echo "Для запроса " . $search . " не найден cover_image";exit();
+                            }
+                            if (isset($result->title) && !empty($result->title)) {
+                                $name = $result->title;
+                            }  else {
+                                echo "По запросу " . $search . " не найдено название";exit();
+                            }
+                            if (isset($result->genre[0])) {
+                                $description .= "Жанр: " . implode(', ', $result->genre) . "\r\n";
+                            } else {
+                                $description .= "Жанр: - \r\n";
+                            }
+                            if (isset($result->style[0])) {
+                                $style = Style::select()->where('name', $result->style[0])->first();
+                                if ($style) {
+                                    $style_id = $style->id;
+                                } else {
+                                    echo "Style = " . $result->style[0] . " для запроса: " . $search . " не найден";
+                                }
+                                $description .= "Стиль: " . implode(', ', $result->style) . "\r\n";
+                            } else {
+                                $description .= "Стиль: - \r\n";
+                            }
+                            $releaseId = $result->id;
+                            $release = $discogs->release($releaseId);
+                            if ($release->status_code !== 200) {
+                                echo 'status code !== 200';
+                                exit();
+                            } elseif (isset($release->artists[0])) {
+                                if (isset($release->title) && !empty($release->title)) {
+                                    $name = $release->title;
+                                }
+                                $artists = [];
+                                foreach ($release->artists as $artist) {
+                                    $artists[] = $artist->name;
+                                }
+                                $author = implode(", ", $artists);
+                            } else {
+                                echo "По запросу " . $search . " не найден автор";exit();
+                            }
+                            $userId = 22;
+                            $state = 2;
+                            if (trim($condition) == 'NM/NM') {
+                                $state = 1;
+                            }
+                            $data = [
+                                'name' => $name,
+                                'author' => $author,
+                                'discogs_author_ids' => 0,
+                                'url' => translate_url($name) . '-t' . time(),
+                                'description' => $description,
+                                'price' => $price,
+                                'style_id' => $style_id,
+                                'edition_id' => 0,
+                                'user_id' => $userId,
+                                'deal' => 'sale',
+                                'state' => $state,
+                                'condition' => $condition,
+                                'status' => 3, //rejected
+                                'reject_message' => '',
+                                'cron' => 0,
+                                'sku' => 0,
+                                'uid' => 0,
+                                'created_at' => now(),
+                                'updated_at' => now()
+                            ];
+                            $advert = Advert::firstOrCreate(['url' => $data['url']],$data);
+                            $advert->url = preg_replace("#(-t\d.+)#is", "-a" . $advert->id, $advert->url);
+                            $advert->save();
+                            if (@file_get_contents($imageUrl)) {
+                                $ext = '.' . pathinfo($imageUrl, PATHINFO_EXTENSION);
+                                $userPath = '/users/' . $userId . '/' . $advert->id . '/vinyl1' . $ext;
+                                $path = public_path('storage') .  $userPath;
+                                if (make_directory(pathinfo($path)['dirname'], 0777, true)) {
+                                    $img = Image::make($imageUrl);
+                                    $img->resize(500, null, function ($constraint) {
+                                        $constraint->aspectRatio();
+                                    })->save($path);
+                                    $imageService->createImageWatermark(
+                                        $path,
+                                        $path,
+                                        public_path('images/watermarks/watermark.png')
+                                    );
+                                    //'/users/6/' . $advert->id . '/vinyl.jpg',
+                                    AdvertImage::firstOrCreate(
+                                        ['path' => $userPath],
+                                        [
+                                            'advert_id' => $advert->id,
+                                            'path' => $userPath
+                                        ]);
+                                }
+                            }
+                            Db::table('discogs_search')->insert(['name' => $search]);
+                            echo "FIN";exit();
+                        } else {
+                            echo "По запросу " . $search . " ничего не найдено";exit();
+                        }
+                        echo $search . " " .  $condition . " " .  $price; echo "<br/>";
+                    } else {
+                        dd($row);
+                        echo "________________________END NORM___________" . "<br/>";
+                        dd($row);
+                        echo $row . "<br/><br/>";
+                    }
+                }
+                echo 'abahaba';exit();
+                break;
             case 'parser-vinil-sd-by':
                 /**
                  * Парсер с сайта vinil-sd.by
