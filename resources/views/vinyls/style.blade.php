@@ -58,5 +58,6 @@
         </div>
     </section>
     @include('includes.popular-block')
+    @include('includes.last-news-block')
     <!--end Featured product-->
 @endsection

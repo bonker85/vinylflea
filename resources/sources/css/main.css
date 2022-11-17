@@ -756,10 +756,13 @@ body.offcanvas-active {
 .offcanvas-header {
     display: none;
 }
+#navbar_main .btn-close {
+    font-size: 1.5rem;
+}
 .screen-overlay {
     width: 0%;
     height: 100%;
-    z-index: 30;
+    z-index: 1;
     position: fixed;
     top: 0;
     left: 0;
@@ -1765,9 +1768,6 @@ ul.categories-list li {
 .authentication-lock-screen {
     height: 100vh;
     padding: 0 1rem
-}
-.error-404 {
-    height: 100vh;
 }
 .error-social a {
     display: inline-block;

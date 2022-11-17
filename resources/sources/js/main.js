@@ -63,6 +63,9 @@ $(document).ready(function() {
             responsiveClass:true,
             nav:false,
             dots: false,
+            autoplay:true,
+            autoplayTimeout:4000,
+            autoplayHoverPause:true,
             responsive:{
                 0:{
                     items:1

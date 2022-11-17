@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en">
-
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -9,7 +8,7 @@
     <link rel="icon" href="{{asset('/images/favicon.ico')}}" type="image/png" />
     @if(Request::is('vinyls/details/*') || Request::is('artist/*'))
         <link href="{{asset('assets/css/fancybox.css')}}" rel="stylesheet">
-    @elseif(Request::is('/'))
+    @else
         <link href="{{asset('assets/plugins/OwlCarousel/css/owl.carousel.min.css')}}" rel="stylesheet" />
     @endif
     <link href="{{asset('assets/css/semantic.min.css')}}" rel="stylesheet">
@@ -58,8 +57,6 @@
 </head>
 
 <body>
-
-
 <!--wrapper-->
 <div class="wrapper">
     <!--start top header wrapper-->
@@ -172,7 +169,7 @@
 <script src="{{mix("/assets/js/build.js")}}"></script>
 @if(Request::is('vinyls/details/*') || Request::is('artist/*'))
     <script src="{{asset("/assets/js/fancybox.js")}}"></script>
-@elseif(Request::is('/'))
+@else
     <script src="{{asset("/assets/plugins/OwlCarousel/js/owl.carousel.min.js")}}"></script>
 @endif
 <script src="{{asset("/assets/js/semantic.min.js")}}"></script>
@@ -191,6 +188,7 @@
     <script src="{{asset("/assets/js/select2.min.js")}}"></script>
 @endif
 <!--app JS-->
+<b class="screen-overlay"></b>
 </body>
 
 </html>

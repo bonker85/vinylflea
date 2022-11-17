@@ -3,6 +3,7 @@
 namespace App\Providers;
 use App\Models\AdvertDialog;
 use App\Models\AdvertFavorit;
+use App\Models\Page;
 use App\Models\Style;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
@@ -37,8 +38,17 @@ class ViewServiceProvider extends ServiceProvider
          //   $view->with('catalog', $catalog);
           //  $view->with('route_name', request()->route()->getName());
         });
+        View::composer(['includes.popular-block'], function($view) {
+            $styles = Style::select()->whereRaw('slug IN ("jazz", "pop", "rock")')->get();
+            $view->with('popular_styles', $styles);
+        });
         View::composer('*', function ($view) {
             $view->with('admin', User::isAdmin());
+        });
+        View::composer(['includes.last-news-block'], function($view) {
+            $lastNewsList = Page::select()->where('status', 1)->where('parent_id', 2)
+                ->orderBy('position')->limit(8)->get();
+            $view->with('lastNewsList', $lastNewsList);
         });
         View::composer(["includes.advert-block"], function($view) {
             $favoritUserAdvertsList = [];
