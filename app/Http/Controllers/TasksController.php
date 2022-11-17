@@ -199,6 +199,7 @@ class TasksController extends Controller
                                 if ($style) {
                                     $style_id = $style->id;
                                 } else {
+                                    $style_id = 66;
                                     echo "Style = " . $result->style[0] . " для запроса: " . $search . " не найден";
                                 }
                                 $description .= "Стиль: " . implode(', ', $result->style) . "\r\n";
@@ -279,7 +280,6 @@ class TasksController extends Controller
                         } else {
                             echo "По запросу " . $search . " ничего не найдено";exit();
                         }
-                        echo $search . " " .  $condition . " " .  $price; echo "<br/>";
                     } else {
                         dd($row);
                         echo "________________________END NORM___________" . "<br/>";
