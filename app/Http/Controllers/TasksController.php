@@ -275,6 +275,7 @@ class TasksController extends Controller
                                 }
                             }
                             Db::table('discogs_search')->insert(['name' => $search]);
+                            sleep(1);
                         } else {
                             echo "По запросу " . $search . " ничего не найдено";exit();
                         }
