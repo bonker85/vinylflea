@@ -204,6 +204,7 @@ class TasksController extends Controller
                                 }
                                 $description .= "Стиль: " . implode(', ', $result->style) . "\r\n";
                             } else {
+                                $style_id = 66;
                                 $description .= "Стиль: - \r\n";
                             }
                             $releaseId = $result->id;
