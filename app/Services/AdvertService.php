@@ -118,7 +118,7 @@ class AdvertService {
                 $style->save();
             }
         }
-        DB::table('styles')->update(['count' => 0])->whereNotIn($updateStylesIds);
+        DB::table('styles')->update(['count' => 0])->whereNotIn('id', $updateStylesIds);
     }
 }
 ?>
