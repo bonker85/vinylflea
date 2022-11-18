@@ -141,7 +141,7 @@ class TasksController extends Controller
                         }
                         $image->save();
                         if ($fromCdn) {
-                            unlink($filePath);
+                         //   unlink($filePath);
                             rrmdir(dirname($filePath));
                         }
                     }
