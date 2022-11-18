@@ -220,6 +220,9 @@ class TasksController extends Controller
                                     $artists[] = $artist->name;
                                 }
                                 $author = implode(", ", $artists);
+                                if (mb_strlen($author) > 80) {
+                                    $author = mb_substr($author, 0, 70) . '...';
+                                }
                             } else {
                                 echo "По запросу " . $search . " не найден автор";exit();
                             }
