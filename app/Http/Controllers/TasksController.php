@@ -384,6 +384,7 @@ class TasksController extends Controller
                         }
                     }
                 }
+                AdvertService::recountStylesAdverts();
                 dd('FIN');
                 break;
             case 'up_adverts':
