@@ -109,13 +109,16 @@ class AdvertService {
             ->where('id', '!=', 4235)
             ->where('status', 1)
             ->get();
+        $updateStylesIds = [];
         foreach ($stylesCount as $stCount) {
             $style = Style::find($stCount->style_id);
             if ($style) {
+                $updateStylesIds[] = $stCount->style_id;
                 $style->count = $stCount->cnt;
                 $style->save();
             }
         }
+        DB::table('styles')->update(['count' => 0])->whereNotIn($updateStylesIds);
     }
 }
 ?>
