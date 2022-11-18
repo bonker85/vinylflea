@@ -119,7 +119,7 @@ class TasksController extends Controller
                     $filePath = storage_path('app/public') . $image->path;
                     // если файла нет, забираем его с cdn потом удаляем
                     $fromCdn = false;
-                    if (!file_exists($filePath) && env('CDN_ENABLE') && $image->cdn_status) {
+                    if (!file_exists($filePath) && env('CDN_ENABLE') && (int)$image->cdn_status) {
                         $url = env('CDN_HOST') . $image->path.  '?tm=' . $image->cdn_update_time;
                         $content = @file_get_contents($url);
                         if ($content) {
