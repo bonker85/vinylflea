@@ -42,7 +42,7 @@
                                                                             @endif
                                                                         </div>
                                                                     </a>
-                                                                    <div class="cart-detail col-lg-9 text-center text-lg-start">
+                                                                    <div class="cart-detail h-25 col-lg-9 text-center text-lg-start">
                                                                         <h6 class="mb-0">{{$user->name}}</h6>
                                                                         <div class="m-style">{{$user->email}}</div>
                                                                         @if ($user->phone)
@@ -72,6 +72,13 @@
                                                                                 <input type="hidden" name="action" value="add_dialog" />
                                                                                 <button type="submit" class="btn mt-2 btn-sm btn-success">Создать диалог</button>
                                                                             @endif
+                                                                        </form>
+                                                                        <form method="post" action="{{route('tasks', ['param' => 'toggle_user'])}}">
+                                                                            @csrf
+                                                                            <input type="hidden" name="id" value="{{$user->id}}" />
+                                                                            <button type="submit" class="btn mt-2 btn-sm btn-primary">
+                                                                                Перейти в аккаунт
+                                                                            </button>
                                                                         </form>
                                                                     </div>
                                                                 </div>
