@@ -309,10 +309,6 @@ class TasksController extends Controller
                     foreach ($products as $product) {
                         $advert = Advert::select()->where('user_id', 6)->where('uid', $product->uid)->first();
                         if ($advert) {
-                            // обновление прайса
-                            if ($product->price != $advert->price) {
-                                $advert->price = $product->price;
-                            }
                             // обновление статуса
                             // Если есть в наличии и в статусе скрыт
                             if ($product->quantity && $advert->status == 4) {
@@ -322,7 +318,8 @@ class TasksController extends Controller
                             } else if (!$product->quantity && (int)$advert->status === 1) {
                                 $advert->status = 4;
                             }
-                            //  $advert->sku = $product->sku;
+                            $advert->sku = $product->sku;
+                            $advert->price = $product->price;
                             $advert->save();
                         } else {
                             $data = [
