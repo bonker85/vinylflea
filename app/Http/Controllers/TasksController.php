@@ -307,6 +307,11 @@ class TasksController extends Controller
                         dd("FIN");
                     }
                     foreach ($products as $product) {
+                        if ($product->title != 'Lars Ross') {
+                            continue;
+                        } else {
+                            dd($product);
+                        }
                         $advert = Advert::select()->where('user_id', 6)->where('uid', $product->uid)->first();
                         if ($advert) {
                             // обновление статуса
