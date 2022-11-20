@@ -306,8 +306,7 @@ class TasksController extends Controller
                     $data = json_decode(file_get_contents($siteUrl));
                     $products = $data->products;
                     if (!count($products)) {
-                        dd($show_advert);
-                        dd("FIN");
+                        break;
                     }
                     foreach ($products as $product) {
                         $advert = Advert::select()->where('user_id', 6)->where('uid', $product->uid)->first();
@@ -389,7 +388,6 @@ class TasksController extends Controller
                         }
                     }
                 }
-                dd($show_advert);
                 if ($show_advert > 3000) {
                     $adverts = Advert::where('user_id', 6)->where('hide_advert', 1)->get();
                     foreach ($adverts as $advert) {
