@@ -297,7 +297,7 @@ class TasksController extends Controller
                 /**
                  * Парсер с сайта vinil-sd.by
                  */
-                dd(Advert::select()->update(['hide_advert' => 1]));
+                Advert::select()->update(['hide_advert' => 1]);
                 for ($j=1; $j<=10; $j++) {
                     $slice = $j;
                     $siteUrl = 'https://store.tildacdn.com/api/getproductslist/?storepartuid=495183118261&recid=375529451&c=1665522162862&getparts=true&getoptions=true&slice=' . $slice . '&size=500';
