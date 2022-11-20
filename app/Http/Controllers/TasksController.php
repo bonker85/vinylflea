@@ -388,6 +388,7 @@ class TasksController extends Controller
                         }
                     }
                 }
+                dd($show_advert);
                 if ($show_advert > 3000) {
                     $adverts = Advert::where('user_id', 6)->where('hide_advert', 1)->get();
                     foreach ($adverts as $advert) {
