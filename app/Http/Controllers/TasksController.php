@@ -298,6 +298,7 @@ class TasksController extends Controller
                  * Парсер с сайта vinil-sd.by
                  */
                 Advert::where('user_id', 6)->update(['hide_advert' => 1]);
+                $show_advert = 0;
                 for ($j=1; $j<=10; $j++) {
                     $slice = $j;
                     $siteUrl = 'https://store.tildacdn.com/api/getproductslist/?storepartuid=495183118261&recid=375529451&c=1665522162862&getparts=true&getoptions=true&slice=' . $slice . '&size=500';
@@ -322,6 +323,7 @@ class TasksController extends Controller
                             $advert->sku = $product->sku;
                             $advert->price = $product->price;
                             $advert->hide_advert = 0;
+                            $show_advert++;
                             $advert->save();
                         } else {
                             $data = [
@@ -347,6 +349,7 @@ class TasksController extends Controller
                             ];
                             $advert = Advert::firstOrCreate(['url' => $data['url']],$data);
                             $advert->hide_advert = 0;
+                            $show_advert++;
                             $advert->save();
                             $images = json_decode($product->gallery);
                             if ($images) {
@@ -383,6 +386,12 @@ class TasksController extends Controller
                                 }
                             }
                         }
+                    }
+                }
+                if ($show_advert > 3000) {
+                    $adverts = Advert::where('user_id', 6)->where('hide_advert', 1)->get();
+                    foreach ($adverts as $advert) {
+                        AdvertService::deleteAdvert($advert);
                     }
                 }
                 AdvertService::recountStylesAdverts();

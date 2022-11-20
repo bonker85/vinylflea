@@ -666,18 +666,8 @@ class IndexController extends BaseController
     {
         if (($advert->user_id == auth()->user()->id &&
                 $advert->status != AdvertService::getStatusByName('moderation')) || User::isAdmin()) {
-            AdvertFavorit::where('advert_id', $advert->id)->delete();
-            $advertImages = AdvertImage::where('advert_id', $advert->id)->get();
-            foreach ($advertImages as $aImage) {
-                $imgPath = public_path('storage') . $aImage->path;
-                if (file_exists($imgPath)) {
-                    $dirPath = dirname($imgPath);
-                    rrmdir($dirPath);
-                }
-                $aImage->delete();
-            }
             $advertName = $advert->name;
-            $advert->delete();
+            AdvertService::deleteAdvert($advert);
             request()->session()->flash('success', 'Пластинка (' . $advertName . ') удалена');
             return redirect()->route('profile.adverts');
         }

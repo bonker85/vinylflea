@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Models\Advert;
+use App\Models\AdvertFavorit;
 use App\Models\AdvertImage;
 use App\Models\Log as DbLog;
 use App\Models\Style;
@@ -62,6 +63,20 @@ class AdvertService {
         return AdvertImage::select()->where('advert_id', $advertId)->orderBy('id')->limit(1);
     }
 
+    public static function deleteAdvert($advert)
+    {
+        AdvertFavorit::where('advert_id', $advert->id)->delete();
+        $advertImages = AdvertImage::where('advert_id', $advert->id)->get();
+        foreach ($advertImages as $aImage) {
+            $imgPath = public_path('storage') . $aImage->path;
+            if (file_exists($imgPath)) {
+                $dirPath = dirname($imgPath);
+                rrmdir($dirPath);
+            }
+            $aImage->delete();
+        }
+        $advert->delete();
+    }
     public static function updateAdvertsOnCDN()
     {
         $cdnService = new CDNService();
