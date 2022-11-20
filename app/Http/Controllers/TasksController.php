@@ -306,6 +306,7 @@ class TasksController extends Controller
                     $data = json_decode(file_get_contents($siteUrl));
                     $products = $data->products;
                     if (!count($products)) {
+                        dd($show_advert);
                         dd("FIN");
                     }
                     foreach ($products as $product) {
