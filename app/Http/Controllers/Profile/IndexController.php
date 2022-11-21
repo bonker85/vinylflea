@@ -33,7 +33,7 @@ class IndexController extends BaseController
             $advert_counts = AdvertService::getCountStatus($userId);
             $select = Advert::select()
                 ->where('status', AdvertService::getStatusByName($status))
-                ->orderBy('updated_at', 'DESC');
+                ->orderBy('updated_at', 'DESC')->orderBy('id');
             if (!User::isAdmin()) {
                 $select->where('user_id', $userId);
             } else {
