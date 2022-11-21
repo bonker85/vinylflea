@@ -50,9 +50,6 @@ class IndexController extends BaseController
                 $select->where('id', $advert);
                 $search = true;
             }
-            if (isset($_GET['tester'])) {
-                dd($select->paginate(10));
-            }
             $advertList = $select->paginate(10);
             return view('profile.adverts', compact('status', 'advert_counts', 'advertList', 'search'));
         } else {
