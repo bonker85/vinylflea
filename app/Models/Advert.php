@@ -50,4 +50,8 @@ class Advert extends Model
         $carbonLastUpTime = Carbon::createFromFormat('Y-m-d H:i:s', $this->up_time);
         return ($carbonLastUpTime->addHours(self::UP_TIME_HOUR) < Carbon::now());
     }
+
+    protected $casts = [
+        'id' => 'integer'
+    ];
 }
