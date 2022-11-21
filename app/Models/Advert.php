@@ -52,6 +52,6 @@ class Advert extends Model
     }
 
     protected $casts = [
-        'id' => 'integer'
+        'id' => 'int'
     ];
 }
