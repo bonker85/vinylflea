@@ -155,7 +155,7 @@
                                                     <div class="spinner-border d-none"></div>
                                                     @if (isset($advert->images[$i-1]))
                                                         <input type="hidden" name="vinyl[]" value="{{$advert->images[$i-1]['path']}}" id="vinyl{{$i}}"/>
-                                                        <div class="del-vinyl-img bx bx-x" id="del-vinyl-img{{$i}}" data-image="{{$advert->images[$i-1]->id}}"></div>
+                                                        <div class="del-vinyl-img bx bx-x" style="display: block" id="del-vinyl-img{{$i}}" data-image="{{$advert->images[$i-1]->id}}"></div>
                                                         <img src="{{cdn_url(asset('storage') . $advert->images[$i-1]['path'], $advert->images[$i-1])}}" class="vinyl-img" id="img-vinyl-{{$i}}" />
                                                     @else
                                                         <input type="hidden" name="vinyl[]" value="" id="vinyl{{$i}}"/>
