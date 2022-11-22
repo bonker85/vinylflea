@@ -563,7 +563,7 @@ class IndexController extends BaseController
                                     $thumb_update_time = time();
                                 }
                             }
-                            AdvertImage::firstOrCreate(
+                            AdvertImage::updateOrCreate(
                                 ['path' => $path],
                                 [
                                     'advert_id' => $advert->id,
