@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Vinyl;
 
 use App\Models\Advert;
 use App\Models\Style;
+use App\Services\AdvertService;
 use App\Services\Utility\DiscogsService;
 use Illuminate\Http\Request;
 
@@ -49,7 +50,8 @@ class IndexController extends BaseController
             abort('404');
         }
         $artistLinks = DiscogsService::getArtistsLink($advert->discogs_author_ids);
-        return view('vinyls.details', compact('advert', 'artistLinks'));
+        $relationAdverts = AdvertService::relationAdverts($advert);
+        return view('vinyls.details', compact('advert', 'artistLinks', 'relationAdverts'));
     }
 
     private function searchMess($countAdverts, $q)

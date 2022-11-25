@@ -135,5 +135,42 @@ class AdvertService {
         }
         Style::whereNotIn('id', $updateStylesIds)->update(['count' => 0]);
     }
+
+    public static function relationAdverts($advert)
+    {
+        $limitRelation = 10;
+        $allItems = new \Illuminate\Database\Eloquent\Collection;
+        $relationAdverts = [];
+        //находим другие адверты с этим артистом
+        if ($advert->discogs_author_ids) {
+            $selectRelationAdverts = Advert::select()
+                ->where('status', 1)
+                ->where('id', '!=', $advert->id)
+                ->where('discogs_author_ids', $advert->discogs_author_ids)
+                ->orderBy('up_time', 'DESC');
+            //Various
+            if ($advert->discogs_author_ids == 194) {
+                $selectRelationAdverts = $selectRelationAdverts->where('style_id', $advert->style_id);
+            }
+            $relationAdverts = $selectRelationAdverts->get();
+            if ($relationAdverts) {
+                $allItems = $allItems->merge($relationAdverts);
+            }
+        }
+        // если адвертов меньше relationLimit дополняем их адвертами того же стиля
+        if (count($relationAdverts) < $limitRelation) {
+            $relationAdvertsStyle = Advert::select()
+                ->where('status', 1)
+                ->where('style_id', $advert->style_id)
+                ->inRandomOrder()
+                ->limit($limitRelation - count($relationAdverts))
+                ->where('id', '!=', $advert->id)
+                ->get();
+            if ($relationAdvertsStyle) {
+                $allItems = $allItems->merge($relationAdvertsStyle);
+            }
+        }
+        return $allItems;
+    }
 }
 ?>
