@@ -34,6 +34,23 @@
                 <li class="nav-item">
                     <a class="nav-link menu-single-link" href="{{route('news')}}">Новости</a>
                 </li>
+                <li class="nav-item dropdown">	<a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown">Контакты <i class='bx bx-chevron-down'></i></a>
+                    <div class="dropdown-menu dropdown-large-menu menu-info">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <ul class="">
+                                        <li class="menu-info-block ">
+                                            <a class="telegram" href="https://t.me/vinylfleaby" class="list-inline-item"><i class="bx bxl-telegram"></i></a>
+                                            <a class="mail" href="mailto:support@vinylflea.by">support@vinylflea.by</a>
+                                        </li>
+                                </ul>
+                                </div>
+                                <div class="col-md-4"><ul>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
                 @auth
                 <li class="nav-item dropdown">	<a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown">Профиль  @if ($countViewMessages) <div class="mess-indicate-profile">!</div> @endif <i class='bx bx-chevron-down'></i></a>
                     <ul class="dropdown-menu">
@@ -56,7 +73,10 @@
                 @endauth
             </ul>
             <div class="info-block">
-                <p><a href="mailto:support@vinylflea.by">support@vinylflea.by</a></p>
+                <p>
+                    <a class="telegram" href="https://t.me/vinylfleaby" class="list-inline-item"><i class="bx bxl-telegram"></i></a>
+                    <a class="mail" href="mailto:support@vinylflea.by">support@vinylflea.by</a>
+                </p>
             </div>
         </nav>
     </div>

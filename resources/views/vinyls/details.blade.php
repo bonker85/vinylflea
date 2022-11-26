@@ -30,7 +30,6 @@
                         <div class="col-12 col-lg-7 h3-mobile">
                             <div class="product-info-section p-3 py-0">
                                 <h3 class=" mt-lg-0 mb-4">
-                                    <h3 class=" mt-lg-0 mb-4">
                                         <a href="@if(url()->previous() == url()->full())/@else{{url()->previous()}}@endif" class="backpage bx bxs-skip-previous-circle"></a>
                                     {{$advert->name}}
                                 </h3>

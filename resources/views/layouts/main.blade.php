@@ -147,7 +147,9 @@
                         </div>
                     </div>
                     <div class="info-block col-6">
-                        <p><a href="mailto:support@vinylflea.by">support@vinylflea.by</a></p>
+                        <p>
+                            <a class="mail" href="mailto:support@vinylflea.by">support@vinylflea.by</a>
+                        </p>
                     </div>
                 </div>
                 <!--end row-->

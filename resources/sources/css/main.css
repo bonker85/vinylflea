@@ -791,6 +791,24 @@ body.offcanvas-active {
 }
 
 @media all and (max-width:992px) {
+    .menu-info {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    .menu-info-block {
+        display: flex;
+        padding: 0 0 0 10px!important;
+    }
+    .menu-info-block .telegram {
+        margin-right: 10px;
+    }
+    .menu-info-block .mail {
+        padding-top: 12px!important;
+        padding-left: 20px;
+    }
+    .menu-info-block .bx {
+        font-size: 30px;
+    }
     .search-style {
         width: 1% !important;
     }
@@ -909,6 +927,21 @@ body.offcanvas-active {
     .primary-menu .navbar .dropdown-large-menu {
         min-width: 630px;
     }
+    .primary-menu .navbar .dropdown-large-menu.menu-info {
+        min-width: 200px;
+        padding: 0 5px;
+        margin: 0;
+    }
+    .menu-info-block {
+        display: flex;
+    }
+    .menu-info-block .telegram {
+        padding-left: 10px;
+    }
+    .menu-info-block a {
+        padding-right: 15px;
+    }
+
     .primary-menu .navbar .nav-item .dropdown-menu {
         display: none;
     }
@@ -2885,7 +2918,6 @@ i.icon i.fa-search {
 }
 .info-block a {
     color: #0b2e13;
-    margin-right: 15px;
 }
 @media (max-width: 360px) {
     .page-link {
@@ -3113,4 +3145,23 @@ i.icon i.fa-search {
 }
 .popular-img {
     padding-left: 5px;
+}
+
+.info-block .telegram {
+    font-size: 25px;
+    margin-right: 3px;
+}
+.info-block .mail {
+    position: relative;
+    bottom: 5px;
+    font-size: 18px;
+}
+.menu-info-block .telegram {
+    font-size: 20px;
+}
+.menu-info-block {
+    padding: 0 10px;
+}
+.menu-info-block .mail {
+    padding-top: 7px;
 }
