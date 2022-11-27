@@ -41,7 +41,8 @@
                                 <ul class="">
                                         <li class="menu-info-block ">
                                             <a class="telegram" href="https://t.me/vinylfleaby" class="list-inline-item"><i class="bx bxl-telegram"></i></a>
-                                            <a class="mail" href="mailto:support@vinylflea.by">support@vinylflea.by</a>
+                                            <a href="mailto:support@vinylflea.by" class="list-inline-item desktop-hide"><i class="bx bx-mail-send"></i></a>
+                                            <a class="mail mobile-hide" href="mailto:support@vinylflea.by">support@vinylflea.by </a>
                                         </li>
                                 </ul>
                                 </div>

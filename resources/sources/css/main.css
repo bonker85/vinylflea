@@ -621,6 +621,9 @@ File: icons.css
 .bxs-heart:before {
     content: "\ed36"
 }
+.bx-mail-send:before {
+    content: "\eab5"
+}
 .social a {
     color: #696e75;
 }
@@ -924,6 +927,9 @@ body.offcanvas-active {
     padding: 1rem;
 }
 @media all and (min-width: 992px) {
+    .desktop-hide {
+        display: none;
+    }
     .primary-menu .navbar .dropdown-large-menu {
         min-width: 630px;
     }
@@ -3108,6 +3114,9 @@ i.icon i.fa-search {
     min-height: 300px;
 }
 @media (max-width: 575px) {
+    .mobile-hide {
+        display: none;
+    }
     .img-release img {
         padding-bottom: 15px;
     }
