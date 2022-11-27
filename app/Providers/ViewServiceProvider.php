@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Providers;
+use App\Models\Advert;
 use App\Models\AdvertDialog;
 use App\Models\AdvertFavorit;
 use App\Models\Page;
@@ -41,6 +42,14 @@ class ViewServiceProvider extends ServiceProvider
         View::composer(['includes.popular-block'], function($view) {
             $styles = Style::select()->whereRaw('slug IN ("jazz", "pop", "rock")')->get();
             $view->with('popular_styles', $styles);
+        });
+        View::composer(['includes.sell-faster-block'], function ($view) {
+            $adverts = Advert::select()->whereRaw("id IN (
+                '4263', '4241', '5843' , '5847' , '5851' , '5704', '5709',
+                '5712', '4602', '4496', '4497', '4471', '4498', '4549',
+                '4510', '4505', '4504', '4503', '4502', '4501', '4500', '4499', '4268')"
+            )->inRandomOrder()->limit(12)->get();
+            $view->with('sellFasterAdverts', $adverts);
         });
         View::composer('*', function ($view) {
             $view->with('admin', User::isAdmin());
