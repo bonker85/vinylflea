@@ -67,6 +67,11 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return (auth()->check() && in_array(auth()->user()->id, self::MY_USERS_IDS));
     }
+    public static function isMyUserId($userId)
+    {
+        return in_array($userId, self::MY_USERS_IDS);
+    }
+
    public function isBan()
    {
        return BanUserList::where('user_id', $this->id)->first();
