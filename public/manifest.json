@@ -7,7 +7,7 @@
   "orientation": "any",
   "scope": "/",
   "short_name": "vinylflea",
-  "start_url": "/",
+  "start_url": "/?testapp=1",
   "theme_color": "#ffffff",
   "categories": [],
   "screenshots": [
