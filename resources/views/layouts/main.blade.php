@@ -9,7 +9,7 @@
     <link rel="manifest" href="/manifest.json">
     <script>
         if (typeof navigator.serviceWorker !== 'undefined') {
-            navigator.serviceWorker.register('/assets/js/sw.js')
+            navigator.serviceWorker.register('https://vinylflea.by/assets/js/sw.js')
         }
     </script>
     @if(Request::is('vinyls/details/*') || Request::is('artist/*'))
