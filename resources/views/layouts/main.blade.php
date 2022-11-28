@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--favicon-->
     <link rel="icon" href="{{asset('/images/favicon.ico')}}" type="image/png" />
-    <link rel="manifest" href="/manifest.json">
-    <script>
-        if (typeof navigator.serviceWorker !== 'undefined') {
-            navigator.serviceWorker.register('https://vinylflea.by/assets/js/sw.js')
-        }
-    </script>
+    @if (request()->get('testapp'))
+        <link rel="manifest" href="/manifest.json">
+        <script>
+            if (typeof navigator.serviceWorker !== 'undefined') {
+                navigator.serviceWorker.register('https://vinylflea.by/assets/js/sw.js')
+            }
+        </script>
+    @endif
     @if(Request::is('vinyls/details/*') || Request::is('artist/*'))
         <link href="{{asset('assets/css/fancybox.css')}}" rel="stylesheet">
     @else
