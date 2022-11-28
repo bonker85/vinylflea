@@ -11,46 +11,7 @@
   "theme_color": "#ffffff",
   "categories": [],
   "screenshots": [
-    {
-      "src": "https://vinylflea.by/assets/images/app/screenshots/1/1280x800.png",
-      "sizes": "1280x800",
-      "type": "image/png"
-    },
-    {
-      "src": "https://vinylflea.by/assets/images/app/screenshots/1/750x1334.png",
-      "sizes": "750x1334",
-      "type": "image/png"
-    },
-    {
-      "src": "https://vinylflea.by/assets/images/app/screenshots/2/1280x800.png",
-      "sizes": "1280x800",
-      "type": "image/png"
-    },
-    {
-      "src": "https://vinylflea.by/assets/images/app/screenshots/2/750x1334.png",
-      "sizes": "750x1334",
-      "type": "image/png"
-    },
-    {
-      "src": "https://vinylflea.by/assets/images/app/screenshots/3/1280x800.png",
-      "sizes": "1280x800",
-      "type": "image/png"
-    },
-    {
-      "src": "https://vinylflea.by/assets/images/app/screenshots/3/750x1334.png",
-      "sizes": "750x1334",
-      "type": "image/png"
-    },
-    {
-      "src": "https://vinylflea.by/assets/images/app/screenshots/4/1280x800.png",
-      "sizes": "1280x800",
-      "type": "image/png"
-    },
-    {
-      "src": "https://vinylflea.by/assets/images/app/screenshots/4/750x1334.png",
-      "sizes": "750x1334",
-      "type": "image/png"
-    }
+ 
   ],
   "icons": [
     {
