@@ -124,6 +124,12 @@
                                         <dt class="col-sm-3">Город</dt>
                                         <dd class="col-sm-9">{{$advert->user->city}}</dd>
                                     @endif
+                                    @if (\App\Models\User::isMyUsers())
+                                        <dt class="col-sm-3">Telegram</dt>
+                                        <dd class="col-sm-9">
+                                            <a class="telegram" href="https://t.me/vinylfleaby"><i class="bx fs-4 bxl-telegram"></i></a>
+                                        </dd>
+                                    @endif
                                     @if ($advert->user->phone /*&& auth()->check()*/)
                                         <dt class="col-sm-3">Телефон</dt>
                                         <dd class="col-sm-9">

@@ -53,6 +53,9 @@
 
                             <div class="d-flex align-items-center publisher">
                                 <a href="{{route('user', $advert->user_id)}}"> {{$advert->user->name}} </a>
+                                @if (\App\Models\User::isMyUsers())
+                                    &nbsp; &nbsp; <a class="telegram" href="https://t.me/vinylfleaby"><i class="bx fs-3 bxl-telegram"></i></a>
+                                @endif
                             </div>
                             <div class="d-flex align-items-center">
                                 <div class="mb-1 product-price">
