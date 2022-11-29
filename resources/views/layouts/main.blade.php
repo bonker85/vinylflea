@@ -11,6 +11,11 @@
         <script>
             if (typeof navigator.serviceWorker !== 'undefined') {
                 navigator.serviceWorker.register('sw.js?tk={{time()}}')
+                self.addEventListener('beforeinstallprompt', (e) => {
+                    e.preventDefault();
+                    // Убираем событие, чтобы его можно было активировать позже.
+                    window.deferredPrompt = e;
+                });
             }
         </script>
     @endif
