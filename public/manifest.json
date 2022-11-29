@@ -5,7 +5,7 @@
   "name": "VinylFlea.By",
   "orientation": "any",
   "short_name": "VinylFlea",
-  "start_url": "https://vinylflea.by/?testapp=1",
+  "start_url": "https://vinylflea.by/?app=1",
   "theme_color": "#ffffff",
   "screenshots": [
     {
