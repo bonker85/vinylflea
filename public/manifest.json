@@ -6,7 +6,7 @@
   "orientation": "any",
   "scope": "",
   "short_name": "VinylFlea",
-  "start_url": "/public/.",
+  "start_url": ".",
   "theme_color": "#ffffff",
   "screenshots": [
     {

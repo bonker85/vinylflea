@@ -7,7 +7,7 @@
     <!--favicon-->
     <link rel="icon" href="{{asset('/images/favicon.ico')}}" type="image/png" />
     @if (request()->get('testapp'))
-        <link rel="manifest" href="/manifest.json">
+        <link rel="manifest"  href="{{ asset('manifest.json') }}">
         <script>
             if (typeof navigator.serviceWorker !== 'undefined') {
                 navigator.serviceWorker.register('/assets/js/sw.js')
