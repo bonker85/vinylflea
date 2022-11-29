@@ -4,11 +4,10 @@
   "display": "standalone",
   "name": "VinylFlea.By",
   "orientation": "any",
-  "scope": "/",
-  "short_name": "vinylflea",
-  "start_url": ".",
+  "scope": "https://vinylflea.by",
+  "short_name": "VinylFlea",
+  "start_url": "https://vinylflea.by?testapp=1",
   "theme_color": "#ffffff",
-  "categories": [],
   "screenshots": [
     {
       "src": "/assets/images/app/screenshots/1/1280x800.png",
@@ -508,7 +507,5 @@
       "src": "/assets/images/app/shortcuts/ios/1024.png",
       "sizes": "1024x1024"
     }
-  ],
-  "shortcuts": [],
-  "lang": "ru"
+  ]
 }
