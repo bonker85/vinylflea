@@ -10,7 +10,7 @@
         <link rel="manifest"  href="{{ asset('manifest.json') }}">
         <script>
             if (typeof navigator.serviceWorker !== 'undefined') {
-                navigator.serviceWorker.register('/assets/js/sw.js')
+                navigator.serviceWorker.register('/public/assets/js/sw.js?app=1')
             }
         </script>
     @endif
