@@ -4,7 +4,6 @@
   "display": "standalone",
   "name": "VinylFlea.By",
   "orientation": "any",
-  "scope": "/public",
   "short_name": "VinylFlea",
   "start_url": "/",
   "theme_color": "#ffffff",
