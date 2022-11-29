@@ -4,9 +4,9 @@
   "display": "standalone",
   "name": "VinylFlea.By",
   "orientation": "any",
-  "scope": "https://vinylflea.by",
+  "scope": "/public/",
   "short_name": "VinylFlea",
-  "start_url": "https://vinylflea.by?testapp=1",
+  "start_url": ".",
   "theme_color": "#ffffff",
   "screenshots": [
     {
