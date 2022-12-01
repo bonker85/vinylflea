@@ -82,7 +82,7 @@
             <div class="container">
                 @if (\App\Models\User::isAdmin())
                     <div class="d-flex align-items-center justify-content-center app-block">
-                        <a class="">
+                        <a href="" class="">
                             <i class="bx fs-4 bxl-apple"></i>
                             <i class="bx fs-4 bxl-android"></i>
                         </a>
