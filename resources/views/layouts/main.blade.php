@@ -18,8 +18,7 @@
                 });
                 document.querySelector('.app-block a').addEventListener('click', function(e) {
                     e.preventDefault();
-                    window.deferredPrompt.prompt();
-                    window.deferredPrompt = null;
+                    deferredPrompt.prompt();
                 });
             }
         });
