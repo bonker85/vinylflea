@@ -16,7 +16,8 @@
                     // Убираем событие, чтобы его можно было активировать позже.
                     window.deferredPrompt = e;
                 });
-                document.querySelector('.app-block a').addEventListener('click', function() {
+                document.querySelector('.app-block a').addEventListener('click', function(e) {
+                    e.preventDefault();
                     window.deferredPrompt.prompt();
                     window.deferredPrompt = null;
                 });
