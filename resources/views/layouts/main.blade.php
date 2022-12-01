@@ -9,15 +9,20 @@
     @if (request()->get('app'))
         <link rel="manifest"  href="{{ asset('manifest.json') }}">
         <script>
-            if (typeof navigator.serviceWorker !== 'undefined') {
-                navigator.serviceWorker.register('sw.js?tk={{time()}}')
-                self.addEventListener('beforeinstallprompt', (e) => {
-                    e.preventDefault();
-                    // Убираем событие, чтобы его можно было активировать позже.
-                    window.deferredPrompt = e;
-                    window.deferredPrompt.prompt();
-                });
-            }
+            document.addEventListener('DOMContentLoaded', (event) => {
+                if (typeof navigator.serviceWorker !== 'undefined') {
+                    navigator.serviceWorker.register('/sw.js?tk={{time()}}')
+                    self.addEventListener('beforeinstallprompt', (e) => {
+                        e.preventDefault();
+                        // Убираем событие, чтобы его можно было активировать позже.
+                        window.deferredPrompt = e;
+                    });
+                    document.querySelector('.app-block a').addEventListener('click', function() {
+                        window.deferredPrompt.prompt();
+                        window.deferredPrompt = null;
+                    });
+                }
+            });
         </script>
     @endif
     @if(Request::is('vinyls/details/*') || Request::is('artist/*'))
