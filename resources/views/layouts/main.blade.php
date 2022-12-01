@@ -12,14 +12,17 @@
             if (typeof navigator.serviceWorker !== 'undefined') {
                 navigator.serviceWorker.register('/sw.js?tk={{time()}}')
                 let deferredPrompt;
-                self.addEventListener('beforeinstallprompt', (e) => {
+                window.addEventListener('beforeinstallprompt', (e) => {
                     e.preventDefault();
-                    // Убираем событие, чтобы его можно было активировать позже.
+                    // Убиselfраем событие, чтобы его можно было активировать позже.
                     deferredPrompt = e;
-                });
-                document.querySelector('.app-block a').addEventListener('click', function(e) {
-                    e.preventDefault();
-                    deferredPrompt.prompt();
+                    if (document.querySelector('.app-block a')) {
+                        document.querySelector('.app-block a').addEventListener('click', function(e) {
+                            e.preventDefault();
+                            deferredPrompt.prompt();
+                        });
+                        $('.d-app').show();
+                    }
                 });
             }
         });
@@ -82,11 +85,13 @@
         <div class="header-content pb-md-0">
             <div class="container">
                 @if (\App\Models\User::isAdmin())
-                    <div class="d-flex align-items-center justify-content-center app-block">
-                        <a href="" class="">
-                            <i class="bx fs-4 bxl-apple"></i>
-                            <i class="bx fs-4 bxl-android"></i>
-                        </a>
+                    <div class="d-app">
+                        <div class="d-flex align-items-center justify-content-center app-block">
+                            <a href="" class="">
+                                <i class="bx fs-4 bxl-apple"></i>
+                                <i class="bx fs-4 bxl-android"></i>
+                            </a>
+                        </div>
                     </div>
                 @endif
                 <div class="row align-items-center">

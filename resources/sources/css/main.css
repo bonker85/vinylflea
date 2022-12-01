@@ -3190,7 +3190,9 @@ i.icon i.fa-search {
     font-size: 30px!important;
     color: #212529;
 }
-
+.d-app {
+    display: none;
+}
 .app-text {
     position: relative;
     top: 2px;
