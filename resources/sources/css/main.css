@@ -624,6 +624,12 @@ File: icons.css
 .bx-mail-send:before {
     content: "\eab5"
 }
+.bxl-apple:before {
+    content: "\ee65"
+}
+.bxl-android:before {
+    content: "\ee63"
+}
 .social a {
     color: #696e75;
 }
@@ -3173,4 +3179,20 @@ i.icon i.fa-search {
 }
 .menu-info-block .mail {
     padding-top: 7px;
+}
+
+.app-block {
+    padding: 5px;
+    padding-top: 0;
+    margin-bottom: -20px;
+}
+.app-block i {
+    font-size: 30px!important;
+    color: #212529;
+}
+
+.app-text {
+    position: relative;
+    top: 2px;
+    text-transform: uppercase;
 }

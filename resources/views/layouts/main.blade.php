@@ -76,6 +76,14 @@
     <div class="header-wrapper">
         <div class="header-content pb-md-0">
             <div class="container">
+                @if (\App\Models\User::isAdmin())
+                    <div class="d-flex align-items-center justify-content-center app-block">
+                        <a href="?app=1" class="">
+                            <i class="bx fs-4 bxl-apple"></i>
+                            <i class="bx fs-4 bxl-android"></i>
+                        </a>
+                    </div>
+                @endif
                 <div class="row align-items-center">
                     <div class="col-auto">
                         <div class="d-flex align-items-center">
