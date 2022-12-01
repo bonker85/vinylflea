@@ -32,12 +32,9 @@
     @else
         <link href="{{asset('assets/plugins/OwlCarousel/css/owl.carousel.min.css')}}" rel="stylesheet" />
     @endif
-    <link href="{{asset('assets/css/semantic.min.css')}}" rel="stylesheet">
     <link href="{{asset('assets/plugins/metismenu/css/metisMenu.min.css')}}" rel="stylesheet" />
     <!-- loader-->
-  <!--  <link href="{{asset('assets/css/pace.min.css')}}" rel="stylesheet" />-->
     <!-- Bootstrap CSS -->
-    <link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{mix("/assets/css/build.css")}}" rel="stylesheet">
     @if (auth()->check() && request()->is('profile/*'))
         <link href="{{asset('/assets/css/select2.min.css')}}" rel="stylesheet">

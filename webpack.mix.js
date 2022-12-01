@@ -21,7 +21,11 @@ mix.js('resources/js/app.js', 'public/js')
         'resources/sources/js/semantic.min.js',
         'resources/sources/js/main.js'
     ], 'public/assets/js/build.js')
-    .styles('resources/sources/css/*.css', 'public/assets/css/build.css')
+    .styles([
+        'resources/sources/css/semantic.min.css',
+        'resources/sources/css/bootstrap.min.css',
+        'resources/sources/css/main.css'
+    ], 'public/assets/css/build.css')
     /*  .css('resources/sources/css/*', 'public/assets/css/build.css') */
     /* .css('resources/sources/css/*', 'public/assets/css/build.css')*/
     /* .css('resources/sources/css/animate.css', 'public/assets/css/animate.css')
