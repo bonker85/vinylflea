@@ -6,25 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--favicon-->
     <link rel="icon" href="{{asset('/images/favicon.ico')}}" type="image/png" />
-    @if (request()->get('app'))
-        <link rel="manifest"  href="{{ asset('manifest.json') }}">
-        <script>
-            document.addEventListener('DOMContentLoaded', (event) => {
-                if (typeof navigator.serviceWorker !== 'undefined') {
-                    navigator.serviceWorker.register('/sw.js?tk={{time()}}')
-                    self.addEventListener('beforeinstallprompt', (e) => {
-                        e.preventDefault();
-                        // Убираем событие, чтобы его можно было активировать позже.
-                        window.deferredPrompt = e;
-                    });
-                    document.querySelector('.app-block a').addEventListener('click', function() {
-                        window.deferredPrompt.prompt();
-                        window.deferredPrompt = null;
-                    });
-                }
-            });
-        </script>
-    @endif
+    <link rel="manifest"  href="{{ asset('manifest.json') }}">
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            if (typeof navigator.serviceWorker !== 'undefined') {
+                navigator.serviceWorker.register('/sw.js?tk={{time()}}')
+                self.addEventListener('beforeinstallprompt', (e) => {
+                    e.preventDefault();
+                    // Убираем событие, чтобы его можно было активировать позже.
+                    window.deferredPrompt = e;
+                });
+                document.querySelector('.app-block a').addEventListener('click', function() {
+                    window.deferredPrompt.prompt();
+                    window.deferredPrompt = null;
+                });
+            }
+        });
+    </script>
     @if(Request::is('vinyls/details/*') || Request::is('artist/*'))
         <link href="{{asset('assets/css/fancybox.css')}}" rel="stylesheet">
     @else
@@ -84,7 +82,7 @@
             <div class="container">
                 @if (\App\Models\User::isAdmin())
                     <div class="d-flex align-items-center justify-content-center app-block">
-                        <a href="?app=1" class="">
+                        <a class="">
                             <i class="bx fs-4 bxl-apple"></i>
                             <i class="bx fs-4 bxl-android"></i>
                         </a>
@@ -193,15 +191,12 @@
 <!--end wrapper-->
 
 <!-- Bootstrap JS -->
-<script src="{{asset("/assets/js/bootstrap.bundle.min.js")}}"></script>
-<script src="{{asset("/assets/js/jquery.min.js")}}"></script>
 <script src="{{mix("/assets/js/build.js")}}"></script>
 @if(Request::is('vinyls/details/*') || Request::is('artist/*'))
     <script src="{{asset("/assets/js/fancybox.js")}}"></script>
 @else
     <script src="{{asset("/assets/plugins/OwlCarousel/js/owl.carousel.min.js")}}"></script>
 @endif
-<script src="{{asset("/assets/js/semantic.min.js")}}"></script>
 <script src="{{asset("/assets/plugins/metismenu/js/metisMenu.min.js")}}"></script>
 <!--<script src="{{asset("/assets/js/pace.min.js")}}"></script>-->
 @if (auth()->check() && request()->is('profile/*'))

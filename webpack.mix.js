@@ -15,7 +15,12 @@ mix.options({
 });
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
-    .scripts('resources/sources/js/*.js', 'public/assets/js/build.js')
+    .scripts([
+        'resources/sources/js/bootstrap.bundle.min.js',
+        'resources/sources/js/jquery.min.js',
+        'resources/sources/js/semantic.min.js',
+        'resources/sources/js/main.js'
+    ], 'public/assets/js/build.js')
     .styles('resources/sources/css/*.css', 'public/assets/css/build.css')
     /*  .css('resources/sources/css/*', 'public/assets/css/build.css') */
     /* .css('resources/sources/css/*', 'public/assets/css/build.css')*/
