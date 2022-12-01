@@ -14,7 +14,7 @@
                 self.addEventListener('beforeinstallprompt', (e) => {
                     e.preventDefault();
                     // Убираем событие, чтобы его можно было активировать позже.
-                    window.deferredPrompt = e;
+                    e.prompt();
                 });
             }
         </script>
