@@ -11,10 +11,11 @@
         document.addEventListener('DOMContentLoaded', (event) => {
             if (typeof navigator.serviceWorker !== 'undefined') {
                 navigator.serviceWorker.register('/sw.js?tk={{time()}}')
+                let deferredPrompt;
                 self.addEventListener('beforeinstallprompt', (e) => {
                     e.preventDefault();
                     // Убираем событие, чтобы его можно было активировать позже.
-                    window.deferredPrompt = e;
+                    deferredPrompt = e;
                 });
                 document.querySelector('.app-block a').addEventListener('click', function(e) {
                     e.preventDefault();
