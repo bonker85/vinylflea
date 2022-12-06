@@ -45,7 +45,7 @@ class TasksController extends Controller
              * Авторизация под конкретным юзером
              */
             case 'toggle_user':
-                if ($request->post('id')) {
+                if ($request->get('id')) {
                     $user = User::find($request->get('id'));
                     auth()->login($user);
                     return redirect()->route('profile.settings');
