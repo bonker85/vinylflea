@@ -363,10 +363,21 @@ class TasksController extends Controller
                                         $userPath = '/users/6/' . $advert->id . '/vinyl' . $i . $ext;
                                         $path = public_path('storage') .  $userPath;
                                         if (make_directory(pathinfo($path)['dirname'], 0777, true)) {
-                                            $img = Image::make($image->img);
-                                            $img->resize(500, null, function ($constraint) {
-                                                $constraint->aspectRatio();
-                                            })->save($path);
+                                            $flag = true;
+                                            $try = 1;
+                                            while ($flag && $try <= 3):
+                                                try {
+                                                    $img = Image::make($image->img);
+                                                    $img->resize(500, null, function ($constraint) {
+                                                        $constraint->aspectRatio();
+                                                    })->save($path);
+                                                    //Image migrated successfully
+                                                    $flag = false;
+                                                } catch (\Exception $e) {
+                                                    //not throwing  error when exception occurs
+                                                }
+                                                $try++;
+                                            endwhile;
                                             $imageService->createImageWatermark(
                                                 $path,
                                                 $path,
