@@ -71,7 +71,7 @@ class SitemapController extends Controller
             $out .= '<g:id>' . $advert->id . '</g:id>' . "\r\n";
 
             // Название товара
-            $out .= '<title>' . $advert->name . '</title>' . "\r\n";
+            $out .= '<title>' . htmlspecialchars($advert->name) . '</title>' . "\r\n";
 
             // URL страницы товара на сайте магазина
             $out .= '<link>' . route('vinyls.details', $advert->url) . '</link>' . "\r\n";
