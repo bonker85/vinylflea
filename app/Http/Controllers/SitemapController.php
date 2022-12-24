@@ -58,7 +58,7 @@ class SitemapController extends Controller
         $out .= '<title>VinylFlea.By</title>' . "\r\n";
         $out .= '<description>VinylFlea – это сайт-барахолка, предназначенный для обмена, продажи, а также безвозмездной передачи виниловых пластинок из рук в руки. Наш сайт создан для любителей раритета, хорошего звука, меломанов, а также людей получающих эстетическое удовольствие от самого процесса проигрывания пластинки.</description>' . "\r\n";
         // URL главной страницы магазина
-        $out .= '<link>https://example.com/</link>' . "\r\n";
+        $out .= '<link>https://vinylflea.by/</link>' . "\r\n";
         $adverts = Advert::select()
             ->where('status', 1)
             ->where('deal', 'sale')
