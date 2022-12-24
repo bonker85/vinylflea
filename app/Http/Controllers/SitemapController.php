@@ -117,7 +117,8 @@ class SitemapController extends Controller
 
             $out .= '</item>' . "\r\n";
         }
-        $out .= '</channel></rss>' . "\r\n";
+        $out .= '</channel>' . "\r\n";
+        $out .= '</rss>' . "\r\n";
 
 // Вывод в браузер
         header('Content-Type: text/xml; charset=utf-8');
