@@ -103,7 +103,7 @@ class SitemapController extends Controller
                 $out .= '<g:brand>' . $edition . '</g:brand>' . "\r\n";
             }
             $out .= '<g:availability>in stock</g:availability>' . "\r\n";
-            $out .= '<g:google_product_category>Виниловые пластинки > Стиль: ' . $advert->style->name . '</g:google_product_category>' . "\r\n";
+            $out .= '<g:google_product_category>Средства информации > Музыкальные товары и звукозаписи</g:google_product_category>' . "\r\n";
 
             // Стоимость и срок доставки
             $out .= '
