@@ -53,7 +53,6 @@ class SitemapController extends Controller
     public function gfeed()
     {
         $out = '<?xml version="1.0" encoding="utf-8"?>' . "\r\n";
-        $out .= '<rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">' . "\r\n";
         $out .= '<channel>' . "\r\n";
         $out .= '<title>VinylFlea.By</title>' . "\r\n";
         $out .= '<description>VinylFlea – это сайт-барахолка, предназначенный для обмена, продажи, а также безвозмездной передачи виниловых пластинок из рук в руки. Наш сайт создан для любителей раритета, хорошего звука, меломанов, а также людей получающих эстетическое удовольствие от самого процесса проигрывания пластинки.</description>' . "\r\n";
