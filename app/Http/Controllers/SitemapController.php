@@ -89,6 +89,7 @@ class SitemapController extends Controller
             if (count($advert->images)) {
                 foreach ($advert->images as $image) {
                     $out .= '<g:image_link>' .  cdn_url(asset('/storage' . $image->path), $image) .  '</g:image_link>' . "\r\n";
+                    break;
                 }
             }
 
