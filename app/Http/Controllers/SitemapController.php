@@ -71,14 +71,30 @@ class SitemapController extends Controller
             $out .= '<g:id>' . $advert->id . '</g:id>' . "\r\n";
 
             // Название товара
-            $out .= '<title>' . htmlspecialchars($advert->name) . '</title>' . "\r\n";
+            $out .= '<title>Виниловая пластинка: ' . htmlspecialchars($advert->name) . '</title>' . "\r\n";
 
             // URL страницы товара на сайте магазина
             $out .= '<link>' . route('vinyls.details', $advert->url) . '</link>' . "\r\n";
 
             // Описание товара
-            $out .= '<g:description><![CDATA['. htmlspecialchars($advert->description) . ']]></g:description>' . "\r\n";
-
+            $description = "Стиль: " . $advert->style->name . "\r\n";
+            if ($advert->author || $advert->discogs_author_ids)
+            if ($advert->author) {
+                $description .= "Исполнитель: " . $advert->author . "\r\n";
+            }
+            if ($advert->edition_id) {
+                $description .= "Издание: " . $advert->edition->name . "\r\n";
+            }
+            if ($advert->year) {
+                $description .= "Год: " . $advert->year. "\r\n";
+            }
+            if ($advert->condition) {
+                $description .= "Состояние: " . $advert->condition. "\r\n";
+            }
+            if ($advert->description) {
+                $description .= "Описание: " . $advert->description . "\r\n";
+            }
+            $out .= '<g:description><![CDATA['. htmlspecialchars($description) . ']]></g:description>' . "\r\n";
             // Цена
             $out .= '<g:price>' . $advert->price . ' BYN</g:price>' . "\r\n";
 
