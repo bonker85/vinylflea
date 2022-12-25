@@ -71,14 +71,12 @@ class SitemapController extends Controller
             $out .= '<g:id>' . $advert->id . '</g:id>' . "\r\n";
 
             // Название товара
-            $out .= '<title>Виниловая пластинка: ' . htmlspecialchars($advert->name) . '</title>' . "\r\n";
-
+            $out .= '<title>Виниловая пластинка: ' . ($advert->author ? $advert->author . ' - ' : '') .  htmlspecialchars($advert->name) . '</title>' . "\r\n";
             // URL страницы товара на сайте магазина
             $out .= '<link>' . route('vinyls.details', $advert->url) . '</link>' . "\r\n";
 
             // Описание товара
             $description = "Стиль: " . $advert->style->name . "\r\n";
-            if ($advert->author || $advert->discogs_author_ids)
             if ($advert->author) {
                 $description .= "Исполнитель: " . $advert->author . "\r\n";
             }
