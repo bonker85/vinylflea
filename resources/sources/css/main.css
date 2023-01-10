@@ -3198,3 +3198,20 @@ i.icon i.fa-search {
     top: 2px;
     text-transform: uppercase;
 }
+.form-sell-vinyl {
+    margin: 1rem 0;
+}
+.form-sell-vinyl input {
+    width: 100%;
+}
+.form-sell-vinyl textarea{
+    width: 100%;
+    height: 120px;
+    padding: 1rem;
+}
+.success-sell-send {
+    padding: 1rem;
+    background: #dcf648;
+    border-radius: 1rem;
+    margin: 1rem !important;
+}
