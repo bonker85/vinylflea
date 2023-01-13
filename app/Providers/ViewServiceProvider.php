@@ -44,12 +44,8 @@ class ViewServiceProvider extends ServiceProvider
             $view->with('popular_styles', $styles);
         });
         View::composer(['includes.sell-faster-block'], function ($view) {
-            $adverts = Advert::select()->whereRaw("id IN (
-                '4263', '4241', '5843' , '5847' , '5851' , '5704', '5709',
-                '5712', '4602', '4496', '4497', '4471', '4498', '4549',
-                '4510', '4505', '4504', '4503', '4502', '4501', '4500',
-                '4499', '4268', '5900', '5899', '5898', '5896', '5894')"
-            )->inRandomOrder()->limit(12)->get();
+            $adverts = Advert::select()->where('user_id', 11)
+                ->where('status', 1)->inRandomOrder()->limit(12)->get();
             $view->with('sellFasterAdverts', $adverts);
         });
         View::composer('*', function ($view) {
