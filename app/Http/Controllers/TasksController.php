@@ -563,7 +563,8 @@ class TasksController extends Controller
                             }
                             $link = $xpath1->query('a', $product)->item(0)->getAttribute('href');
                             if ($link) {
-                                if (preg_match("#/item/(\d+?)\?#is", $link, $pockets) && isset($pockets[1])) {
+                                if (preg_match("#/item/(\d+?)(\?|$)#is", $link, $pockets) && isset($pockets[1])) {
+
                                     $advertId = $pockets[1];
                                     $imageName = '';
                                     $imgSrc = '';
