@@ -139,7 +139,9 @@ class AdvertService {
                     $aImage->cdn_status = 1;
                     $aImage->cdn_update_time = $time;
                     $aImage->save();
-                    unlink($filePath);
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
                 } else {
                     DbLog::insert([
                         'type' => DbLog::TYPES['cdn_error_update_advert'] ,
