@@ -30,7 +30,7 @@ class AdvertService {
         'free' => 'Отдам даром'
     ];
 
-    const ADVERT_LIMIT = 30;
+    const ADVERT_LIMIT = 10;
 
     public static function getCountStatus($userId)
     {
