@@ -640,6 +640,7 @@ class TasksController extends Controller
                                         }
                                     }
                                 } else {
+                                    echo $link . "<br/>";continue;
                                     echo "error pockets for link";exit();
                                 }
                             } else {
