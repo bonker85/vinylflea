@@ -73,7 +73,7 @@
                                                 @if ($favoritLists->total() > $favoritLists->perPage())
                                                     <div class="my-4 border-top"></div>
                                                     <div class="d-flex justify-content-between">
-                                                        {{ $favoritLists->onEachSide(1)>links()}}
+                                                        {{ $favoritLists->onEachSide(1)->links()}}
                                                     </div>
                                                 @endif
                                             </div>
