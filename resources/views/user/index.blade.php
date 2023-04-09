@@ -108,12 +108,16 @@
                                                                     @endif
                                                                     <div class="m-style"><a href="{{route('vinyls.style', $advert->style->slug)}}" class="user-links" >{{$advert->style->name}}</a></div>
                                                                     <h5 class="mb-0">
-                                                                        @if ($advert->deal == 'sale')
-                                                                            {{str_replace('.00', '', $advert->price)}} Руб.
-                                                                        @elseif ($advert->deal == 'exchange')
-                                                                            обменяю
+                                                                        @if ($advert->user_id == 11)
+                                                                            цена договорная
                                                                         @else
-                                                                            отдам даром
+                                                                            @if ($advert->deal == 'sale')
+                                                                                {{str_replace('.00', '', $advert->price)}} Руб.
+                                                                            @elseif ($advert->deal == 'exchange')
+                                                                                обменяю
+                                                                            @else
+                                                                                отдам даром
+                                                                            @endif
                                                                         @endif
                                                                     </h5>
                                                                     <div class="d-flex gap-2 mt-2 user-button">
