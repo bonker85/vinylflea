@@ -70,12 +70,16 @@
                                 <h3 class="mt-lg-0 mb-0 mt-3 h3-desktop">{{$advert->name}}</h3>
                                 <div class="d-flex align-items-center mt-2 gap-2">
                                     <h4 class="mb-0">
-                                        @if ($advert->deal == 'sale')
-                                            {{str_replace('.00', '', $advert->price)}} Руб.
-                                        @elseif ($advert->deal == 'exchange')
-                                            обменяю
+                                        @if ($advert->user_id == 11)
+                                            цена договорная
                                         @else
-                                            отдам даром
+                                            @if ($advert->deal == 'sale')
+                                                {{str_replace('.00', '', $advert->price)}} Руб.
+                                            @elseif ($advert->deal == 'exchange')
+                                                обменяю
+                                            @else
+                                                отдам даром
+                                            @endif
                                         @endif
                                     </h4>
                                 </div>
