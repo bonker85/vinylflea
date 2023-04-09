@@ -249,6 +249,7 @@ class AjaxController extends Controller
                         'author',
                         'deal',
                         'price',
+                        'user_id',
                         DB::raw("CONCAT('" . $path . "', url) AS url"),
                     )->where(function($query) use ($q) {
                         $query->where(DB::raw("LCASE(name)"), 'LIKE', DB::raw("LCASE(\"".$q."\")"))
@@ -280,16 +281,20 @@ class AjaxController extends Controller
                    } else {
                        $searchRes[$key]['description'] = 'Исполнитель: Не указан';
                    }
-                   switch ($result->deal) {
-                       case "sale":
-                           $searchRes[$key]['price'] = str_replace('.00', '', $result->price) . ' р.';
-                           break;
-                       case "free":
-                           $searchRes[$key]['price'] = 'Отдам даром';
-                           break;
-                       case "exchange":
-                           $searchRes[$key]['price'] = 'Обменяю';
-                           break;
+                   if ($result->user_id == 11) {
+                       $searchRes[$key]['price'] = 'цена договорная';
+                   } else {
+                       switch ($result->deal) {
+                           case "sale":
+                               $searchRes[$key]['price'] = str_replace('.00', '', $result->price) . ' р.';
+                               break;
+                           case "free":
+                               $searchRes[$key]['price'] = 'Отдам даром';
+                               break;
+                           case "exchange":
+                               $searchRes[$key]['price'] = 'Обменяю';
+                               break;
+                       }
                    }
                    if ($request->profile) {
                        if ($request->profile !== AdvertService::STATUS[2] || User::isAdmin()) {
