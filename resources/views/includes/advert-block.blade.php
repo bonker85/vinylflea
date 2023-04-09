@@ -60,12 +60,16 @@
                             <div class="d-flex align-items-center">
                                 <div class="mb-1 product-price">
                         <span class="fs-5">
-                            @if ($advert->deal == 'sale')
-                                {{str_replace('.00', '', $advert->price)}} Руб.
-                            @elseif ($advert->deal == 'exchange')
-                                обменяю
+                            @if ($advert->user_id == 11)
+                                цена договорная
                             @else
-                                отдам даром
+                                @if ($advert->deal == 'sale')
+                                    {{str_replace('.00', '', $advert->price)}} Руб.
+                                @elseif ($advert->deal == 'exchange')
+                                    обменяю
+                                @else
+                                    отдам даром
+                                @endif
                             @endif
                         </span>
                                 </div>
