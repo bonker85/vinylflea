@@ -198,12 +198,16 @@
                                                         Цена
                                                     </dt>
                                                     <dd class="col-sm-9">
-                                                        @if ($advert->deal == 'sale')
-                                                            {{str_replace('.00', '', $advert->price)}} Руб.
-                                                        @elseif ($advert->deal == 'exchange')
-                                                            обменяю
+                                                        @if ($advert->user_id == 11)
+                                                            цена договорная
                                                         @else
-                                                            отдам даром
+                                                            @if ($advert->deal == 'sale')
+                                                                {{str_replace('.00', '', $advert->price)}} Руб.
+                                                            @elseif ($advert->deal == 'exchange')
+                                                                обменяю
+                                                            @else
+                                                                отдам даром
+                                                            @endif
                                                         @endif
                                                     </dd>
                                                     <dt class="col-sm-3">
