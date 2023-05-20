@@ -568,8 +568,8 @@ class TasksController extends Controller
                                     $advertId = $pockets[1];
                                     $imageName = '';
                                     $imgSrc = '';
-                                    if ($xpath1->query('a/div[1]/div/div/div/div[1]/img', $product)->length) {
-                                        $imgSrc =  $xpath1->query('a/div[1]/div/div/div/div[1]/img', $product)
+                                    if ($xpath1->query('a/div[1]/div/div[1]/div/div/div/img[1]', $product)->length) {
+                                        $imgSrc =  $xpath1->query('a/div[1]/div/div[1]/div/div/div/img[1]', $product)
                                             ->item(0)->getAttribute('data-src');
                                         $parseUrl = parse_url($imgSrc);
                                         if (isset($parseUrl['path']) && !empty($parseUrl['path'])) {
