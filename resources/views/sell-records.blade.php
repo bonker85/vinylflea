@@ -6,7 +6,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 col-lg-12">
-                    <h3>Телеграм для предложений - <a href="https://t.me/vinylfleaby">https://t.me/vinylfleaby</a> </h3>
+                    <h3>Телеграм для предложений - <a href="https://t.me/vinylfleaby">https://t.me/vinylfleaby</a> или пишите нам <a href="https://vk.com/id765124456">Вконтакте</a></h3>
                     @if (isset($success))
                         <p class="success-sell-send">Данные приняты в обработку. Скоро с Вами свяжутся. Спасибо!</p>
                     @else
