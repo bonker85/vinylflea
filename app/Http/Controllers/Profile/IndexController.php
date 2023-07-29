@@ -137,7 +137,7 @@ class IndexController extends BaseController
     {
         if (AdvertService::isUserAdvertsLimit(auth()->user()->id)) {
             request()->session()->flash('success',
-                'Добавление новых пластинок временно приостановлено, продложить вашу коллекцию Вы можете перейдя по ссылке -
+                'Добавление новых пластинок временно приостановлено, предложить вашу коллекцию Вы можете перейдя по ссылке -
                 <a href="/sell-records">Предложить</a>');
             return redirect('/profile');
         }
