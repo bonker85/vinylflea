@@ -20,7 +20,11 @@
                             </a>
                             <div class="card-body">
                                 <div class="news-title">
-                                    <a href="{{route('news', $new->url)}}">
+                                    @if ($new->id == 9)
+                                        <a href="/{{$new->url}}">
+                                    @else
+                                        <a href="{{route('news', $new->url)}}">
+                                    @endif
                                         <h5 class="text-capitalize">{{$new->name}}</h5>
                                     </a>
                                 </div>
