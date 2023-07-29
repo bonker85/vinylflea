@@ -9,6 +9,7 @@
         <div class="product-grid">
             <div class="latest-news owl-carousel owl-theme">
                 @foreach ($lastNewsList as $new)
+                    @if ($new->id == 9) @continue @endif
                     <div class="item">
                         <div class="card rounded-0 product-card border">
                             <a href="{{route('news', $new->url)}}">
