@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title', "Продать виниловые пластинки")
-@section('description', "Продать виниловые пластинки")
+@section('description', "Продать виниловые пластинки, Где продать виниловые пластинки")
 @section('content')
     <section>
         <div class="container">
