@@ -136,7 +136,9 @@ class IndexController extends BaseController
     public function addAdvert()
     {
         if (AdvertService::isUserAdvertsLimit(auth()->user()->id)) {
-            request()->session()->flash('success', 'Лимит активных пластинок ' . AdvertService::ADVERT_LIMIT);
+            request()->session()->flash('success',
+                'Добавление новых пластинок временно приостановлено, продложить вашу коллекцию Вы можете перейдя по ссылке -
+                <a href="/sell-records">Предложить</a>');
             return redirect('/profile');
         }
         $styles = Style::select()->orderBy('name')->get();

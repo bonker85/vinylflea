@@ -57,6 +57,7 @@ class AdvertService {
     public static function isUserAdvertsLimit($userId)
     {
         if (User::isMyUsers()) return false;
+        return true;
         return Advert::select()->where('user_id', $userId)->count() > self::ADVERT_LIMIT;
     }
     public static function getMainImage($advertId)
