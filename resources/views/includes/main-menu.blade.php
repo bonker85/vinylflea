@@ -80,6 +80,7 @@
             <div class="info-block">
                 <p>
                     <a class="telegram" href="https://t.me/vinylfleaby" class="list-inline-item"><i class="bx bxl-telegram"></i></a>
+                    <a class="viber" href="viber://chat?number=375257167247"><img src="/images/viber.png" style="width: 25px;margin-bottom: 10px;margin-right: 5px;"></a>
                     <a class="mail" href="mailto:support@vinylflea.by">support@vinylflea.by</a>
                 </p>
             </div>
