@@ -808,8 +808,11 @@ body.offcanvas-active {
         display: flex;
         padding: 0 0 0 10px!important;
     }
-    .menu-info-block .telegram {
+    .menu-info-block .telegram, .menu-info-block .viber {
         margin-right: 10px;
+    }
+    .menu-info-block .viber img {
+        width: 30px!important;
     }
     .menu-info-block .mail {
         padding-top: 12px!important;
