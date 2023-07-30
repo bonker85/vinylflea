@@ -55,6 +55,9 @@
                                 <a href="{{route('user', $advert->user_id)}}"> {{$advert->user->name}} </a>
                                 @if (\App\Models\User::isMyUserId($advert->user_id))
                                     &nbsp; &nbsp; <a class="telegram" href="https://t.me/vinylfleaby"><i class="bx fs-4 bxl-telegram"></i></a>
+                                    <a class="viber" href="viber://chat?number=375257167247" style="">
+                                        <img src="/images/viber.png" style="width: 20px;margin-left: 10px;">
+                                    </a>
                                 @endif
                             </div>
                             <div class="d-flex align-items-center">

@@ -133,6 +133,12 @@
                                         <dd class="col-sm-9">
                                             <a class="telegram" href="https://t.me/vinylfleaby"><i class="bx fs-4 bxl-telegram"></i></a>
                                         </dd>
+                                        <dt class="col-sm-3">Viber</dt>
+                                        <dd class="col-sm-9">
+                                            <a class="viber" href="viber://chat?number=375257167247">
+                                                <img src="/images/viber.png" style="width: 20px;" />
+                                            </a>
+                                        </dd>
                                     @endif
                                     @if ($advert->user->phone /*&& auth()->check()*/)
                                         <dt class="col-sm-3">Телефон</dt>
