@@ -31,6 +31,9 @@
                         </div>
                     </div>
                 </li>
+                <li class="nav-item" style="color: red;">
+                    <a class="nav-link menu-single-link" href="/spisok.xlsx" style="color: #28c75a;">Скачать xlsx</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link menu-single-link" href="{{route('news')}}">Новости</a>
                 </li>
