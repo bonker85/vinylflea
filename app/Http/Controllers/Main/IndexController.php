@@ -41,4 +41,9 @@ class IndexController extends BaseController
         return view('sell-records', ['success' => true]);
     }
 
+    public function vinylList()
+    {
+        return view('main.vinyl-list');
+    }
+
 }

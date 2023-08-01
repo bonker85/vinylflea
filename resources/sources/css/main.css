@@ -3218,3 +3218,14 @@ i.icon i.fa-search {
     border-radius: 1rem;
     margin: 1rem !important;
 }
+.bx-sort-down:before {
+    content: "\eb7a"
+
+}
+.bx-sort-up:before {
+    content: "\eb7b"
+}
+
+.vinyl-link-list {
+    color: #7d8693;
+}
