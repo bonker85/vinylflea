@@ -19,7 +19,6 @@
     <table class="table table-hover table-bordered">
         <thead class="table-light">
         <tr>
-            <th scope="col" style="width: 25px;">#</th>
             <th style="width: 100px"></th>
             <th>
                 <a href="" class="align-middle d-flex justify-content-between align-items-center">
@@ -55,7 +54,6 @@
         <tbody>
         @foreach ($adverts as $advert)
             <tr>
-                <th scope="row" class="align-middle">{{$loop->iteration}}</th>
                 <td class="text-center">
                     @if (count($advert->images))
                         @foreach ($advert->images as $image)
