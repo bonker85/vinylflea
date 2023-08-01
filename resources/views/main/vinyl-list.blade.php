@@ -12,7 +12,7 @@
                 @if (request()->get('q'))
                     {{$adverts->appends(['q' => request()->get('q')])->onEachSide(1)->links()}}
                 @else
-                    {{$adverts->onEachSide(1)->links()}}
+                    {{$adverts->links()}}
                 @endif
             </div>
         @endif
@@ -84,7 +84,7 @@
                 @if (request()->get('q'))
                     {{$adverts->appends(['q' => request()->get('q')])->onEachSide(1)->links()}}
                 @else
-                    {{$adverts->onEachSide(1)->links()}}
+                    {{$adverts->links()}}
                 @endif
             </div>
         @endif
