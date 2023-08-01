@@ -44,7 +44,7 @@
         <tbody>
         @foreach ($adverts as $advert)
             <tr>
-                <th scope="row" class="align-middle">1</th>
+                <th scope="row" class="align-middle">{{$loop->iteration}}</th>
                 <td class="text-center">
                     @if (count($advert->images))
                         @foreach ($advert->images as $image)
