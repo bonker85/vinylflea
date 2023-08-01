@@ -48,7 +48,7 @@ class IndexController extends BaseController
             ->where('status', 1)
             ->join('styles AS s', 's.id', '=', 'adverts.style_id')
             ->where('user_id', 6)
-            ->orderBy('name')->paginate(1000);
+            ->orderBy('name')->paginate(500);
         return view('main.vinyl-list', compact('adverts'));
     }
     public function createExcelForVinilCD()
