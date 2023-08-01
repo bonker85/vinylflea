@@ -5,6 +5,17 @@
     <div class="table-responsive px-2 py-4">
         <div class="mb-3 fs-5 text-center">
             <a href="{{route('download-list')}}" style="color: #dd4433;text-decoration: underline;">СКАЧАТЬ СПИСОК В EXCELE</a></div>
+        @if ($adverts instanceof \Illuminate\Pagination\AbstractPaginator &&
+         $adverts->total() > $adverts->perPage())
+            <div class="my-4 border-top"></div>
+            <div class="d-flex justify-content-between">
+                @if (request()->get('q'))
+                    {{$adverts->appends(['q' => request()->get('q')])->onEachSide(1)->links()}}
+                @else
+                    {{$adverts->onEachSide(1)->links()}}
+                @endif
+            </div>
+        @endif
     <table class="table table-hover table-bordered">
         <thead class="table-light">
         <tr>
@@ -69,5 +80,16 @@
             @endforeach
         </tbody>
     </table>
+        @if ($adverts instanceof \Illuminate\Pagination\AbstractPaginator &&
+            $adverts->total() > $adverts->perPage())
+            <div class="my-4 border-top"></div>
+            <div class="d-flex justify-content-between">
+                @if (request()->get('q'))
+                    {{$adverts->appends(['q' => request()->get('q')])->onEachSide(1)->links()}}
+                @else
+                    {{$adverts->onEachSide(1)->links()}}
+                @endif
+            </div>
+        @endif
     </div>
 @endsection
