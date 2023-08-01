@@ -55,17 +55,20 @@
         @foreach ($adverts as $advert)
             <tr>
                 <td class="text-center">
-                    @if (count($advert->images))
-                        @foreach ($advert->images as $image)
-                            <img src="{{thumb_url(asset('/storage' . $image->path), $image)}}" width="50" alt="">
-                            @break
-                        @endforeach
-                    @else
-                        <img src="{{asset('/assets/images/avatars/no-avatar.png')}}" width="50" alt="">
-                    @endif
-                <td class="align-middle text-nowrap">{{$advert->author}}</td>
+                    <a href="{{route('vinyls.details', $advert->url)}}" class="vinyl-link-list">
+                        @if (count($advert->images))
+                            @foreach ($advert->images as $image)
+                                <img src="{{thumb_url(asset('/storage' . $image->path), $image)}}" width="50" alt="">
+                                @break
+                            @endforeach
+                        @else
+                            <img src="{{asset('/assets/images/avatars/no-avatar.png')}}" width="50" alt="">
+                        @endif
+                    </a>
                 <td class="align-middle text-nowrap">
-                    <a href="" class="vinyl-link-list">
+                    <a href="{{route('vinyls.details', $advert->url)}}">{{$advert->author}}</a></td>
+                <td class="align-middle text-nowrap">
+                    <a href="{{route('vinyls.details', $advert->url)}}" class="vinyl-link-list">
                         {{$advert->name}}
                     </a>
                 </td>
