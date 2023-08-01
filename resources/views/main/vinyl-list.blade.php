@@ -45,7 +45,15 @@
         @foreach ($adverts as $advert)
             <tr>
                 <th scope="row" class="align-middle">1</th>
-                <td class="text-center"><img width="50px" src="/public/storage/advert_thumbs/11/4248/vinyl1.webp"/></td>
+                <td class="text-center">
+                    @if (count($advert->images))
+                        @foreach ($advert->images as $image)
+                            <img src="{{thumb_url(asset('/storage' . $image->path), $image)}}" width="50" alt="">
+                            @break
+                        @endforeach
+                    @else
+                        <img src="{{asset('/assets/images/avatars/no-avatar.png')}}" width="50" alt="">
+                    @endif
                 <td class="align-middle text-nowrap">{{$advert->author}}</td>
                 <td class="align-middle text-nowrap">
                     <a href="" class="vinyl-link-list">
