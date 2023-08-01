@@ -3,6 +3,8 @@
 @section('description', 'Список всех пластинок')
 @section('content')
     <div class="table-responsive px-2 py-4">
+        <div class="mb-3 fs-5 text-center">
+            <a href="{{route('download-list')}}" style="color: #dd4433;text-decoration: underline;">СКАЧАТЬ СПИСОК В EXCELE</a></div>
     <table class="table table-hover table-bordered">
         <thead class="table-light">
         <tr>
@@ -40,36 +42,23 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <th scope="row" class="align-middle">1</th>
-            <td class="text-center"><img width="50px" src="/public/storage/advert_thumbs/11/4248/vinyl1.webp"/></td>
-            <td class="align-middle text-nowrap">Владимир Высоцкий</td>
-            <td class="align-middle text-nowrap">
-                <a href="" class="vinyl-link-list">
-                    На концертах Владимира Высоцкого
-                </a>
-            </td>
-            <td class="align-middle">Rock</td>
-            <td class="align-middle">50</td>
-            <td class="align-middle">EX/EX</td>
-            <td class="align-middle">3424324</td>
-            <td class="align-middle">19.11.2022</td>
-        </tr>
-        <tr>
-            <th scope="row" class="align-middle">1</th>
-            <td class="text-center"><img width="50px" src="/public/storage/advert_thumbs/11/4248/vinyl1.webp"/></td>
-            <td class="align-middle text-nowrap">Владимир Высоцкий</td>
-            <td class="align-middle text-nowrap">
-                <a href="" class="vinyl-link-list">
-                    На концертах Владимира Высоцкого
-                </a>
-            </td>
-            <td class="align-middle">Rock</td>
-            <td class="align-middle">50</td>
-            <td class="align-middle">EX/EX</td>
-            <td class="align-middle">3424324</td>
-            <td class="align-middle">19.11.2023</td>
-        </tr>
+        @foreach ($adverts as $advert)
+            <tr>
+                <th scope="row" class="align-middle">1</th>
+                <td class="text-center"><img width="50px" src="/public/storage/advert_thumbs/11/4248/vinyl1.webp"/></td>
+                <td class="align-middle text-nowrap">{{$advert->author}}</td>
+                <td class="align-middle text-nowrap">
+                    <a href="" class="vinyl-link-list">
+                        {{$advert->name}}
+                    </a>
+                </td>
+                <td class="align-middle">{{$advert->sname}}</td>
+                <td class="align-middle">{{$advert->price}}</td>
+                <td class="align-middle">{{$advert->condition}}</td>
+                <td class="align-middle">{{$advert->sku}}</td>
+                <td class="align-middle">{{date('d-m-Y',strtotime($advert->created_at))}}</td>
+            </tr>
+            @endforeach
         </tbody>
     </table>
     </div>

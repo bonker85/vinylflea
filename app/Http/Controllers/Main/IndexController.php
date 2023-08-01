@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Main;
 //use DB;
 //use Illuminate\Support\Facades\Hash;
 
+use App\Exports\UserAdvertsExport;
 use App\Mail\SellRecords;
 use App\Models\Advert;
 use App\Models\Page;
@@ -43,7 +44,20 @@ class IndexController extends BaseController
 
     public function vinylList()
     {
-        return view('main.vinyl-list');
+        $adverts = Advert::select('adverts.*', 's.name AS sname')
+            ->where('status', 1)
+            ->join('styles AS s', 's.id', '=', 'adverts.style_id')
+            ->where('user_id', 6)
+            ->orderBy('name')->get();
+        return view('main.vinyl-list', compact('adverts'));
+    }
+    public function createExcelForVinilCD()
+    {
+        $data = [
+            'users_ids' => [6],
+            'sep' => 'none'
+        ];
+        return (new UserAdvertsExport($data))->download('vinyl.xlsx');
     }
 
 }

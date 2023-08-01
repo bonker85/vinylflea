@@ -622,6 +622,8 @@ class IndexController extends BaseController
             abort('404');
         }
     }
+
+
     private function syncAdvertImages($advertId, $userId)
     {
         $imagesInBase = [];
