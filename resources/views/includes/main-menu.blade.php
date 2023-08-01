@@ -32,7 +32,7 @@
                     </div>
                 </li>
                 <li class="nav-item" style="color: red;">
-                    <a class="nav-link menu-single-link" href="{{route('download-list')}}" style="color: #28c75a;">Скачать список</a>
+                    <a class="nav-link menu-single-link" href="{{route('main.vinyl-list')}}" style="color: #28c75a;">Скачать список</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link menu-single-link" href="{{route('news')}}">Новости</a>
