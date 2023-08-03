@@ -273,6 +273,9 @@ class TasksController extends Controller
                         break;
                     }
                     foreach ($products as $product) {
+                        if (!isset($product->uid) || empty($product->uid)) {
+                            echo 'Uid не определен';exit();
+                        }
                         $advert = Advert::select()->where('user_id', 6)->where('uid', $product->uid)->first();
                         if ($advert) {
                             // обновление статуса
@@ -313,7 +316,7 @@ class TasksController extends Controller
                             ];
                             $advert = Advert::firstOrCreate(['url' => $data['url']],$data);
                             $advert->hide_advert = 0;
-                            $show_advert++;
+                           // $show_advert++;
                             $advert->save();
                             $images = json_decode($product->gallery);
                             if ($images) {
@@ -368,6 +371,8 @@ class TasksController extends Controller
                     foreach ($adverts as $advert) {
                         AdvertService::deleteAdvert($advert);
                     }
+                } else {
+                    echo 'Перезапустить, почистить базу';exit();
                 }
                 AdvertService::recountStylesAdverts();
                 AdvertService::updateAdvertsOnCDN();
