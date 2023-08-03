@@ -93,11 +93,11 @@
                                                                     <div class="cart-img text-center text-lg-start">
                                                                         @if (count($advert->images))
                                                                             @foreach ($advert->images as $image)
-                                                                                <img src="{{thumb_url(asset('/storage' . $image->path), $image)}}" loading="lazy" width="130" alt="">
+                                                                                <img src="{{thumb_url(asset('/storage' . $image->path), $image)}}"  width="130" alt="">
                                                                                 @break
                                                                             @endforeach
                                                                         @else
-                                                                            <img src="{{asset('/assets/images/avatars/no-avatar.png')}}" loading="lazy" width="130" alt="">
+                                                                            <img src="{{asset('/assets/images/avatars/no-avatar.png')}}"  width="130" alt="">
                                                                         @endif
                                                                     </div>
                                                                 </a>
