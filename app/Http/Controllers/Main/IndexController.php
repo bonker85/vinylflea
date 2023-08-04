@@ -52,10 +52,12 @@ class IndexController extends BaseController
             ->where('author', '!=', '');
         if ($request->post()) {
             if ($request->author) {
-                $advertQuery->where(DB::raw("LCASE(author)"), 'LIKE', DB::raw("LCASE(\"".$request->author."\")"));
+                $author = '%' . str_replace("\"", "'", strtolower(trim($request->author))) . '%';
+                $advertQuery->where(DB::raw("LCASE(author)"), 'LIKE', DB::raw("LCASE(\"".$author."\")"));
             }
             if ($request->name) {
-                $advertQuery->where(DB::raw("LCASE(adverts.name)"), 'LIKE', DB::raw("LCASE(\"".$request->name."\")"));
+                $name = '%' . str_replace("\"", "'", strtolower(trim($request->name))) . '%';
+                $advertQuery->where(DB::raw("LCASE(adverts.name)"), 'LIKE', DB::raw("LCASE(\"".$name."\")"));
             }
         }
         $adverts = $advertQuery
