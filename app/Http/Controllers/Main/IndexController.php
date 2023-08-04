@@ -12,7 +12,8 @@ use App\Models\Page;
 use App\Models\Style;
 use App\Services\AdvertService;
 use App\Services\ProfileService;
-use GuzzleHttp\Psr7\Request;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -42,13 +43,22 @@ class IndexController extends BaseController
         return view('sell-records', ['success' => true]);
     }
 
-    public function vinylList()
+    public function vinylList(Request $request)
     {
-        $adverts = Advert::select('adverts.*', 's.name AS sname')
+        $advertQuery = Advert::select('adverts.*', 's.name AS sname')
             ->where('status', 1)
             ->join('styles AS s', 's.id', '=', 'adverts.style_id')
             ->where('user_id', 6)
-            ->where('author', '!=', '')
+            ->where('author', '!=', '');
+        if ($request->post()) {
+            if ($request->author) {
+                $advertQuery->where(DB::raw("LCASE(author)"), 'LIKE', DB::raw("LCASE(\"".$request->author."\")"));
+            }
+            if ($request->name) {
+                $advertQuery->where(DB::raw("LCASE(adverts.name)"), 'LIKE', DB::raw("LCASE(\"".$request->name."\")"));
+            }
+        }
+        $adverts = $advertQuery
             ->orderBy('author')->paginate(500);
         return view('main.vinyl-list', compact('adverts'));
     }

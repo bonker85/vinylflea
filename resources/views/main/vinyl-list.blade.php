@@ -16,6 +16,24 @@
                 @endif
             </div>
         @endif
+        <div class="card">
+            <form method="post" action="{{route('main.vinyl-list')}}">
+            <div class="card-body row">
+
+                    @csrf
+                    @method('post')
+                    <div class="col-5">
+                        <input type="text" name="author" class="form-control" placeholder="Исполнитель"/>
+                    </div>
+                    <div class="col-4">
+                        <input type="text" name="name" class="form-control" placeholder="Альбом" />
+                    </div>
+                    <div class="col-3">
+                        <button type="submit" class="btn btn-success">Искать</button>
+                    </div>
+            </div>
+            </form>
+        </div>
     <table class="table table-hover table-bordered">
         <thead class="table-light">
         <tr>
