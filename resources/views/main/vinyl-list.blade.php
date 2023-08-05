@@ -19,7 +19,6 @@
         <div class="card">
             <form method="post" action="{{route('main.vinyl-list')}}">
             <div class="card-body row">
-
                     @csrf
                     @method('post')
                     <div class="col-5">
@@ -32,6 +31,16 @@
                         <button type="submit" class="btn btn-success">Искать</button>
                     </div>
             </div>
+                @if (auth()->check() && auth()->user()->role_id === 1)
+                    <div class="card-body row">
+                    <div class="col-4">
+                        <input type="text" name="uid" class="form-control" placeholder="Uid" />
+                    </div>
+                    <div class="col-4">
+                        <input type="text" name="sku" class="form-control" placeholder="Sku" />
+                    </div>
+                    </div>
+                @endif
             </form>
         </div>
     <table class="table table-hover table-bordered">

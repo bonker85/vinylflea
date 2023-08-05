@@ -59,6 +59,12 @@ class IndexController extends BaseController
                 $name = '%' . str_replace("\"", "'", strtolower(trim($request->name))) . '%';
                 $advertQuery->where(DB::raw("LCASE(adverts.name)"), 'LIKE', DB::raw("LCASE(\"".$name."\")"));
             }
+            if ($request->sku) {
+                $advertQuery->where('sku', $request->sku);
+            }
+            if ($request->uid) {
+                $advertQuery->where('uid', $request->uid);
+            }
         }
         $adverts = $advertQuery
             ->orderBy('author')->paginate(500);
