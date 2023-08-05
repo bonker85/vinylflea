@@ -49,12 +49,10 @@
             <th style="width: 100px"></th>
             <th>
                 <a href="" class="align-middle d-flex justify-content-between align-items-center">
-                    Исполнитель <i class="bx bx-sort-down fs-5"></i>
-                </a>
-            </th>
-            <th scope="col">
-                <a href="" class="align-middle d-flex justify-content-between align-items-center">
-                    Название <i class="bx bx-sort-down fs-5"></i>
+                    <div>
+                     Исполнитель - <span class="vinil-list-name">Название</span>
+                    </div>
+                    <i class="bx bx-sort-down fs-5"></i>
                 </a>
             </th>
             <th scope="col">
@@ -93,12 +91,7 @@
                         @endif
                     </a>
                 <td class="align-middle text-nowrap">
-                    <a href="{{route('vinyls.details', $advert->url)}}">{{$advert->author}}</a></td>
-                <td class="align-middle text-nowrap">
-                    <a href="{{route('vinyls.details', $advert->url)}}" class="vinyl-link-list">
-                        {{$advert->name}}
-                    </a>
-                </td>
+                    <a href="{{route('vinyls.details', $advert->url)}}">{{$advert->author}} - <span class="vinil-list-name">{{$advert->name}}</span></a></td>
                 <td class="align-middle">{{$advert->sname}}</td>
                 <td class="align-middle">{{$advert->price}}</td>
                 <td class="align-middle">{{$advert->condition}}</td>
