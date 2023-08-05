@@ -31,7 +31,7 @@
                         <button type="submit" class="btn btn-success">Искать</button>
                     </div>
             </div>
-                @if (auth()->check() && auth()->user()->role_id === 1)
+                @if (auth()->check() && (int)auth()->user()->role_id === 1)
                     <div class="card-body row">
                     <div class="col-4">
                         <input type="text" name="uid" class="form-control" placeholder="Uid" />
