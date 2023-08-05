@@ -119,4 +119,9 @@
             </div>
         @endif
     </div>
+    <style>
+        .table-responsive {
+            max-height:600px;
+        }
+    </style>
 @endsection
