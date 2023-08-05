@@ -4,15 +4,6 @@
 @section('content')
     @if ($page->url == 'home')
         @include('includes.last-adverts-block')
-        <section>
-            <div class="container">
-                <div class="mb-4 row">
-                    <a href="{{route('main.vinyl-list')}}" class="d-flex align-items-center justify-content-center ">
-                        <img src="/images/vinyl-list.jpg" width="100%" style="max-width:600px" />
-                    </a>
-                </div>
-            </div>
-        </section>
         {{--  @include('includes.sell-faster-block') --}}
           @include('includes.popular-block')
           @include('includes.last-news-block')
