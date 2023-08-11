@@ -117,10 +117,14 @@
                                                                         <a href="{{route('profile.edit_advert', $advert->id)}}" class="btn btn-success rounded-3 btn-ecomm"><i class="bx bx-edit"></i> Изменить</a>
                                                                     @endif
                                                                     @if ($status == 'activated')
-                                                                            <form method="post" action="{{route('profile.deactiv_advert', ['id' => $advert->id])}}">
-                                                                                @csrf
-                                                                                <button type="submit" class="btn btn-warning rounded-3 btn-ecomm"><i class="bx bx-hide"></i> Скрыть</button>
-                                                                            </form>
+                                                                            @if ($advert->user_id == 11)
+                                                                                <a href="{{route('profile.deactiv_adminadvert', ['id' => $advert->id])}}" target="_blank" class="btn btn-warning rounded-3 btn-ecomm"><i class="bx bx-hide"></i> Скрыть</a>
+                                                                            @else
+                                                                                <form method="post" action="{{route('profile.deactiv_advert', ['id' => $advert->id])}}">
+                                                                                    @csrf
+                                                                                    <button type="submit" class="btn btn-warning rounded-3 btn-ecomm"><i class="bx bx-hide"></i> Скрыть</button>
+                                                                                </form>
+                                                                            @endif
                                                                     @endif
                                                                     @if ($status == 'deactivated')
                                                                         <form method="post" action="{{route('profile.activ_advert', ['id' => $advert->id])}}">

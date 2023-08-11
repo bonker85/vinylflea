@@ -58,6 +58,15 @@ class IndexController extends BaseController
 
     }
 
+    public function deactivateForAdmin($id)
+    {
+        if (User::isMyUsers()) {
+            return $this->deactivateAdvert($id);
+        } else {
+            abort(404);
+        }
+    }
+
     public function deactivateAdvert($id)
     {
         $advert = Advert::select()->where('id', $id)->where('user_id', auth()->user()->id)->first();
