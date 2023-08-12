@@ -21,10 +21,6 @@ class IndexController extends BaseController
 {
     public function __invoke($url = 'home')
     {
-        if (isset($_GET['tester'])) {
-            echo ini_get('upload_max_filesize');exit();
-        }
-
      //   $profileSevert = new ProfileService();
       // dd($profileSevert->createAdvertThumbnail('/rule/main.jpg'));
    //     DB::table('users')->insert(['name'=>'Egor','email'=>'bonker85@mail.ru','password'=>Hash::make('fishki182')]);
