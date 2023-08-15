@@ -65,7 +65,7 @@ class SitemapController extends Controller
             ->where('status', 1)
             ->where('deal', 'sale')
             ->where('price', '>', 0)
-            ->whereIn('user_id', [4, 6, 11])->get();
+            ->whereIn('user_id', [6])->get();
         foreach ($adverts as $advert) {
             $out .= '<item>' . "\r\n";
 
