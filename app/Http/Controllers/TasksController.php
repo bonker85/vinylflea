@@ -332,33 +332,33 @@ class TasksController extends Controller
                                         if (make_directory(pathinfo($path)['dirname'], 0777, true)) {
                                             $flag = true;
                                             $try = 1;
-                                            while ($flag && $try <= 3):
+                                            while ($flag && $try <= 2):
                                                 try {
                                                     $img = Image::make($image->img);
                                                     $img->resize(500, null, function ($constraint) {
                                                         $constraint->aspectRatio();
                                                     })->save($path);
                                                     //Image migrated successfully
+                                                    $imageService->createImageWatermark(
+                                                        $path,
+                                                        $path,
+                                                        public_path('images/watermarks/watermark.png')
+                                                    );
+                                                    AdvertImage::firstOrCreate(
+                                                        ['path' => $userPath],
+                                                        [
+                                                            'advert_id' => $advert->id,
+                                                            'path' => $userPath
+                                                        ]);
+                                                    $i++;
                                                     $flag = false;
                                                 } catch (\Exception $e) {
                                                     //not throwing  error when exception occurs
                                                 }
                                                 $try++;
                                             endwhile;
-                                            $imageService->createImageWatermark(
-                                                $path,
-                                                $path,
-                                                public_path('images/watermarks/watermark.png')
-                                            );
-                                            //'/users/6/' . $advert->id . '/vinyl.jpg',
-                                            AdvertImage::firstOrCreate(
-                                                ['path' => $userPath],
-                                                [
-                                                    'advert_id' => $advert->id,
-                                                    'path' => $userPath
-                                                ]);
                                         }
-                                        $i++;
+
                                     }
 
                                 }
