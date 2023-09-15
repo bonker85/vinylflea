@@ -274,9 +274,15 @@ class TasksController extends Controller
                     }
                     foreach ($products as $product) {
                         if (!isset($product->uid) || empty($product->uid)) {
-                            echo 'Uid не определен';exit();
+                            if (!isset($product->sku) || empty($product->sku)) {
+                                //для продукта ни артикул ни uid не определен, ничего с ним не делаем
+                                continue;
+                            } else {
+                                $advert = Advert::select()->where('user_id', 6)->where('sku', $product->sku)->first();
+                            }
+                        } else {
+                            $advert = Advert::select()->where('user_id', 6)->where('uid', $product->uid)->first();
                         }
-                        $advert = Advert::select()->where('user_id', 6)->where('uid', $product->uid)->first();
                         if ($advert) {
                             // обновление статуса
                             // Если есть в наличии и в статусе скрыт
