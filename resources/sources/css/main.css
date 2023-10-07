@@ -734,6 +734,7 @@ a {
     text-transform: uppercase;
     font-size: 15px;
     color: #292929;
+    white-space: nowrap;
 }
 .primary-menu .large-menu-title {
     text-transform: uppercase;
