@@ -43,11 +43,11 @@ class ViewServiceProvider extends ServiceProvider
             $styles = Style::select()->whereRaw('slug IN ("jazz", "pop", "rock")')->get();
             $view->with('popular_styles', $styles);
         });
-        View::composer(['includes.sell-faster-block'], function ($view) {
+        /*View::composer(['includes.sell-faster-block'], function ($view) {
             $adverts = Advert::select()->where('user_id', 11)
                 ->where('status', 1)->where('price', '>', '15')->inRandomOrder()->limit(12)->get();
             $view->with('sellFasterAdverts', $adverts);
-        });
+        });*/
         View::composer('*', function ($view) {
             $view->with('admin', User::isAdmin());
         });

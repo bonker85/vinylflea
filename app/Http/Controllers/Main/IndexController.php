@@ -30,7 +30,7 @@ class IndexController extends BaseController
         $page = $this->service->getPage($url);
         $lastAdvertsList = Advert::select()
             ->where('status', AdvertService::getStatusByName('activated'))
-            ->orderBy('up_time', 'DESC')->limit(12)->get();
+            ->orderBy('up_time', 'DESC')->limit(8)->get();
         $styles = Style::select()->orderBy('name')->get();
         return view('main.index', compact('page', 'lastAdvertsList', 'styles'));
     }
