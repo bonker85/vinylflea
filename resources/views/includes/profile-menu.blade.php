@@ -2,14 +2,14 @@
 <div class="col-lg-4 profile-menu">
     <div class="card shadow-none mb-3 mb-lg-0 border rounded-0">
         <div class="menu-buttons">
-            <div class="card-body add-vinyl">
+            <div class="card-body blue-card add-vinyl">
                 <a href="{{route('profile.add_advert')}}" class="rounded-3 list-group-item  d-flex  align-items-center"><i class='bx bx-plus fs-5'></i> Добавить</a>
             </div>
-            <div class="card-body view-profile">
+            <div class="card-body blue-card view-profile">
                  <a href="{{route('user', auth()->user()->id)}}" class="rounded-3 list-group-item  d-flex  align-items-center"><i class='bx bx-user fs-5'></i> Профиль</a>
             </div>
         </div>
-        <div class="card-body mainmenu">
+        <div class="card-body blue-card mainmenu">
             <div class="list-group list-group-flush">
                 <a href="{{route('profile.adverts')}}" class="list-group-item @if ($route_name == 'profile.adverts') active @endif d-flex justify-content-between align-items-center">Мои пластинки <i class='bx bx-clipboard fs-5'></i></a>
                 <a href="{{route('profile.messages')}}" class="list-group-item @if ($route_name == 'profile.messages') active @endif d-flex justify-content-between align-items-center">Сообщения @if ($countViewMessages) <div class="mess-indicate">{{$countViewMessages}}</div> @endif<i class='bx bx-message fs-5'></i></a>

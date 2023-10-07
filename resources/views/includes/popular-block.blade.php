@@ -1,6 +1,6 @@
 <section>
     <div class="container">
-        <div class="mb-4 row">
+        <div class="pb-4 row pt-4">
             <a href="{{route('main.vinyl-list')}}" class="d-flex align-items-center justify-content-center ">
                 <img src="/images/vinyl-list.jpg" width="100%" style="max-width:600px" />
             </a>
@@ -20,7 +20,7 @@
                             </a>
                         </div>
                         <div class="col">
-                            <div class="card-body">
+                            <div class="card-body blue-card">
                                 <h5 class="card-title text-uppercase">{{mb_strtoupper($popular_style->name)}}</h5>
                                 <p class="card-text text-uppercase">{{$popular_style->count}} пластинок</p>	<a href="/vinyls/{{$popular_style->slug}}" class="btn btn-dark btn-ecomm">Смотреть</a>
                             </div>

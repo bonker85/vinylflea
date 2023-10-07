@@ -37,7 +37,7 @@
                                   <div class="new-header">
                                       <p>{{$page->title}}</p>
                                   </div>
-                                  <div class="card-body">
+                                  <div class="card-body blue-card">
                                       <h4 class="mt-2 new-h4">{{$page->title}}</h4>
                                       {!!$page->content!!}
                                   </div>

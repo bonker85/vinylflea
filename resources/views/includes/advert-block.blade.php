@@ -34,7 +34,7 @@
                     @endif
                         </div>
                     </a>
-                    <div class="card-body">
+                    <div class="card-body blue-card">
                         <div class="product-info">
                             <a href="{{route('vinyls.details', $advert->url)}}">
                                 <h6 class="product-name mb-2">{{$advert->name}}</h6>

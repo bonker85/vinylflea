@@ -2,7 +2,7 @@
     <div class=" input-group flex-nowrap px-xl-4 search-box">
         <div class="ui left icon input">
             <i class="bx bx-search icon"></i>
-            <input type="text" class="form-control w-100 prompt" value="@if(request()->q) {{request()->q}} @endif" placeholder="Укажите автора или название пластинки" autocomplete="off">
+            <input type="text" class="form-control w-100 prompt" value="@if(request()->q) {{request()->q}} @endif" placeholder="Искать" autocomplete="off">
             <select class="search-style form-select flex-shrink-0" aria-label="Default select example" >
                 <option value="{{route("vinyls.styles")}}" @if (request()->route() && !request()->route()->parameter('style')) selected @endif>Все стили</option>
                 @foreach ($styles as $style)

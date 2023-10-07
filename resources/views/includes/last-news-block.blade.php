@@ -2,7 +2,7 @@
 <section >
     <div class="container">
         <div class="d-flex align-items-center">
-            <h5 class="text-uppercase mt-0 mb-0">Новости</h5>
+            <h5 class="text-uppercase mt-0 mb-0 btn btn-success fs-5 rounded-3 fw-bold">Новости</h5>
             <a href="{{route('news')}}" class="btn btn-dark ms-auto rounded-0">Все новости<i class='bx bx-chevron-right'></i></a>
         </div>
         <hr/>
@@ -18,7 +18,7 @@
                             @endif
                                 <img src="{{asset('/assets/images/posts/' . $new->id . '.webp')}}" class="card-img-top border-bottom" alt="...">
                             </a>
-                            <div class="card-body">
+                            <div class="card-body blue-card">
                                 <div class="news-title">
                                     @if ($new->id == 9)
                                         <a href="/{{$new->url}}">

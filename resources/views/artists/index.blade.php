@@ -20,14 +20,14 @@
         </div>
     </section>
     <!--end breadcrumb-->
-    <section class="py-4">
+    <section class="py-4 author-section">
         <div class="container">
             <div class="product-detail-card">
                 <div class="product-detail-body">
                     <div class="row g-0">
                         <div class="col-12 col-lg-7 h3-mobile">
                             <div class="product-info-section p-3 py-0">
-                                <h3 class=" mt-lg-0 mb-4">
+                                <h3 class=" mt-2 mb-2">
                                         <a href="@if(url()->previous() == url()->full())/@else{{url()->previous()}}@endif" class="backpage bx bxs-skip-previous-circle"></a>
                                     {{$artist->name}}
                                 </h3>
@@ -61,7 +61,7 @@
                         </div>
                         <div class="col-12 col-lg-7">
                             <div class="product-info-section py-0 p-3">
-                                <h3 class="mt-lg-0 mb-0 mt-3 h3-desktop">{{$artist->name}}</h3>
+                                <h3 class="mb-0 mt-3 h3-desktop">{{$artist->name}}</h3>
                                 @if ($artist->profile)
                                     <div class="mt-3">
                                         <h6>Описание:</h6>

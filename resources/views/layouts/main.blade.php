@@ -96,7 +96,7 @@
                             </div>
                             <div class="logo d-none d-lg-flex">
                                 <a href="/">
-                                    <img src="{{asset('/assets/images/logo-icon.png')}}" class="logo-icon" alt="Logo Icon" />
+                                    <img src="{{asset('/images/vinyl-icon.png')}}" class="logo-icon" alt="Logo Icon" />
                                 </a>
                             </div>
                         </div>
@@ -142,10 +142,10 @@
         @include('includes.message')
         <div class="page-content">
             @yield('content')
-            <section>
+            <section >
                 <div class="container">
                     <div class="row">
-                        <div class="list-inline social d-flex justify-content-center">
+                        <div class="pt-4 list-inline social d-flex justify-content-center">
                             <a href="https://play.google.com/store/apps/details?id=by.vinylflea.twa" class="list-inline-item"><i class="bx bxl-android"></i></a>
                             <a href="https://www.facebook.com/profile.php?id=100087038031409" class="list-inline-item"><i class="bx bxl-facebook-square"></i></a>
                             <a href="https://vk.com/thisisyouvinyl" class="list-inline-item"><i class="bx bxl-vk"></i></a>
@@ -162,13 +162,13 @@
     <!--end page wrapper -->
     <!--start footer section-->
     <footer>
-        <section class="border-top bg-light">
+        <section class="border-top bg-light img-back-footer">
             <div class="container">
                 <div class="row row-cols-1 row-cols-md-2 align-items-center">
                     <div class="col-6 footer-cp">
                         <div class="logo d-lg-flex">
                             <a href="/">
-                                <img src="{{asset('/assets/images/logo-icon.png')}}" class="logo-icon" alt="Logo Icon" />
+                                <img src="{{asset('/images/vinyl-icon.png')}}" class="logo-icon" alt="Logo Icon" />
                             </a>
                             <p class="mb-0 copyright">© {{date('Y')}}</p>
                         </div>

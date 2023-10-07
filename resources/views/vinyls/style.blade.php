@@ -6,7 +6,7 @@
     @section('title', 'Все стили')
 @endif
 @section('content')
-    <section class="py-3 border-bottom mb-3 border-top d-none d-md-flex bg-light profile-breadcrumbs">
+    <section class="py-3 border-bottom  border-top d-none d-md-flex bg-light profile-breadcrumbs ">
         <div class="container">
             <div class="page-breadcrumb d-flex align-items-center">
                 <h3 class="breadcrumb-title pe-3">
@@ -34,10 +34,10 @@
             </div>
         </div>
     </section>
-    <section>
+    <section @unless(request()->q) class="adverts-section" @endunless>
         <div class="container">
             <div class="d-flex align-items-center">
-                <h5 class="text-uppercase mb-0">
+                <h5 class="text-uppercase mb-0 mt-4 btn btn-success fs-5 rounded-3 fw-bold">
                     @if (isset($style))
                         Пластинки в стиле {{$style->name}}
                     @else

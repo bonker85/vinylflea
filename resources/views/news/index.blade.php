@@ -2,7 +2,7 @@
 @section('description', 'Виниловые пластинки в РБ большой выбор, обмен, ' . $title)
 @section('title', $title)
 @section('content')
-    <section class="py-3 border-bottom mb-3 border-top d-none d-md-flex bg-light profile-breadcrumbs">
+    <section class="py-3 border-bottom pb-3 border-top d-none d-md-flex bg-light profile-breadcrumbs">
         <div class="container">
             <div class="page-breadcrumb d-flex align-items-center">
                 <h3 class="breadcrumb-title pe-3">
@@ -30,7 +30,7 @@
                         @foreach ($newsList as $new)
                             <div class="card mb-4">
                                 <img src="{{asset('/assets/images/posts/'  . $new->id . '.webp')}}" class="card-img-top" alt="{{$new->name}}">
-                                <div class="card-body">
+                                <div class="card-body blue-card">
                                     <div class="list-inline">
                                         <a href="javascript:;" class="list-inline-item"><i class="bx bx-calendar me-1"></i>{{$new->getFormatDate()}}</a>
                                     </div>

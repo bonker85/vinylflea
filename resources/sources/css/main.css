@@ -679,7 +679,9 @@ a {
     position: relative
 }
 /* Header */
-
+.header-content {
+    background-image: url(/images/maxresdefault.jpg);
+}
 .header-wrapper .top-menu .nav-link {
     font-size: 90%;
     color: #626467;
@@ -724,11 +726,13 @@ a {
     color: #fff;
 }
 /* Menu */
-
+.primary-menu {
+    background: #efeaea;
+}
 .primary-menu .navbar .nav-link {
     font-weight: 500;
     text-transform: uppercase;
-    font-size: 12px;
+    font-size: 15px;
     color: #292929;
 }
 .primary-menu .large-menu-title {
@@ -790,15 +794,19 @@ body.offcanvas-active {
     visibility: unset!important;
 }
 .login-in-menu {
-    background: #F8F9FA;
+    background: #c8d1d9;
     border-radius: 15px;
-    height: 25px;
-    padding-top: 3px;
-    margin-top: 3px;
+    padding-top: 5px;
     border: 1px solid #DEE2E6;
     margin-right: 10px;
+    color: #1D1827!important;
 }
-
+.product-detail-body {
+    background: #efeaea;
+}
+.login-in-menu b {
+    color: #a7611e;
+}
 @media all and (max-width:992px) {
     .menu-info {
         padding-top: 0;
@@ -904,7 +912,7 @@ body.offcanvas-active {
     }
     .offcanvas-header {
         display: block;
-        padding:5px 0;
+        padding:15px 0;
     }
     .mobile-offcanvas {
         visibility: hidden;
@@ -1071,11 +1079,14 @@ body.offcanvas-active {
     border-radius: 0%;
     cursor: pointer
 }
+.card-body.blue-card {
+    background: #dce4f4;
+}
 .product-wishlist {
     width: 2.2rem;
     height: 2.2rem;
     font-size: 20px;
-    background-color: #e9ecef;
+    background-color: #efb7c7;
     color: #212529;
     display: flex;
     align-items: center;
@@ -1306,8 +1317,10 @@ ul.categories-list li {
     margin-left: 0px;
     min-height: calc(100vh - 200px);
 }
-.page-content {
-    padding: 0
+.adverts-section, .detail-section, .author-section {
+    padding: 0;
+    background-image: url('/images/main-background.jpg') !important;
+
 }
 .page-footer {
     background: rgb(0 0 0 / 20%);
@@ -1727,6 +1740,9 @@ ul.categories-list li {
 }
 .bg-light-white-4 {
     background-color: rgba(255, 255, 255, 0.25)!important
+}
+.bg-light {
+    padding: 10px 0;
 }
 .bg-black {
     background-color: #000!important;
@@ -2354,14 +2370,19 @@ body.bg-theme15 {
         height: auto;
     }
 }
+.avatar-img{
+    border: 5px solid #f9f9f9
+}
+.bx-exit, .bx-user {
+    color: #f9f9f9;
+    font-size: 50px;
+}
 @media screen and (max-width: 991px) {
+
     .block-icons .profile-menu {
         width: 100%;
         left: 0!important;
         top: unset!important;
-    }
-    .avatar-img {
-        margin-top: 10px!important;
     }
     .profile-breadcrumbs{
         display: none!important;
@@ -2392,18 +2413,25 @@ body.bg-theme15 {
 }
 
 .avatar-img {
-    height: 30px;
-    width: 30px;
-    border-radius: 15px;
-    margin-top: 13px;
+    height: 45px;
+    width: 45px;
+    border-radius: 25px;
+    margin-top: 22px;
     margin-right: 5px;
     cursor: pointer;
 }
-
+.bx-menu {
+    color: #f9f9f9;
+    font-size: 55px;
+}
 .search-box {
     padding-bottom: 1rem;
 }
 
+.prompt {
+    font-size: 15px;
+    font-weight: bold;
+}
 
 .block-icons .profile-menu {
     position: absolute;
@@ -2600,7 +2628,9 @@ body.bg-theme15 {
     margin-right: 5px;
     font-size: 14px;
 }
-
+section.img-back-footer {
+    background-image: url(/images/maxresdefault.jpg);
+}
 .adverts-block div.my-4.border-top {
     margin-bottom: 15px!important;
 }
@@ -2609,6 +2639,7 @@ body.bg-theme15 {
 }
 .navbar {
     padding-bottom: 0;
+    padding-top: 0!important;
 }
 .main-advert-img {
     display: flex;
@@ -2624,6 +2655,9 @@ body.bg-theme15 {
 .no-image-bg {
     background-color: #fff;
 }
+.product-card {
+    background: #efeaea!important;
+}
 .product-card .card-header {
     position: absolute;
     right: 0;
@@ -2631,7 +2665,7 @@ body.bg-theme15 {
 .product-card .card-header-date {
     position: absolute;
     left: 0;
-    font-size: 10px;
+    font-size: 14px;
     padding: 5px 0 0 5px;
     color: #706b6b;
 }
@@ -2910,16 +2944,16 @@ i.icon i.fa-search {
     position: relative;
 }
 .footer-cp img {
-    width: 100px;
+    width: 150px;
 }
 .copyright {
     position: absolute;
-    color: #4f4949;
+    color: #f9f9f9;
     font-weight: bold;
-    top: 29px;
-    left: 70px;
+    top: 39px;
+    left: 110px;
     width: 50px;
-    font-size: 12px;
+    font-size: 14px;
 }
 .favorit-link {
     cursor: pointer;
@@ -3019,6 +3053,13 @@ i.icon i.fa-search {
 .product-info-section .condition-mess {
     margin-top: -8px;
 }
+.product-info-section {
+    margin-left: 10px;
+}
+.product-info-section h3 {
+    display: flex;
+    align-items: center;
+}
 .search .result .image {
     width: 65px!important;
     height: 65px!important;
@@ -3061,6 +3102,12 @@ i.icon i.fa-search {
     top: 2px;
     border-radius: 0;
     height: 34px;
+    font-size: 15px;
+    color: #1D1827;
+}
+.bx-search {
+    font-size: 16px;
+    font-weight: bold;
 }
 .button-search {
     font-size: 16px;
@@ -3097,9 +3144,9 @@ i.icon i.fa-search {
 }
 .backpage {
     margin-left: -15px;
-    font-size: 22px;
-    top: 2px;
+    font-size: 35px;
     position: relative;
+    margin-right: 10px;
 }
 
 .h-release {
@@ -3164,15 +3211,22 @@ i.icon i.fa-search {
 .popular-img {
     padding-left: 5px;
 }
-
+.info-block {
+    margin-top: 10px;
+}
+.menu-info-block .telegram {
+    color: #138AC5!important;
+}
 .info-block .telegram {
-    font-size: 25px;
+    color: #138AC5;
+    font-size: 30px;
     margin-right: 3px;
 }
 .info-block .mail {
     position: relative;
     bottom: 5px;
-    font-size: 18px;
+    font-size: 25px;
+    color: #f9f9f9;
 }
 .menu-info-block .telegram {
     font-size: 20px;
@@ -3189,9 +3243,16 @@ i.icon i.fa-search {
     padding-top: 0;
     margin-bottom: -20px;
 }
+.app-block a {
+    background: #000;
+    margin-top: 5px;
+    border-radius: 15px;
+    width: 100px;
+    text-align: center;
+}
 .app-block i {
     font-size: 30px!important;
-    color: #212529;
+    color: #75f386;
 }
 .d-app {
     display: none;
@@ -3231,4 +3292,32 @@ i.icon i.fa-search {
 }
 .vinil-list-name {
     color: #22401f;
+}
+input.prompt::-webkit-input-placeholder {
+    color: black!important;
+}
+input.prompt::-moz-placeholder {
+    color: black!important;
+}
+.info-block .top-mail {
+    color: #000;
+}
+
+.popular-img img {
+    max-width: 95%;
+    min-height: 133px;
+}
+.popular-img a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.profile-breadcrumbs {
+    background-color: unset;
+}
+section {
+    background: #f8f9fa;
+}
+.owl-thumb-item {
+    background: #000 !important;
 }

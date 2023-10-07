@@ -36,7 +36,7 @@
                                     <p>{{$new->title}}</p>
                                 </div>
                                 <img src="{{asset('/assets/images/posts/'  . $new->id . '.webp')}}" class="card-img-top" alt="{{$new->name}}">
-                                <div class="card-body">
+                                <div class="card-body blue-card">
                                     <div class="list-inline">
                                         <a href="javascript:;" class="list-inline-item"><i class="bx bx-calendar me-1"></i>{{$new->getFormatDate()}}</a>
                                     </div>

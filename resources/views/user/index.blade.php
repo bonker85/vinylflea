@@ -20,11 +20,11 @@
     <section class="py-4">
         <div class="container">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body blue-card">
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="card shadow-none mb-3 mb-lg-0 border rounded-0">
-                                <div class="card-body">
+                                <div class="card-body blue-card">
                                     <div class="list-group list-group-flush ">
                                         <div class="user-data">
                                             <div class="user-img">
@@ -77,7 +77,7 @@
                                 </div>
                             @endif
                             <div class="adverts-block card shadow-none mb-0">
-                                <div class="card-body px-0 py-4">
+                                <div class="card-body blue-card px-0 py-4">
                                     @if ($advertList->count())
                                         <div class="col-12">
                                             <div class="shop-cart-list mb-3 p-3">

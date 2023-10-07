@@ -1,6 +1,6 @@
 <div class="primary-menu border-top">
     <div class="container">
-        <nav id="navbar_main" class="mobile-offcanvas navbar navbar-expand-lg mb-2">
+        <nav id="navbar_main" class="mobile-offcanvas navbar navbar-expand-lg">
             <div class="offcanvas-header">
                 <button class="btn-close float-end"></button>
             </div>
@@ -12,7 +12,7 @@
                 </li>
                 @if (auth()->check())
                 <li class="nav-item nav-link login-in-menu">
-                    Здравствуйте, <b>{{auth()->user()->name}}</b>!
+                    Здравствуйте, <b>{{auth()->user()->name}}</b>
                 </li>
                 @endif
                 <li class="nav-item dropdown">	<a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown">Выберите стиль<i class='bx bx-chevron-down'></i></a>
@@ -80,8 +80,8 @@
             <div class="info-block">
                 <p>
                     <a class="telegram" href="https://t.me/vinylfleaby" class="list-inline-item"><i class="bx bxl-telegram"></i></a>
-                    <a class="viber" href="viber://chat?number=375257167247"><img src="/images/viber.png" style="width: 25px;margin-bottom: 10px;margin-right: 5px;"></a>
-                    <a class="mail" href="mailto:support@vinylflea.by">support@vinylflea.by</a>
+                    <a class="viber" href="viber://chat?number=375257167247"><img src="/images/viber.png" style="width: 25px;margin-bottom: 15px;margin-right: 5px;"></a>
+                    <a class="mail top-mail" href="mailto:support@vinylflea.by">support@vinylflea.by</a>
                 </p>
             </div>
         </nav>
