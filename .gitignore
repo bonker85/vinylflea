@@ -2,6 +2,7 @@
 /public/build
 /public/hot
 /public/storage
+/public/test.php
 /storage/*.key
 /vendor
 .env
