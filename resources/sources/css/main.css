@@ -2670,9 +2670,14 @@ section.img-back-footer {
     padding: 5px 0 0 5px;
     color: #706b6b;
 }
+.padding-btn {
+    padding: 9px!important;
+}
 .main-advert-link-block {
     display: flex;
     justify-content: center;
+    padding-bottom: 20px;
+    padding-top: 20px;
 }
 .main-advert-img img {
     height: 240px;
@@ -3226,7 +3231,7 @@ i.icon i.fa-search {
 .info-block .mail {
     position: relative;
     bottom: 5px;
-    font-size: 25px;
+    font-size: 1.3rem;
     color: #f9f9f9;
 }
 .menu-info-block .telegram {

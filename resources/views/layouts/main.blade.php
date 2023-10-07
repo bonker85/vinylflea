@@ -22,6 +22,7 @@
                             deferredPrompt.prompt();
                         });
                         $('.d-app').show();
+                        setTimeout(() => $('.d-app').fadeOut("slow"), 5000);
                     }
                 });
             }
