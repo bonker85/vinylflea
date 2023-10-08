@@ -5,6 +5,7 @@
     @if ($page->url == 'home')
         @include('includes.last-adverts-block')
         {{--  @include('includes.sell-faster-block') --}}
+        @include('includes.video')
           @include('includes.popular-block')
           @include('includes.last-news-block')
       @else

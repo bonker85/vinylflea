@@ -143,10 +143,10 @@
         @include('includes.message')
         <div class="page-content">
             @yield('content')
-            <section >
+            <section class="back-wall" >
                 <div class="container">
                     <div class="row">
-                        <div class="pt-4 list-inline social d-flex justify-content-center">
+                        <div class="list-inline social d-flex justify-content-center">
                             <a href="https://play.google.com/store/apps/details?id=by.vinylflea.twa" class="list-inline-item"><i class="bx bxl-android"></i></a>
                             <a href="https://www.facebook.com/profile.php?id=100087038031409" class="list-inline-item"><i class="bx bxl-facebook-square"></i></a>
                             <a href="https://vk.com/thisisyouvinyl" class="list-inline-item"><i class="bx bxl-vk"></i></a>

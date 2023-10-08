@@ -631,7 +631,7 @@ File: icons.css
     content: "\ee63"
 }
 .social a {
-    color: #696e75;
+    color: #e9e5b8;
 }
 .social a:hover {
     color: #EC2028;
@@ -803,7 +803,7 @@ body.offcanvas-active {
     color: #1D1827!important;
 }
 .product-detail-body {
-    background: #efeaea;
+    background: #eeeccf;
 }
 .login-in-menu b {
     color: #a7611e;
@@ -1081,13 +1081,13 @@ body.offcanvas-active {
     cursor: pointer
 }
 .card-body.blue-card {
-    background: #dce4f4;
+    background: #e9e5b8;
 }
 .product-wishlist {
     width: 2.2rem;
     height: 2.2rem;
     font-size: 20px;
-    background-color: #efb7c7;
+    background-color: #d4d3bf;
     color: #212529;
     display: flex;
     align-items: center;
@@ -2657,7 +2657,7 @@ section.img-back-footer {
     background-color: #fff;
 }
 .product-card {
-    background: #efeaea!important;
+    background: #f0f0ec!important;
 }
 .product-card .card-header {
     position: absolute;
@@ -3322,8 +3322,19 @@ input.prompt::-moz-placeholder {
     background-color: unset;
 }
 section {
-    background: #f8f9fa;
+    background: #eeeccf;
 }
 .owl-thumb-item {
     background: #000 !important;
+}
+.video-desc {
+    font-size: 17px;
+    padding: 5px;
+    padding-bottom: 0;
+    font-weight: 700;
+    color: #374048;
+    min-height: 70px;
+}
+.back-wall {
+    background: url(/images/wall.jpeg) !important
 }

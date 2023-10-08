@@ -1,13 +1,13 @@
-<section>
+<section class="back-wall">
     <div class="container">
-        <div class="pb-4 row pt-4">
+        <div class="pb-4 row pt-2">
             <a href="{{route('main.vinyl-list')}}" class="d-flex align-items-center justify-content-center ">
                 <img src="/images/vinyl-list.jpg" width="100%" style="max-width:600px" />
             </a>
         </div>
     </div>
 </section>
-<section>
+<section class="back-wall">
     <div class="container popular-grid">
         <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
             @foreach ($popular_styles as $popular_style)

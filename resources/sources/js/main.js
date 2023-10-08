@@ -82,7 +82,32 @@ $(document).ready(function() {
             }
         });
     }
-
+    if ($('.video-owl').length) {
+        $('.video-owl').owlCarousel({
+            loop:false,
+            margin:10,
+            responsiveClass:true,
+            nav:false,
+            dots: false,
+            autoplay:true,
+            autoplayTimeout:8000,
+            autoplayHoverPause:false,
+            responsive:{
+                0:{
+                    items:1
+                },
+                600:{
+                    items:2
+                },
+                1024:{
+                    items:3
+                },
+                1366:{
+                    items:4
+                }
+            }
+        });
+    }
 
     $('.logout_link').on("click", function() {
         $('#logout_form').submit();
