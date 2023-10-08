@@ -37,7 +37,7 @@
     <section @unless(request()->q) class="adverts-section" @endunless>
         <div class="container">
             <div class="d-flex align-items-center">
-                <h5 class="text-uppercase mb-0 mt-4 btn btn-success fs-5 rounded-3 fw-bold">
+                <h5 class="text-uppercase mb-0 mt-4 btn btn-success fs-5 rounded-3 fw-bold mb-4">
                     @if (isset($style))
                         Пластинки в стиле {{$style->name}}
                     @else
@@ -45,7 +45,6 @@
                     @endif
                 </h5>
             </div>
-            <hr/>
             @if ($searchMess)
                 {!! $searchMess !!}
             @endif
@@ -58,6 +57,7 @@
             @endif
         </div>
     </section>
+    @include('includes.video')
     @include('includes.popular-block')
     @include('includes.last-news-block')
     <!--end Featured product-->

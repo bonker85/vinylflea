@@ -96,7 +96,6 @@
 
         @if ($adverts instanceof \Illuminate\Pagination\AbstractPaginator &&
                     $adverts->total() > $adverts->perPage())
-            <div class="my-4 border-top"></div>
             <div class="d-flex justify-content-between">
                 @if (request()->get('q'))
                     {{$adverts->appends(['q' => request()->get('q')])->onEachSide(1)->links()}}

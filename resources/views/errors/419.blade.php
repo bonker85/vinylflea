@@ -19,6 +19,7 @@
     <div class="error-404 text-center">
         <h2>419</h2>
     </div>
+    @include('includes.video')
     @include('includes.popular-block')
     @include('includes.last-news-block')
 @endsection
