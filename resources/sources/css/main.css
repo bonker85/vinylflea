@@ -896,9 +896,6 @@ body.offcanvas-active {
     .page-content h5 {
         margin-top: 15px;
     }
-    .all-vinyl-list {
-        margin-top: 15px;
-    }
     .block-cart-button {
         width: 100%!important;
     }
@@ -909,11 +906,14 @@ body.offcanvas-active {
     .primary-menu .navbar {
         background-color: #ffffff;
         padding-left: 1rem!important;
-        padding-right: 1rem!important;
     }
-    .offcanvas-header {
+    .mobile-offcanvas .offcanvas-header {
         display: block;
         padding:15px 0;
+    }
+    .mobile-offcanvas.show .offcanvas-header {
+        right: 10px;
+        position: absolute;
     }
     .mobile-offcanvas {
         visibility: hidden;
@@ -2354,6 +2354,14 @@ body.bg-theme15 {
         border-bottom: 0;
     }
 }
+.mobile-offcanvas.show.navbar {
+    background-image: url(/images/main-background.jpg)!important;
+}
+.mobile-offcanvas.show.navbar .navbar-nav {
+    background: #fff;
+    padding: 30px;
+    margin-top: 10px;
+}
 @media screen and (max-width: 1024px) {
     .top-cart-icons ul.navbar-nav .nav-item a.cart-link {
         font-size: 26px;
@@ -2372,11 +2380,11 @@ body.bg-theme15 {
     }
 }
 .avatar-img{
-    border: 5px solid #f9f9f9
+    border: 4px solid #f9f9f9
 }
 .bx-exit, .bx-user {
     color: #f9f9f9;
-    font-size: 50px;
+    font-size: 35px;
 }
 @media screen and (max-width: 991px) {
 
@@ -2414,16 +2422,16 @@ body.bg-theme15 {
 }
 
 .avatar-img {
-    height: 45px;
-    width: 45px;
-    border-radius: 25px;
-    margin-top: 22px;
+    height: 30px;
+    width: 30px;
+    border-radius: 20px;
+    margin-top: 17px;
     margin-right: 5px;
     cursor: pointer;
 }
 .bx-menu {
     color: #f9f9f9;
-    font-size: 55px;
+    font-size: 35px;
 }
 .search-box {
     padding-bottom: 1rem;
@@ -3246,8 +3254,9 @@ i.icon i.fa-search {
 
 .app-block {
     padding: 5px;
+    padding-bottom: 0;
     padding-top: 0;
-    margin-bottom: -20px;
+    margin-bottom: 5px;
 }
 .app-block a {
     background: #000;
@@ -3337,4 +3346,9 @@ section {
 }
 .back-wall {
     background: url(/images/wall.jpeg) !important
+}
+.bx-chevron-right {
+    font-size: 30px!important;
+    margin-right: -5px!important;;
+    margin-top: -32px!important;;
 }

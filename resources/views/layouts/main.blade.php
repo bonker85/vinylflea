@@ -22,7 +22,7 @@
                             deferredPrompt.prompt();
                         });
                         $('.d-app').show();
-                        setTimeout(() => $('.d-app').fadeOut("slow"), 5000);
+                        setTimeout(() => $('.d-app').fadeOut("slow"), 3000);
                     }
                 });
             }
@@ -144,7 +144,7 @@
         <div class="page-content">
             @yield('content')
             <section class="back-wall" >
-                <div class="container">
+                <div class="container pt-4 pb-4">
                     <div class="row">
                         <div class="list-inline social d-flex justify-content-center">
                             <a href="https://play.google.com/store/apps/details?id=by.vinylflea.twa" class="list-inline-item"><i class="bx bxl-android"></i></a>
