@@ -631,7 +631,7 @@ File: icons.css
     content: "\ee63"
 }
 .social a {
-    color: #e1e6ea;
+    color: #fff;
 }
 .social a:hover {
     color: #EC2028;
@@ -727,7 +727,7 @@ a {
 }
 /* Menu */
 .primary-menu {
-    background: #efeaea;
+    background: #fff;
 }
 .primary-menu .navbar .nav-link {
     font-weight: 500;
