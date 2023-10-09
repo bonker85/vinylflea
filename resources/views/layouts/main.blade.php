@@ -97,7 +97,7 @@
                             </div>
                             <div class="logo d-none d-lg-flex">
                                 <a href="/">
-                                    <img src="{{asset('/images/vinyl-icon.png')}}" class="logo-icon" alt="Logo Icon" />
+                                    <img src="{{asset('/assets/images/logo-icon.png')}}" class="logo-icon" alt="Logo Icon" />
                                 </a>
                             </div>
                         </div>
@@ -171,7 +171,7 @@
                     <div class="col-6 footer-cp">
                         <div class="logo d-lg-flex">
                             <a href="/">
-                                <img src="{{asset('/images/vinyl-icon.png')}}" class="logo-icon" alt="Logo Icon" />
+                                <img src="{{asset('/assets/images/logo-icon.png')}}" class="logo-icon" alt="Logo Icon" />
                             </a>
                             <p class="mb-0 copyright">© {{date('Y')}}</p>
                         </div>
