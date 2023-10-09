@@ -4,7 +4,7 @@
             <div class="offcanvas-header">
                 <button class="btn-close float-end"></button>
             </div>
-            <ul class="navbar-nav">
+            <ul class="navbar-nav  mt-3 mb-3">
                 <li class="nav-item el-logo-menu">
                     <a href="/" class="nav-link menu-single-link">
                         <img src="{{asset('/assets/images/logo-icon.png')}}" class="logo-icon" alt="" />

@@ -631,7 +631,7 @@ File: icons.css
     content: "\ee63"
 }
 .social a {
-    color: #fff;
+    color: #7c8185;
 }
 .social a:hover {
     color: #EC2028;
@@ -676,7 +676,8 @@ a {
 }
 .wrapper {
     width: 100%;
-    position: relative
+    position: relative;
+    background-image: url(/images/main-background.jpg) !important;
 }
 /* Header */
 .header-content {
@@ -726,9 +727,6 @@ a {
     color: #fff;
 }
 /* Menu */
-.primary-menu {
-    background: #fff;
-}
 .primary-menu .navbar .nav-link {
     font-weight: 500;
     text-transform: uppercase;
@@ -795,15 +793,12 @@ body.offcanvas-active {
     visibility: unset!important;
 }
 .login-in-menu {
-    background: #c8d1d9;
+    background: #f5f3f6;
     border-radius: 15px;
     padding-top: 5px;
     border: 1px solid #DEE2E6;
     margin-right: 10px;
     color: #1D1827!important;
-}
-.product-detail-body {
-    background: #f0efe9;
 }
 .login-in-menu b {
     color: #a7611e;
@@ -905,7 +900,6 @@ body.offcanvas-active {
     }
     .primary-menu .navbar {
         background-color: #ffffff;
-        padding-left: 1rem!important;
     }
     .mobile-offcanvas .offcanvas-header {
         display: block;
@@ -1080,14 +1074,11 @@ body.offcanvas-active {
     border-radius: 0%;
     cursor: pointer
 }
-.card-body.blue-card {
-    background: #e1e6ea;
-}
 .product-wishlist {
     width: 2.2rem;
     height: 2.2rem;
     font-size: 20px;
-    background-color: #cdd4da;
+    background-color: #f5f3f6;
     color: #212529;
     display: flex;
     align-items: center;
@@ -1178,10 +1169,6 @@ body.offcanvas-active {
 /* Extra Css */
 
 .discount-alert {
-    background-color: #fff;
-}
-
-.header-wrapper {
     background-color: #fff;
 }
 
@@ -1318,11 +1305,7 @@ ul.categories-list li {
     margin-left: 0px;
     min-height: calc(100vh - 200px);
 }
-.adverts-section, .detail-section, .author-section {
-    padding: 0;
-    background-image: url('/images/main-background.jpg') !important;
 
-}
 .page-footer {
     background: rgb(0 0 0 / 20%);
     position: absolute;
@@ -2354,9 +2337,6 @@ body.bg-theme15 {
         border-bottom: 0;
     }
 }
-.mobile-offcanvas.show.navbar {
-    background-image: url(/images/main-background.jpg)!important;
-}
 .mobile-offcanvas.show.navbar .navbar-nav {
     background: #fff;
     padding: 30px;
@@ -2384,7 +2364,7 @@ body.bg-theme15 {
 }
 .bx-exit, .bx-user {
     color: #f9f9f9;
-    font-size: 35px;
+    font-size: 40px;
 }
 @media screen and (max-width: 991px) {
 
@@ -2422,10 +2402,10 @@ body.bg-theme15 {
 }
 
 .avatar-img {
-    height: 30px;
-    width: 30px;
+    height: 35px;
+    width: 35px;
     border-radius: 20px;
-    margin-top: 17px;
+    margin-top: 20px;
     margin-right: 5px;
     cursor: pointer;
 }
@@ -2663,9 +2643,6 @@ section.img-back-footer {
 }
 .no-image-bg {
     background-color: #fff;
-}
-.product-card {
-    background: #cdcdc6!important;
 }
 .product-card .card-header {
     position: absolute;
@@ -3032,6 +3009,7 @@ i.icon i.fa-search {
 }
 .new-header p {
     margin-left: 5px;
+    margin-top: 1px;
 }
 .new-h4 {
     font-weight: bold;
@@ -3253,21 +3231,19 @@ i.icon i.fa-search {
 }
 
 .app-block {
-    padding: 5px;
-    padding-bottom: 0;
-    padding-top: 0;
-    margin-bottom: 5px;
+    padding: 0;
+    margin: 0;
 }
 .app-block a {
-    background: #000;
-    margin-top: 5px;
-    border-radius: 15px;
-    width: 100px;
     text-align: center;
+}
+.d-app a {
+    height: 30px;
 }
 .app-block i {
     font-size: 30px!important;
     color: #75f386;
+    text-shadow: 1px 1px 0px black;
 }
 .d-app {
     display: none;
@@ -3330,9 +3306,7 @@ input.prompt::-moz-placeholder {
 .profile-breadcrumbs {
     background-color: unset;
 }
-section {
-    background: #eeeccf;
-}
+
 .owl-thumb-item {
     background: #000 !important;
 }
@@ -3344,11 +3318,38 @@ section {
     color: #374048;
     min-height: 70px;
 }
-.back-wall {
-    background: url(/images/wall.jpeg) !important
-}
 .bx-chevron-right {
     font-size: 30px!important;
     margin-right: -5px!important;;
     margin-top: -32px!important;;
+}
+.container {
+    background: #fff;
+}
+footer .container, .header-content .container {
+    background: transparent;
+}
+.profile-breadcrumbs .container{
+    background: #f5f3f6;
+    padding-top: 15px;
+    font-weight: bold;
+}
+.table-responsive{
+    background: #fff;
+}
+.blue-card {
+    background: #f5f3f6;
+}
+.bx-chevron-right {
+    position: relative;
+    top: 6px;
+}
+.button-st {
+    width: 200px;
+    margin-right: -1rem;
+    background: #000;
+    color: #fff!important;
+    padding: 5px;
+    text-align: right;
+    font-size: 18px;
 }

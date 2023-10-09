@@ -2,8 +2,8 @@
 <section class="back-wall">
     <div class="container">
         <div class="d-flex align-items-center pt-2 pb-3">
-            <h5 class="text-uppercase mt-0 mb-0 btn btn-success fs-5 rounded-3 fw-bold">Новости</h5>
-            <a href="{{route('news')}}" class="mt-2 mb-2 text-uppercase  ms-auto btn btn-dark fs-5 rounded-3 fw-bold">Все новости<i class='bx bx-chevron-right'></i></a>
+            <h5 class="text-uppercase fs-4 fw-bold mt-0 mb-0">Новости</h5>
+            <a href="{{route('news')}}" class="text-uppercase   ms-auto text-dark button-st">Все новости<i class='bx bx-chevron-right'></i></a>
         </div>
         <div class="product-grid">
             <div class="latest-news owl-carousel owl-theme">

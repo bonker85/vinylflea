@@ -3,9 +3,9 @@
 ['Минск', 'Витебск', 'Гродно', 'Могилев', 'Гомель'][rand(0,4)])
 @section('title', 'Исполнитель ' . $artist->name )
 @section('content')
-    <section class="py-3 border-bottom border-top d-none d-md-flex bg-light">
+    <section class="profile-breadcrumbs ">
         <div class="container">
-            <div class="page-breadcrumb d-flex align-items-center">
+            <div class="page-breadcrumb pb-3 d-flex align-items-center">
                 <h3 class="breadcrumb-title pe-3">{{'Исполнитель ' . $artist->name}} </h3>
                 <div class="ms-auto">
                     <nav aria-label="breadcrumb">
@@ -20,7 +20,7 @@
         </div>
     </section>
     <!--end breadcrumb-->
-    <section class="py-4 author-section">
+    <section class="author-section">
         <div class="container">
             <div class="product-detail-card">
                 <div class="product-detail-body">

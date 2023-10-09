@@ -1,9 +1,9 @@
 @extends('layouts.main')
 @section('title', 'Мои сообщения')
 @section('content')
-<section class="py-3 border-bottom border-top d-none d-md-flex bg-light">
+<section class="profile-breadcrumbs ">
     <div class="container">
-        <div class="page-breadcrumb d-flex align-items-center">
+        <div class="page-breadcrumb pb-3 d-flex align-items-center">
             <h3 class="breadcrumb-title pe-3">Мои сообщения</h3>
             <div class="ms-auto">
                 <nav aria-label="breadcrumb">
@@ -19,7 +19,7 @@
 </section>
 <!--end breadcrumb-->
 <!--start shop cart-->
-<section class="py-4">
+<section>
     <div class="container">
         <div class="card">
             <div class="card-body">

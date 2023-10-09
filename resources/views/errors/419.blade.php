@@ -1,9 +1,9 @@
 @extends('layouts.main')
 @section('title', 'Ошибка 404')
 @section('content')
-    <section class="py-3 border-bottom border-top d-md-flex bg-light">
+    <section class="profile-breadcrumbs ">
         <div class="container">
-            <div class="page-breadcrumb d-flex align-items-center">
+            <div class="page-breadcrumb pb-3 d-flex align-items-center">
                 <h3 class="breadcrumb-title pe-3">Сессия истекла!</h3>
                 <div class="ms-auto">
                     <nav aria-label="breadcrumb">
@@ -16,7 +16,7 @@
             </div>
         </div>
     </section>
-    <div class="error-404 text-center">
+    <div class="error-404 pb-5 text-center container">
         <h2>419</h2>
     </div>
     @include('includes.video')

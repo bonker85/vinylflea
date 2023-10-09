@@ -143,6 +143,7 @@
         @include('includes.message')
         <div class="page-content">
             @yield('content')
+            @if (!request()->is('vinyl-list'))
             <section class="back-wall" >
                 <div class="container pt-4 pb-4">
                     <div class="row">
@@ -156,6 +157,7 @@
                     </div>
                 </div>
             </section>
+            @endif
         </div>
     </div>
 
@@ -163,7 +165,7 @@
     <!--end page wrapper -->
     <!--start footer section-->
     <footer>
-        <section class="border-top bg-light img-back-footer">
+        <section class="border-top  img-back-footer">
             <div class="container">
                 <div class="row row-cols-1 row-cols-md-2 align-items-center">
                     <div class="col-6 footer-cp">

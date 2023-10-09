@@ -1,5 +1,5 @@
 <!--start News-->
-<section class="back-wall pt-5 pb-3">
+<section class="back-wall">
     <div class="container pt-3">
         <div class="product-grid">
             <div class="video-owl owl-carousel owl-theme">

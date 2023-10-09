@@ -1,9 +1,9 @@
 @extends('layouts.main')
 @section('title', 'Все пластинки пользователя ' . $user->name)
 @section('content')
-    <section class="py-3 border-bottom border-top d-none d-md-flex bg-light profile-breadcrumbs">
+    <section class="profile-breadcrumbs">
         <div class="container">
-            <div class="page-breadcrumb d-flex align-items-center">
+            <div class="page-breadcrumb pb-3 d-flex align-items-center">
                 <h3 class="breadcrumb-title pe-3">Все пластинки {{$user->name}}</h3>
                 <div class="ms-auto">
                     <nav aria-label="breadcrumb">
@@ -17,14 +17,14 @@
             </div>
         </div>
     </section>
-    <section class="py-4">
+    <section>
         <div class="container">
             <div class="card">
-                <div class="card-body blue-card">
+                <div class="card-body">
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="card shadow-none mb-3 mb-lg-0 border rounded-0">
-                                <div class="card-body blue-card">
+                                <div class="card-body">
                                     <div class="list-group list-group-flush ">
                                         <div class="user-data">
                                             <div class="user-img">
@@ -77,7 +77,7 @@
                                 </div>
                             @endif
                             <div class="adverts-block card shadow-none mb-0">
-                                <div class="card-body blue-card px-0 py-4">
+                                <div class="card-body px-0 py-4">
                                     @if ($advertList->count())
                                         <div class="col-12">
                                             <div class="shop-cart-list mb-3 p-3">

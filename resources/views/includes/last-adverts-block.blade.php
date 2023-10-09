@@ -1,13 +1,13 @@
 <section class="adverts-section">
     <div class="container">
-        <div class="d-flex align-items-center all-vinyl-list pt-4">
-            <h5 class="text-uppercase mt-0 mb-0 btn btn-success fs-5 rounded-3 fw-bold">Обновления</h5>
-            <a href="{{route('vinyls.style', 'all')}}" class="text-uppercase  ms-auto btn btn-dark fs-5 rounded-3 fw-bold padding-btn">Смотреть все<i class='bx bx-chevron-right'></i></a>
+        <div class="d-flex align-items-center all-vinyl-list pt-3">
+            <span class="text-uppercase fs-4 mt-0 mb-0">Обновления</span>
+            <a href="{{route('vinyls.style', 'all')}}" style="margin-top: 2px;" class="button-st text-uppercase   ms-auto text-dark">Смотреть все<i class='bx bx-chevron-right'></i></a>
         </div>
         <hr/>
         @include('includes.advert-block', ['adverts' => $lastAdvertsList])
-        <div class="d-flex align-items-center pb-4 container">
-            <a href="{{route('vinyls.style', 'all')}}" class="padding-btn p-2 text-uppercase  ms-auto btn btn-dark fs-5 rounded-3 fw-bold">Смотреть все<i class="bx bx-chevron-right"></i></a>
+        <div class="d-flex align-items-center container">
+            <a href="{{route('vinyls.style', 'all')}}" class="text-uppercase   ms-auto text-dark button-st">Смотреть все<i class="bx bx-chevron-right"></i></a>
         </div>
     </div>
 </section>

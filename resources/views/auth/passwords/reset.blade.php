@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="py-3 border-bottom border-top d-none d-md-flex bg-light">
+    <section class="profile-breadcrumbs ">
         <div class="container">
-            <div class="page-breadcrumb d-flex align-items-center">
+            <div class="pb-3 page-breadcrumb d-flex align-items-center">
                 <h3 class="breadcrumb-title pe-3">Сброс пароля</h3>
                 <div class="ms-auto">
                     <nav aria-label="breadcrumb">
