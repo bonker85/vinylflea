@@ -17,7 +17,7 @@
                             ></iframe>
                                         <div class="card-body blue-card">
                                             <div class="news-title">
-                                                <h4 class=" video-desc text-capitalize">7 пластинок, которые должны быть у каждого: СТАРТОВЫЙ НАБОР</h4>
+                                                <p>7 пластинок, которые должны быть у каждого: СТАРТОВЫЙ НАБОР</p>
                                             </div>
                                         </div>
                         </div>
@@ -36,7 +36,7 @@
                         ></iframe>
                         <div class="card-body blue-card">
                             <div class="news-title">
-                                <h4 class=" video-desc text-capitalize">Всё о виниле: в чём кайф пластинок, и что нужно, чтобы начать</h4>
+                                <p>Всё о виниле: в чём кайф пластинок, и что нужно, чтобы начать</p>
                             </div>
                         </div>
                     </div>
@@ -55,7 +55,7 @@
                         ></iframe>
                         <div class="card-body blue-card">
                             <div class="news-title">
-                                <h4 class=" video-desc text-capitalize">Зачем сегодня нужны виниловые пластинки?</h4>
+                                <p>Зачем сегодня нужны виниловые пластинки?</p>
                             </div>
                         </div>
                     </div>
@@ -74,7 +74,7 @@
                         ></iframe>
                         <div class="card-body blue-card">
                             <div class="news-title">
-                                <h4 class=" video-desc text-capitalize">Как выбрать первый проигрыватель винила? Инструкция для начинающих</h4>
+                                <p>Как выбрать первый проигрыватель винила? Инструкция для начинающих</p>
                             </div>
                         </div>
                     </div>
