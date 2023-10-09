@@ -13,7 +13,7 @@
             @foreach ($popular_styles as $popular_style)
             <div class="col">
                 <div class="card rounded-0 border shadow-none">
-                    <div class="row g-0 align-items-center">
+                    <div class="row g-0 align-items-center popular-block">
                         <div class="col popular-img">
                             <a href="/vinyls/{{$popular_style->slug}}">
                                 <img src="{{asset('/assets/images/popular/' . $popular_style->slug . '.webp')}}" class="img-fluid" alt="Popular {{mb_strtoupper($popular_style->name)}}">

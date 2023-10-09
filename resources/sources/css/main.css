@@ -3296,7 +3296,6 @@ input.prompt::-moz-placeholder {
 
 .popular-img img {
     max-width: 95%;
-    min-height: 133px;
 }
 .popular-img a {
     display: flex;
@@ -3355,4 +3354,7 @@ footer .container, .header-content .container {
 }
 .vinyl-desc {
     min-height: 60px;
+}
+.popular-block {
+    min-height: 134px;
 }
