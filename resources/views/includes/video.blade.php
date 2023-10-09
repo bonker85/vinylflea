@@ -17,7 +17,7 @@
                             ></iframe>
                                         <div class="card-body blue-card">
                                             <div class="news-title">
-                                                <p>7 пластинок, которые должны быть у каждого: СТАРТОВЫЙ НАБОР</p>
+                                                <p class="vinyl-desc">7 пластинок, которые должны быть у каждого: СТАРТОВЫЙ НАБОР</p>
                                             </div>
                                         </div>
                         </div>
@@ -36,7 +36,7 @@
                         ></iframe>
                         <div class="card-body blue-card">
                             <div class="news-title">
-                                <p>Всё о виниле: в чём кайф пластинок, и что нужно, чтобы начать</p>
+                                <p class="vinyl-desc">Всё о виниле: в чём кайф пластинок, и что нужно, чтобы начать</p>
                             </div>
                         </div>
                     </div>
@@ -55,7 +55,7 @@
                         ></iframe>
                         <div class="card-body blue-card">
                             <div class="news-title">
-                                <p>Зачем сегодня нужны виниловые пластинки?</p>
+                                <p class="vinyl-desc">Зачем сегодня нужны виниловые пластинки?</p>
                             </div>
                         </div>
                     </div>
@@ -74,7 +74,7 @@
                         ></iframe>
                         <div class="card-body blue-card">
                             <div class="news-title">
-                                <p>Как выбрать первый проигрыватель винила? Инструкция для начинающих</p>
+                                <p class="vinyl-desc">Как выбрать первый проигрыватель винила? Инструкция для начинающих</p>
                             </div>
                         </div>
                     </div>
