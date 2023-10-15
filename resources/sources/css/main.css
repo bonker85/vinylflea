@@ -3032,6 +3032,7 @@ i.icon i.fa-search {
 }
 .owl-carousel .owl-item img {
     height: 180px;
+    object-fit: cover;
 }
 
 .del-advert-name {
