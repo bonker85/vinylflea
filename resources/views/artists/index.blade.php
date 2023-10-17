@@ -114,7 +114,7 @@
                                                         Название
                                                     </dt>
                                                     <dd class="col-sm-9">
-                                                        {{$advert->name}}
+                                                        <a href="{{route('vinyls.details', $advert->url)}}">{{$advert->name}}</a>
                                                     </dd>
                                                     <dt class="col-sm-3">
                                                         Стиль
@@ -149,7 +149,9 @@
                                                     <a href="{{route('vinyls.details', $advert->url)}}"  class="btn btn-dark btn-ecomm"><i class="bx bx-show"></i>Смотреть пластинку</a>
                                                 </dl>
                                             </dd>
-                                            <hr>
+                                            @unless($loop->last)
+                                                <hr>
+                                            @endunless
                                         </dl>
                                     @endforeach
                                 @endif
