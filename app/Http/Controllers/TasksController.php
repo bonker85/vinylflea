@@ -283,10 +283,11 @@ class TasksController extends Controller
                             $advert = Advert::select()->where('user_id', 6)->where('sku', $product->sku)->first();
                         }
                         if ($advert) {
-                            $this->log->info('__UPDATE__', [
+                          /*  $this->log->info('__UPDATE__', [
                                 'sku' => $product->sku,
                                 'text' => $product->text,
                                 'condition' => trim(str_replace('Состояние (пластинки/конверта)', '', $product->text))]);
+                          */
                             // обновление статуса
                             // Если есть в наличии и в статусе скрыт
                             if ($product->quantity && $advert->status == 4) {
@@ -387,6 +388,7 @@ class TasksController extends Controller
                 }
                 AdvertService::recountStylesAdverts();
                 AdvertService::updateAdvertsOnCDN();
+                $this->log->info('__FIN__');
                 dd('FIN');
                 break;
             case 'up_adverts':

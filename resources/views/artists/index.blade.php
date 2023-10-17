@@ -91,6 +91,68 @@
                                         <dd class="col-sm-9">{{implode(', ', json_decode($artist->namevariations))}}</dd>
                                     </dl>
                                 @endif
+                                @if ($adverts)
+                                    <hr/>
+                                    <h4>Пластинки на сайте:</h4>
+                                    @foreach ($adverts as $advert)
+                                        <dl class="row mt-3 releases-block">
+                                            <dt class="col-sm-4 img-release">
+                                                @if (count($advert->images))
+                                                    @foreach ($advert->images as $image)
+                                                        <a href="{{route('vinyls.details', $advert->url)}}">
+                                                            <img src="{{cdn_url(asset('/storage' . $image->path), $image)}}" class="img-fluid"   alt="{{$advert->name}}" loading="lazy">
+                                                        </a>
+                                                        @break
+                                                    @endforeach
+                                                @else
+                                                    <img src="{{asset('/assets/images/avatars/no-avatar.png')}}" class="img-fluid"   alt="{{$advert->name}}" loading="lazy">
+                                                @endif
+                                            </dt>
+                                            <dd class="col-sm-8">
+                                                <dl class="row">
+                                                    <dt class="col-sm-3">
+                                                        Название
+                                                    </dt>
+                                                    <dd class="col-sm-9">
+                                                        {{$advert->name}}
+                                                    </dd>
+                                                    <dt class="col-sm-3">
+                                                        Стиль
+                                                    </dt>
+                                                    <dd class="col-sm-9">
+                                                        {{$advert->style->name}}
+                                                    </dd>
+                                                    <dt class="col-sm-3">
+                                                        Цена
+                                                    </dt>
+                                                    <dd class="col-sm-9">
+                                                        @if ($advert->user_id == 11)
+                                                            цена договорная
+                                                        @else
+                                                            @if ($advert->deal == 'sale')
+                                                                {{str_replace('.00', '', $advert->price)}} Руб.
+                                                            @elseif ($advert->deal == 'exchange')
+                                                                обменяю
+                                                            @else
+                                                                отдам даром
+                                                            @endif
+                                                        @endif
+                                                    </dd>
+                                                    <dt class="col-sm-3">
+                                                        Предлагает
+                                                    </dt>
+                                                    <dd class="col-sm-9">
+                                                        <a href="{{route('user', $advert->user_id)}}" >{{$advert->user->name}}</a>
+                                                    </dd>
+                                                </dl>
+                                                <dl>
+                                                    <a href="{{route('vinyls.details', $advert->url)}}"  class="btn btn-dark btn-ecomm"><i class="bx bx-show"></i>Смотреть пластинку</a>
+                                                </dl>
+                                            </dd>
+                                            <hr>
+                                        </dl>
+                                    @endforeach
+                                @endif
                                 @if ($releases)
                                     <hr/>
                                     <h4>Релизы (Vinyl):</h4>

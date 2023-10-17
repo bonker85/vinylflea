@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Advert;
 use App\Models\DiscogsArtist;
 use App\Services\Utility\GoogleTranslateService;
 use Illuminate\Http\Request;
@@ -23,7 +24,8 @@ class ArtistController extends Controller
                 $releases = $data;
             }
         }
-        return view('artists.index', compact('artist', 'releases'));
+        $adverts = Advert::where('discogs_author_ids', $artist->discogs_artist_id)->get();
+        return view('artists.index', compact('artist', 'releases', 'adverts'));
     }
 
     public function edit(Request $request, DiscogsArtist $artist)
