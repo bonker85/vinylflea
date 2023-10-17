@@ -265,26 +265,22 @@ class TasksController extends Controller
                  */
                 Advert::where('user_id', 6)->update(['hide_advert' => 1]);
                 $show_advert = 0;
-                for ($j=1; $j<=10; $j++) {
+                for ($j=1; $j<=13; $j++) {
                     $slice = $j;
                     $siteUrl = 'https://store.tildacdn.com/api/getproductslist/?storepartuid=495183118261&recid=375529451&c=1665522162862&getparts=true&getoptions=true&slice=' . $slice . '&size=500';
 
                     $data = json_decode(file_get_contents($siteUrl));
                     $products = $data->products;
-                    $this->log->info('__Products__', ['products' => $products]);
+                    $this->log->info('__PROHOD__', ['j' => $j]);
                     if (!count($products)) {
                         break;
                     }
                     foreach ($products as $product) {
-                        if (!isset($product->uid) || empty($product->uid)) {
-                            if (!isset($product->sku) || empty($product->sku)) {
-                                //для продукта ни артикул ни uid не определен, ничего с ним не делаем
-                                continue;
-                            } else {
-                                $advert = Advert::select()->where('user_id', 6)->where('sku', $product->sku)->first();
-                            }
+                        if (!isset($product->sku) || empty($product->sku)) {
+                            //для продукта ни артикул ни uid не определен, ничего с ним не делаем
+                            continue;
                         } else {
-                            $advert = Advert::select()->where('user_id', 6)->where('uid', $product->uid)->first();
+                            $advert = Advert::select()->where('user_id', 6)->where('sku', $product->sku)->first();
                         }
                         if ($advert) {
                             $this->log->info('__UPDATE__', [
