@@ -25,6 +25,7 @@ use DOMXPath;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -258,6 +259,7 @@ class TasksController extends Controller
                 echo 'abahaba';exit();
                 break;
             case 'parser-vinil-sd-by':
+                $this->log = Log::channel('parser-vinil-sd-by');
                 /**
                  * Парсер с сайта vinil-sd.by
                  */
@@ -269,6 +271,7 @@ class TasksController extends Controller
 
                     $data = json_decode(file_get_contents($siteUrl));
                     $products = $data->products;
+                    $this->log->info('__Products__', ['products' => $products]);
                     if (!count($products)) {
                         break;
                     }
@@ -284,6 +287,10 @@ class TasksController extends Controller
                             $advert = Advert::select()->where('user_id', 6)->where('uid', $product->uid)->first();
                         }
                         if ($advert) {
+                            $this->log->info('__UPDATE__', [
+                                'sku' => $product->sku,
+                                'text' => $product->text,
+                                'condition' => trim(str_replace('Состояние (пластинки/конверта)', '', $product->text))]);
                             // обновление статуса
                             // Если есть в наличии и в статусе скрыт
                             if ($product->quantity && $advert->status == 4) {
