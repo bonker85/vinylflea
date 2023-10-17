@@ -41,5 +41,10 @@ class ArtistController extends Controller
         return redirect()->route('artist', $artist->discogs_artist_id);
     }
 
+    public function list()
+    {
+        $artists = DiscogsArtist::select(['discogs_artist_id', 'name'])->where('id', '!=', 1)->orderBy('name')->get();
+        return view('artists.list', compact('artists'));
+    }
 }
 
