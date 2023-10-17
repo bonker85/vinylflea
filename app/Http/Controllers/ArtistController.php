@@ -24,7 +24,7 @@ class ArtistController extends Controller
                 $releases = $data;
             }
         }
-        $adverts = Advert::where('discogs_author_ids', $artist->discogs_artist_id)->get();
+        $adverts = Advert::where('discogs_author_ids', $artist->discogs_artist_id)->whereIn('user_id', [6,11])->get();
         return view('artists.index', compact('artist', 'releases', 'adverts'));
     }
 
