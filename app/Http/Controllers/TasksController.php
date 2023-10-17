@@ -295,6 +295,8 @@ class TasksController extends Controller
                             }
                             $advert->sku = $product->sku;
                             $advert->price = $product->price;
+                            $advert->condition =
+                                trim(str_replace('Состояние (пластинки/конверта)', '', $product->text));
                             $advert->hide_advert = 0;
                             $show_advert++;
                             $advert->save();
