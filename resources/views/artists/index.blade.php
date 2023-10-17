@@ -91,7 +91,7 @@
                                         <dd class="col-sm-9">{{implode(', ', json_decode($artist->namevariations))}}</dd>
                                     </dl>
                                 @endif
-                                @if ($adverts)
+                                @if ($adverts->count())
                                     <hr/>
                                     <h4>Пластинки на сайте:</h4>
                                     @foreach ($adverts as $advert)
