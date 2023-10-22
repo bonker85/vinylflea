@@ -91,7 +91,7 @@
                         @endif
                     </a>
                 <td class="align-middle text-nowrap">
-                    <a href="{{route('vinyls.details', $advert->url)}}">{{$advert->author}} - <span class="vinil-list-name">{{$advert->name}}</span></a></td>
+                    <a href="{{route('vinyls.details', $advert->url)}}" class="vinyl-link-truncate">{{$advert->author}} - <span class="vinil-list-name">{{$advert->name}}</span></a></td>
                 <td class="align-middle">{{$advert->sname}}</td>
                 <td class="align-middle">{{$advert->price}}</td>
                 <td class="align-middle">{{$advert->condition}}</td>

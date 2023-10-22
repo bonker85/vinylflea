@@ -3359,3 +3359,11 @@ footer .container, .header-content .container {
 .popular-block {
     min-height: 134px;
 }
+.vinyl-link-truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 500px;
+}
