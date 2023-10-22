@@ -65,7 +65,7 @@
                     Цена <i class="bx bx-sort-down fs-5"></i>
                 </a>
             </th>
-            <th scope="col" class="align-middle">
+            <th scope="col" class="align-middle" style="width: 50px;">
                 Оценка
             </th>
             <th scope="col" class="align-middle">Артикул</th>
