@@ -79,6 +79,25 @@
                         </div>
                     </div>
                 </div>
+                <div class="item">
+                    <div class="card rounded-0 product-card border">
+                        <iframe
+                            width="auto"
+                            height="180"
+                            src="https://www.youtube.com/embed/3bi_E7QMYSQ"
+                            srcdoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=https://www.youtube.com/embed/3bi_E7QMYSQ?autoplay=1&mute=1><img src=https://i.ytimg.com/vi/3bi_E7QMYSQ/hqdefault.jpg alt='Рок СССР на пластинках фирмы Мелодия'><span>▶</span></a>"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
+                            title="Рок СССР на пластинках фирмы Мелодия"
+                        ></iframe>
+                        <div class="card-body blue-card">
+                            <div class="news-title">
+                                <p class="vinyl-desc">Рок СССР на пластинках фирмы "Мелодия"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

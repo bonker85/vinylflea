@@ -448,7 +448,7 @@ $(document).ready(function() {
             dots: false,
             autoplay:true,
             autoplayTimeout:8000,
-            autoplayHoverPause:false,
+            autoplayHoverPause:true,
             responsive:{
                 0:{
                     items:1
