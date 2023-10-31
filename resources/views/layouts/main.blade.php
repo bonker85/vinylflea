@@ -41,7 +41,7 @@
         <link href="{{asset('/assets/css/select2.min.css')}}" rel="stylesheet">
     @endif
     <meta name="description" content="@yield('description')">
-    <title>@yield('title') | VinylFlea.By - Барахолка Виниловых Пластинок, Купить виниловые пластинки</title>
+    <title>@yield('title') | VinylFlea.By - Барахолка Виниловых Пластинок, Купить Пластинки</title>
     @if (env('APP_ENV') == 'production' && !request()->disable_tag)
         @if (\App\Models\User::isMyUsers())
         @else
