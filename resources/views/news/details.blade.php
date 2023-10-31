@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('description', 'Виниловые пластинки в РБ большой выбор, обмен, ' . $title)
+@section('description', 'Виниловые пластинки, купить виниловые пластинки в РБ, большой выбор, обмен, ' . $title)
 @section('title', $title)
 @section('content')
     <section class="profile-breadcrumbs">

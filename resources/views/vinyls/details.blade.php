@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('description', 'Виниловая пластинка: ' . (($advert->author) ? $advert->author . ' - ': '') . $advert->name)
+@section('description', 'Купить виниловые пластинки, пластинка: ' . (($advert->author) ? $advert->author . ' - ': '') . $advert->name)
 @section('title', (($advert->author) ? $advert->author . ' - ': '') . $advert->name)
 @section('content')
     <section class="profile-breadcrumbs ">

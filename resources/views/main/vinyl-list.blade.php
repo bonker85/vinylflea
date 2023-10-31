@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title', 'Список всех пластинок')
-@section('description', 'Список всех пластинок')
+@section('description', 'Список всех пластинок, купить виниловые пластинки Беларусь')
 @section('content')
     <div class="table-responsive px-2 py-4">
         <div class="mb-3 fs-5 text-center">

@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('description', $artist->name . ', Виниловые пластинки Вся Беларусь, город ' .
+@section('description', $artist->name . ', Виниловые пластинки, купить пластинки, Вся Беларусь, город ' .
 ['Минск', 'Витебск', 'Гродно', 'Могилев', 'Гомель'][rand(0,4)])
 @section('title', 'Исполнитель ' . $artist->name )
 @section('content')

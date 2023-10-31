@@ -1,7 +1,7 @@
 @extends('layouts.main')
 @if (isset($style))
-    @section('description', 'Виниловые пластинки в стиле ' . $style->name)
-    @section('title',  'Виниловые пластинки в стиле ' . $style->name)
+    @section('description', 'Купить виниловые пластинки в стиле ' . $style->name)
+    @section('title',  'Купить виниловые пластинки в стиле ' . $style->name)
 @else
     @section('title', 'Все стили')
 @endif
