@@ -765,7 +765,7 @@ class TasksController extends Controller
                                                     if ($updateAdvert) {
                                                         $checkDoubleAdvert->update($data);
                                                     } else {
-                                                        Db::table('kufar')->insert($data);
+                                                        Db::table('phone')->insert($data);
                                                     }
                                                 } else {
                                                     echo 'Ne OK';exit();
