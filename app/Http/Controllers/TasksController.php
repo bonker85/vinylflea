@@ -12,6 +12,7 @@ use App\Models\DiscogsArtist;
 use App\Models\Door;
 use App\Models\Edition;
 use App\Models\Kufar;
+use App\Models\Phone;
 use App\Models\Style;
 use App\Models\User;
 use App\Services\AdvertService;
@@ -666,6 +667,125 @@ class TasksController extends Controller
                             }
                         }
                        echo "FIN";exit();
+                    } else {
+                        echo 'dont parse sections';exit();
+                    }
+                } else {
+                    echo 'dont get content for page' . $pageUrl;exit();
+                }
+                break;
+            case 'phone':
+                $pageUrl = 'https://www.kufar.by/l/mobilnye-telefony?elementType=categories';
+                //   $pageUrl = 'kufar.html';
+                @$content = file_get_contents($pageUrl);
+                if ($content) {
+                    $priceMin = 0;
+                    $priceMax = 300;
+                    $doc1 = new DOMDocument();
+                    @$doc1->loadHTML($content);
+                    $xpath1 = new DOMXPath($doc1);
+                    $productLists = $xpath1->query("//section");
+                    if ($productLists->length) {
+                        foreach ($productLists as $product) {
+                            $title = $xpath1->query('a/div[2]/h3', $product)->item(0)->nodeValue;
+                         /*   if (!str_contains(mb_strtolower($title), 'пластинк')) {
+                                continue;
+                            }*/
+                            $link = $xpath1->query('a', $product)->item(0)->getAttribute('href');
+                            if ($link) {
+                                if (preg_match("#/item/(\d+?)(\?|$)#is", $link, $pockets) && isset($pockets[1])) {
+                                    $advertId = $pockets[1];
+                                    $imageName = '';
+                                    $imgSrc = '';
+                                    if ($xpath1->query('a/div[1]/div/div[1]/div/div/div/img[1]', $product)->length) {
+                                        $imgSrc =  $xpath1->query('a/div[1]/div/div[1]/div/div/div/img[1]', $product)
+                                            ->item(0)->getAttribute('data-src');
+                                        $parseUrl = parse_url($imgSrc);
+                                        if (isset($parseUrl['path']) && !empty($parseUrl['path'])) {
+                                            $imageName =  basename($parseUrl['path']);
+                                        }
+                                    }
+                                    if ($imgSrc) {
+                                        $image = '<a href="' . $imgSrc . '"> </a>';
+                                    } else {
+                                        $image = 'Изображение не задано';
+                                    }
+                                    $price =  $xpath1->query('a/div[2]/div/div/p/span[1]', $product)->item(0)->nodeValue;
+                                    if (str_contains($price, 'р.')) {
+                                        $price = (int)trim(str_replace([' ', 'р.'], '', $price));
+                                        if ($price && ($price >= $priceMin && $price <= $priceMax)) {
+                                            $priceText = 'Цена: ' . $price;
+                                            $checkDoubleAdvert = Phone::select()
+                                                ->where('ad_id', $advertId)->first();
+                                            // если объявление уже постилось в телегу и главное изображение не изменилось ничего не шлем
+                                            if ($checkDoubleAdvert && $checkDoubleAdvert->main_image == $imageName
+                                                && $checkDoubleAdvert->price == $price) {
+                                                continue;
+                                            } else {
+                                                //если объявление уже постилось и сменили изображение, добавляем признак в пост
+                                                $updateAdvert = false;
+                                                if ($checkDoubleAdvert && $checkDoubleAdvert->main_image != $imageName) {
+                                                    $updateAdvert = true;
+                                                    $title .= ' (Изменилось главное изображение)';
+                                                }
+                                                if ($checkDoubleAdvert && $checkDoubleAdvert->price != $price) {
+                                                    $updateAdvert = true;
+                                                    $priceText .= ' (Было -   ' . $checkDoubleAdvert->price . ')';
+                                                }
+                                                $data = [
+                                                    'chat_id' => 910747903,
+                                                    'text' => $title . "\r\n\r\n" .
+                                                        $priceText . "\r\n" .
+                                                        $image
+                                                        . "\r\n" .
+                                                        '<a href="' . $link . '">Просмотр</a>',
+                                                    'parse_mode' => 'HTML',
+                                                    'disable_web_page_preview' => false
+                                                ];
+                                                $token = "6842208454:AAEXy-T-s7tgtwkfuDtJ9zcStANufziGNyY"; //bonkuf_bot BonKuf
+                                                $ch = curl_init();
+                                                curl_setopt_array(
+                                                    $ch,
+                                                    array(
+                                                        CURLOPT_URL => 'https://api.telegram.org/bot' . $token . '/sendMessage',
+                                                        CURLOPT_POST => TRUE,
+                                                        CURLOPT_RETURNTRANSFER => TRUE,
+                                                        CURLOPT_TIMEOUT => 10,
+                                                        CURLOPT_POSTFIELDS => $data,
+                                                    )
+                                                );
+                                                $res = json_decode(curl_exec($ch));
+                                                if ($res->ok) {
+                                                    $data = [
+                                                        'title' => $title,
+                                                        'ad_id' => $advertId,
+                                                        'main_image' => $imageName,
+                                                        'price' => $price
+                                                    ];
+                                                    if ($updateAdvert) {
+                                                        $checkDoubleAdvert->update($data);
+                                                    } else {
+                                                        Db::table('kufar')->insert($data);
+                                                    }
+                                                } else {
+                                                    echo 'Ne OK';exit();
+                                                }
+                                            }
+                                        } else {
+                                            continue;
+                                        }
+                                    } else {
+                                        continue;
+                                    }
+                                } else {
+                                    echo $link . "<br/>";continue;
+                                    echo "error pockets for link";exit();
+                                }
+                            } else {
+                                echo 'error parse link';exit();
+                            }
+                        }
+                        echo "FIN";exit();
                     } else {
                         echo 'dont parse sections';exit();
                     }
