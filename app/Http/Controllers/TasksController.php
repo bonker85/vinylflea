@@ -588,8 +588,10 @@ class TasksController extends Controller
                                     $imageName = '';
                                     $imgSrc = '';
                                     if ($xpath1->query('a/div[1]/div/div[1]/div/div/div/img[1]', $product)->length) {
+                                       /* $imgSrc =  $xpath1->query('a/div[1]/div/div[1]/div/div/div/img[1]', $product)
+                                            ->item(0)->getAttribute('data-src');*/
                                         $imgSrc =  $xpath1->query('a/div[1]/div/div[1]/div/div/div/img[1]', $product)
-                                            ->item(0)->getAttribute('data-src');
+                                            ->item(0)->getAttribute('src');
                                         $parseUrl = parse_url($imgSrc);
                                         if (isset($parseUrl['path']) && !empty($parseUrl['path'])) {
                                             $imageName =  basename($parseUrl['path']);
@@ -698,8 +700,10 @@ class TasksController extends Controller
                                     $imageName = '';
                                     $imgSrc = '';
                                     if ($xpath1->query('a/div[1]/div/div[1]/div/div/div/img[1]', $product)->length) {
+                                        /* $imgSrc =  $xpath1->query('a/div[1]/div/div[1]/div/div/div/img[1]', $product)
+                                           ->item(0)->getAttribute('data-src');*/
                                         $imgSrc =  $xpath1->query('a/div[1]/div/div[1]/div/div/div/img[1]', $product)
-                                            ->item(0)->getAttribute('data-src');
+                                            ->item(0)->getAttribute('src');
                                         $parseUrl = parse_url($imgSrc);
                                         if (isset($parseUrl['path']) && !empty($parseUrl['path'])) {
                                             $imageName =  basename($parseUrl['path']);
