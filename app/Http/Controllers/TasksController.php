@@ -41,6 +41,7 @@ class TasksController extends Controller
     private $log;
     private $service;
     const LIMIT_NEW_SKUS = 100;
+    const MIN_PRODUCTS = 3000;
 
     public function index(Request $request, $param)
     {
@@ -113,8 +114,17 @@ class TasksController extends Controller
                 dd("FIN");
                 break;
             case 'parser_step2':
-                AdvertService::updateAdvertsOnCDN();
-                AdvertService::createAdThumb();
+                $locker = Locker::where('type', 'parser-sd2')->first();
+                if (!$locker->status_lock) {
+                    $locker->status_lock = 1;
+                    $locker->save();
+                    AdvertService::updateAdvertsOnCDN();
+                    AdvertService::createAdThumb();
+                    $locker->status_lock = 0;
+                    $locker->save();
+                } else {
+                    echo 'lock';exit();
+                }
                 dd('FIN');
                 break;
             case 'create_excel':
@@ -267,15 +277,15 @@ class TasksController extends Controller
                 /**
                  * Парсер с сайта vinil-sd.by
                  */
-                Advert::where('user_id', 6)->update(['hide_advert' => 1]);
                 $locker = Locker::where('type', 'parser-sd')->first();
                 if (!$locker->status_lock) {
                     $locker->status_lock = 1;
                     $locker->save();
                     $show_advert = 0;
                     $products = $this->getParserVinylProudcts();
-                    if (count($products)) {
+                    if (count($products) > self::MIN_PRODUCTS) {
                         if ($this->checkParserVinylProducts($products)) {
+                            Advert::where('user_id', 6)->update(['hide_advert' => 1]);
                             foreach ($products as $product) {
                                 if (!isset($product->sku) || empty($product->sku)) {
                                     //для продукта ни артикул ни uid не определен, ничего с ним не делаем
@@ -379,7 +389,7 @@ class TasksController extends Controller
                                     }
                                 }
                             }
-                            if ($show_advert > 3000) {
+                            if ($show_advert > self::MIN_PRODUCTS) {
                                 $adverts = Advert::where('user_id', 6)->where('hide_advert', 1)->get();
                                 foreach ($adverts as $advert) {
                                     AdvertService::deleteAdvert($advert);
