@@ -112,7 +112,8 @@ class TasksController extends Controller
                 AdvertService::recountStylesAdverts();
                 dd("FIN");
                 break;
-            case 'create_ad_thumb':
+            case 'parser_step2':
+                AdvertService::updateAdvertsOnCDN();
                 AdvertService::createAdThumb();
                 dd('FIN');
                 break;
@@ -261,7 +262,7 @@ class TasksController extends Controller
                 }
                 echo 'abahaba';exit();
                 break;
-            case 'parser-vinil-sd-by':
+            case 'parser_step1':
                 $this->log = Log::channel('parser-vinil-sd-by');
                 /**
                  * Парсер с сайта vinil-sd.by
@@ -387,7 +388,6 @@ class TasksController extends Controller
                                 echo 'Перезапустить, почистить базу';exit();
                             }
                             AdvertService::recountStylesAdverts();
-                            AdvertService::updateAdvertsOnCDN();
                         } else {
                             echo 'Error Skus';exit();
                         }
@@ -435,7 +435,7 @@ class TasksController extends Controller
                 /**
                  * Синхронизация изображений объявлений с cdn
                  */
-                AdvertService::updateAdvertsOnCDN();
+              //  AdvertService::updateAdvertsOnCDN();
                 dd("aba");
                 break;
             case 'cron_translate':
