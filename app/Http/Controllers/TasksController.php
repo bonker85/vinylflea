@@ -40,6 +40,7 @@ class TasksController extends Controller
 
     private $log;
     private $service;
+    const LIMIT_NEW_SKUS = 100;
 
     public function index(Request $request, $param)
     {
@@ -271,129 +272,125 @@ class TasksController extends Controller
                     $locker->status_lock = 1;
                     $locker->save();
                     $show_advert = 0;
-                    for ($j=1; $j<=13; $j++) {
-                        $slice = $j;
-                        $siteUrl = 'https://store.tildacdn.com/api/getproductslist/?storepartuid=495183118261&recid=375529451&c=1665522162862&getparts=true&getoptions=true&slice=' . $slice . '&size=500';
-
-                        $data = json_decode(file_get_contents($siteUrl));
-                        $products = $data->products;
-                        $this->log->info('__PROHOD__', ['j' => $j]);
-                        if (!count($products)) {
-                            break;
-                        }
-                        foreach ($products as $product) {
-                            if (!isset($product->sku) || empty($product->sku)) {
-                                //для продукта ни артикул ни uid не определен, ничего с ним не делаем
-                                continue;
-                            } else {
-                                $advert = Advert::select()->where('user_id', 6)->where('sku', $product->sku)->first();
-                            }
-                            if ($advert) {
-                                /*  $this->log->info('__UPDATE__', [
-                                      'sku' => $product->sku,
-                                      'text' => $product->text,
-                                      'condition' => trim(str_replace('Состояние (пластинки/конверта)', '', $product->text))]);
-                                */
-                                // обновление статуса
-                                // Если есть в наличии и в статусе скрыт
-                                if ($product->quantity && $advert->status == 4) {
-                                    //кидаем на модерацию
-                                    $advert->status = 2;
-                                    //если нет в нали, переводим в статус скрыт
-                                } else if (!$product->quantity && (int)$advert->status === 1) {
-                                    $advert->status = 4;
+                    $products = $this->getParserVinylProudcts();
+                    if (count($products)) {
+                        if ($this->checkParserVinylProducts($products)) {
+                            foreach ($products as $product) {
+                                if (!isset($product->sku) || empty($product->sku)) {
+                                    //для продукта ни артикул ни uid не определен, ничего с ним не делаем
+                                    continue;
+                                } else {
+                                    $advert = Advert::select()->where('user_id', 6)->where('sku', $product->sku)->first();
                                 }
-                                $advert->sku = $product->sku;
-                                $advert->price = $product->price;
-                                $advert->condition =
-                                    trim(str_replace('Состояние (пластинки/конверта)', '', $product->text));
-                                $advert->hide_advert = 0;
-                                $show_advert++;
-                                $advert->save();
-                            } else {
-                                $data = [
-                                    'name' => $product->title,
-                                    'author' => '',
-                                    'discogs_author_ids' => 0,
-                                    'url' => translate_url($product->title) . '-' . $product->uid,
-                                    'description' => '<b>Наличие уточняйте</b><br/>' . $product->descr,
-                                    'price' => $product->price,
-                                    'style_id' => 1,
-                                    'edition_id' => 0,
-                                    'user_id' => 6,
-                                    'deal' => 'sale',
-                                    'state' => 2,
-                                    'condition' => trim(str_replace('Состояние (пластинки/конверта)', '', $product->text)),
-                                    'status' => (($product->quantity) ? 2: 3),
-                                    'reject_message' => '',
-                                    'cron' => 0,
-                                    'sku' => $product->sku,
-                                    'uid' => $product->uid,
-                                    'created_at' => now(),
-                                    'updated_at' => now()
-                                ];
-                                $advert = Advert::firstOrCreate(['url' => $data['url']],$data);
-                                $advert->hide_advert = 0;
-                                // $show_advert++;
-                                $advert->save();
-                                $images = json_decode($product->gallery);
-                                if ($images) {
-                                    $imageService = new ImageService();
-                                    ///users/6/1005/vinyl4.jpg
-                                    $i = 1;
-                                    foreach ($images as $image) {
-                                        if (@file_get_contents($image->img)) {
-                                            if ($i >= 4) break;
-                                            $ext = '.' . pathinfo($image->img, PATHINFO_EXTENSION);
-                                            $userPath = '/users/6/' . $advert->id . '/vinyl' . $i . $ext;
-                                            $path = public_path('storage') .  $userPath;
-                                            if (make_directory(pathinfo($path)['dirname'], 0777, true)) {
-                                                $flag = true;
-                                                $try = 1;
-                                                while ($flag && $try <= 2):
-                                                    try {
-                                                        $img = Image::make($image->img);
-                                                        $img->resize(500, null, function ($constraint) {
-                                                            $constraint->aspectRatio();
-                                                        })->save($path);
-                                                        //Image migrated successfully
-                                                        $imageService->createImageWatermark(
-                                                            $path,
-                                                            $path,
-                                                            public_path('images/watermarks/watermark.png')
-                                                        );
-                                                        AdvertImage::firstOrCreate(
-                                                            ['path' => $userPath],
-                                                            [
-                                                                'advert_id' => $advert->id,
-                                                                'path' => $userPath
-                                                            ]);
-                                                        $i++;
-                                                        $flag = false;
-                                                    } catch (\Exception $e) {
-                                                        //not throwing  error when exception occurs
-                                                    }
-                                                    $try++;
-                                                endwhile;
+                                if ($advert) {
+                                    /*  $this->log->info('__UPDATE__', [
+                                          'sku' => $product->sku,
+                                          'text' => $product->text,
+                                          'condition' => trim(str_replace('Состояние (пластинки/конверта)', '', $product->text))]);
+                                    */
+                                    // обновление статуса
+                                    // Если есть в наличии и в статусе скрыт
+                                    if ($product->quantity && $advert->status == 4) {
+                                        //кидаем на модерацию
+                                        $advert->status = 2;
+                                        //если нет в нали, переводим в статус скрыт
+                                    } else if (!$product->quantity && (int)$advert->status === 1) {
+                                        $advert->status = 4;
+                                    }
+                                    $advert->sku = $product->sku;
+                                    $advert->price = $product->price;
+                                    $advert->condition =
+                                        trim(str_replace('Состояние (пластинки/конверта)', '', $product->text));
+                                    $advert->hide_advert = 0;
+                                    $show_advert++;
+                                    $advert->save();
+                                } else {
+                                    $data = [
+                                        'name' => $product->title,
+                                        'author' => '',
+                                        'discogs_author_ids' => 0,
+                                        'url' => translate_url($product->title) . '-' . $product->uid,
+                                        'description' => '<b>Наличие уточняйте</b><br/>' . $product->descr,
+                                        'price' => $product->price,
+                                        'style_id' => 1,
+                                        'edition_id' => 0,
+                                        'user_id' => 6,
+                                        'deal' => 'sale',
+                                        'state' => 2,
+                                        'condition' => trim(str_replace('Состояние (пластинки/конверта)', '', $product->text)),
+                                        'status' => (($product->quantity) ? 2: 3),
+                                        'reject_message' => '',
+                                        'cron' => 0,
+                                        'sku' => $product->sku,
+                                        'uid' => $product->uid,
+                                        'created_at' => now(),
+                                        'updated_at' => now()
+                                    ];
+                                    $advert = Advert::firstOrCreate(['url' => $data['url']],$data);
+                                    $advert->hide_advert = 0;
+                                    // $show_advert++;
+                                    $advert->save();
+                                    $images = json_decode($product->gallery);
+                                    if ($images) {
+                                        $imageService = new ImageService();
+                                        ///users/6/1005/vinyl4.jpg
+                                        $i = 1;
+                                        foreach ($images as $image) {
+                                            if (@file_get_contents($image->img)) {
+                                                if ($i >= 4) break;
+                                                $ext = '.' . pathinfo($image->img, PATHINFO_EXTENSION);
+                                                $userPath = '/users/6/' . $advert->id . '/vinyl' . $i . $ext;
+                                                $path = public_path('storage') .  $userPath;
+                                                if (make_directory(pathinfo($path)['dirname'], 0777, true)) {
+                                                    $flag = true;
+                                                    $try = 1;
+                                                    while ($flag && $try <= 2):
+                                                        try {
+                                                            $img = Image::make($image->img);
+                                                            $img->resize(500, null, function ($constraint) {
+                                                                $constraint->aspectRatio();
+                                                            })->save($path);
+                                                            //Image migrated successfully
+                                                            $imageService->createImageWatermark(
+                                                                $path,
+                                                                $path,
+                                                                public_path('images/watermarks/watermark.png')
+                                                            );
+                                                            AdvertImage::firstOrCreate(
+                                                                ['path' => $userPath],
+                                                                [
+                                                                    'advert_id' => $advert->id,
+                                                                    'path' => $userPath
+                                                                ]);
+                                                            $i++;
+                                                            $flag = false;
+                                                        } catch (\Exception $e) {
+                                                            //not throwing  error when exception occurs
+                                                        }
+                                                        $try++;
+                                                    endwhile;
+                                                }
+
                                             }
 
                                         }
-
                                     }
                                 }
                             }
+                            if ($show_advert > 3000) {
+                                $adverts = Advert::where('user_id', 6)->where('hide_advert', 1)->get();
+                                foreach ($adverts as $advert) {
+                                    AdvertService::deleteAdvert($advert);
+                                }
+                            } else {
+                                echo 'Перезапустить, почистить базу';exit();
+                            }
+                            AdvertService::recountStylesAdverts();
+                            AdvertService::updateAdvertsOnCDN();
+                        } else {
+                            echo 'Error Skus';exit();
                         }
                     }
-                    if ($show_advert > 3000) {
-                        $adverts = Advert::where('user_id', 6)->where('hide_advert', 1)->get();
-                        foreach ($adverts as $advert) {
-                            AdvertService::deleteAdvert($advert);
-                        }
-                    } else {
-                        echo 'Перезапустить, почистить базу';exit();
-                    }
-                    AdvertService::recountStylesAdverts();
-                    AdvertService::updateAdvertsOnCDN();
                     $locker->status_lock = 0;
                     $locker->save();
                     $this->log->info('__FIN__');
@@ -1006,6 +1003,47 @@ class TasksController extends Controller
     private function isUrlExists($url, $catalog_id) {
         $doors = Door::select()->where('url', $url)->where('catalog_id', '!=', $catalog_id)->get();
         return $doors->count();
+    }
+
+    private function getParserVinylProudcts()
+    {
+        $vinylProducts = [];
+        for ($j=1; $j<=13; $j++) {
+            $slice = $j;
+            $siteUrl = 'https://store.tildacdn.com/api/getproductslist/?storepartuid=495183118261&recid=375529451&c=1665522162862&getparts=true&getoptions=true&slice=' . $slice . '&size=500';
+
+            $data = json_decode(file_get_contents($siteUrl));
+            $products = $data->products;
+            if (!count($products)) {
+                break;
+            }
+            $this->log->info('__PROHOD__', ['j' => $j]);
+            $vinylProducts = array_merge($vinylProducts, $products);
+            sleep(1);
+        }
+        return $vinylProducts;
+    }
+
+    private function checkParserVinylProducts($products)
+    {
+
+        $skus = [];
+        foreach ($products as $product) {
+            if (isset($product->sku) && !empty($product->sku)) {
+                $skus[] = $product->sku;
+            }
+        }
+        $countSkus = count($skus);
+        $countAdverts = Advert::select()->whereIn('sku', $skus)->where('user_id', 6)->count();
+        $diffSku = $countSkus - $countAdverts ;
+        if ($diffSku > self::LIMIT_NEW_SKUS) {
+            echo "Новых товаров больше " . self::LIMIT_NEW_SKUS .
+            ": <br/>Всего skus: " . $countSkus .
+            "<br/>Всего соответствий в базе:"  . $countAdverts .
+            "<br/>В базе не найдено: " . $diffSku;
+            exit();
+        }
+        return true;
     }
 }
 
