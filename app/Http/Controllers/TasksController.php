@@ -329,6 +329,7 @@ class TasksController extends Controller
                                     $advert = Advert::firstOrCreate(['url' => $data['url']],$data);
                                     $advert->hide_advert = 0;
                                     // $show_advert++;
+                                    $this->log->info('NEW PRODUCT SKU ' . $product->sku);
                                     $advert->save();
                                     $images = json_decode($product->gallery);
                                     if ($images) {
