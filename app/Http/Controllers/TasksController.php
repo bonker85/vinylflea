@@ -1009,7 +1009,8 @@ class TasksController extends Controller
     private function getParserVinylProudcts()
     {
         $vinylProducts = [];
-        for ($j=1; $j<=13; $j++) {
+        $jCount = 13; //13
+        for ($j=1; $j<=$jCount; $j++) {
             $slice = $j;
             $siteUrl = 'https://store.tildacdn.com/api/getproductslist/?storepartuid=495183118261&recid=375529451&c=1665522162862&getparts=true&getoptions=true&slice=' . $slice . '&size=500';
 
