@@ -10,20 +10,12 @@
                 @foreach ($lastNewsList as $new)
                     <div class="item">
                         <div class="card rounded-0 product-card border">
-                            @if ($new->id == 9)
-                                <a href="/{{$new->url}}">
-                            @else
                                 <a href="{{route('news', $new->url)}}">
-                            @endif
                                 <img src="{{asset('/assets/images/posts/' . $new->id . '.webp')}}" class="card-img-top border-bottom" alt="...">
                             </a>
                             <div class="card-body blue-card">
                                 <div class="news-title">
-                                    @if ($new->id == 9)
-                                        <a href="/{{$new->url}}">
-                                    @else
                                         <a href="{{route('news', $new->url)}}">
-                                    @endif
                                         <h5 class="text-capitalize">{{$new->name}}</h5>
                                     </a>
                                 </div>
