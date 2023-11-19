@@ -604,6 +604,8 @@ class TasksController extends Controller
                                 if (preg_match("#/item/(\d+?)(\?|$)#is", $link, $pockets) && isset($pockets[1])) {
 
                                     $advertId = $pockets[1];
+                                    // заглушка на баг
+                                    if ($advertId == 215148112) continue;
                                     $imageName = '';
                                     $imgSrc = '';
                                     if ($xpath1->query('a/div[1]/div/div[1]/div/div/div/img[1]', $product)->length) {
