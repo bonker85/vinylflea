@@ -114,6 +114,7 @@ class TasksController extends Controller
                 dd("FIN");
                 break;
             case 'parser_step2':
+                $this->log = Log::channel('parser-vinil-sd-by');
                 $locker = Locker::where('type', 'parser-sd2')->first();
                 if (!$locker->status_lock) {
                     $locker->status_lock = 1;
@@ -122,6 +123,7 @@ class TasksController extends Controller
                     AdvertService::createAdThumb();
                     $locker->status_lock = 0;
                     $locker->save();
+                    $this->log->info('__FIN__ 2');
                 } else {
                     echo 'lock';exit();
                 }
