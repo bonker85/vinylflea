@@ -885,7 +885,7 @@ body.offcanvas-active {
     .advert-show-list .advert-mess-h {
         margin-bottom: 0;
     }
-    .login-in-menu {
+    .login-in-menu, .header-in-menu {
         display: none;
     }
     .page-content h5 {
@@ -3366,4 +3366,13 @@ footer .container, .header-content .container {
     display: inline-block;
     vertical-align: middle;
     max-width: 500px;
+}
+.header-in-menu {
+    background: #f5f3f6;
+    border-radius: 15px;
+    border: 1px solid #DEE2E6;
+    color: #1D1827!important;
+    text-align: center;
+    font-size: 20px;
+    padding: 5px 0;
 }
