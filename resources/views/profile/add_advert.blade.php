@@ -141,7 +141,7 @@
                                         </div>
                                         <div class="col-12">
                                             <label class="form-label">Описание <small><b>(до 1000 символов)</b></small></label>
-                                            <textarea type="text" class="form-control" maxlength="1500" name="description">{{old('description')}}</textarea>
+                                            <textarea type="text" class="form-control" maxlength="2000" name="description">{{old('description')}}</textarea>
                                             <div class="invalid-tooltip">
                                                 Поле не должно быть пустым!
                                             </div>
