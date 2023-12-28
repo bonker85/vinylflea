@@ -1064,7 +1064,7 @@ class TasksController extends Controller
 
                             ]);
                             $imgSrc = 'https://vinylflea.by/storage/ay/' . $ayId . '.' . $imgExt;
-                            $image = '<a href="' . $imgSrc . '">&nbsp;</a>';
+                            $image = '<a href="' . $imgSrc . '">'. "&nbsp;" . '</a>';
                             $this->ayNewAdverts[] = $title .
                                 " (" . $priceHot . " | " . $priceAy . ")\r\n" . $image . "\r\n\r\n";
                         }
