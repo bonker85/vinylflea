@@ -122,6 +122,11 @@ return [
             'path' => storage_path('logs/parser-vinil-sd-by.log'),
             'level' => 'info',
         ],
+        'parser-ay' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/parser-ay.log'),
+            'level' => 'info',
+        ],
     ],
 
 ];

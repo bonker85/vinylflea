@@ -13,6 +13,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         '/ajax/avatar_file',
-        '/ajax/vinyl_file'
+        '/ajax/vinyl_file',
+        '/ay-list'
     ];
 }

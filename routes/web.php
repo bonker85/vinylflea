@@ -105,6 +105,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Vinyl', 'prefix' => 'vinyls']
 
 Route::group(['namespace' => 'App\Http\Controllers\Main'], function() {
     Route::match(['get', 'post'],'/vinyl-list', 'IndexController@vinylList')->name('main.vinyl-list');
+    Route::match(['get', 'post'],'/ay-list', 'IndexController@ayList')->name('main.ay-list');
     Route::get('/download-list', 'IndexController@createExcelForVinilCD')->name('download-list');
     Route::get('/{url?}', 'IndexController')->name('main.index');
     Route::post('/sell-records', 'IndexController@sellRecords')->name('main.sell-records');

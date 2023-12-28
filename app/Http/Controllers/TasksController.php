@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\UsersExport;
 use App\Models\Advert;
 use App\Models\AdvertImage;
+use App\Models\AyBy;
 use App\Models\CanvasSize;
 use App\Models\Catalog;
 use App\Models\Color;
@@ -40,7 +41,10 @@ class TasksController extends Controller
 
     private $log;
     private $service;
+    private $ayIds;
+    private $ayNewAdverts = '';
     const LIMIT_NEW_SKUS = 100;
+    private $limitAyPages = 1000; // чтобы чистить удаленные объявления нужно устанавливать лимит ровно 1000
     const MIN_PRODUCTS = 3000;
 
     public function index(Request $request, $param)
@@ -128,6 +132,58 @@ class TasksController extends Controller
                     echo 'lock';exit();
                 }
                 dd('FIN');
+                break;
+            case 'parser-ay':
+                if ($request->limit) {
+                    $this->limitAyPages = $request->limit;
+                }
+                $this->log = Log::channel('parser-ay');
+              //  $locker = Locker::where('type', 'parser-ay')->first();
+               // if (!$locker->status_lock) {
+              //      $locker->status_lock = 1;
+              //      $locker->save();
+                    $categories = AyBy::TYPES;
+                    foreach ($categories as $cat) {
+                        $typeId = array_search($cat, AyBy::TYPES);
+                        $this->ayIds = [];
+                        $this->parseAyCategory($cat);
+                        //если собираем обновления по всем страницам категории, то чистим удаенные объявления
+                        if ($this->limitAyPages == 1000) {
+                            $count = AyBy::whereNotIn('ay_id',$this->ayIds)->where('type', $typeId)->delete();
+                            $this->log->info('Очистка категории ' . $cat . '.Удалено - ' . $count);
+                        }
+                    }
+                //    $locker->status_lock = 0;
+                  //  $locker->save();
+                    if ($this->ayNewAdverts) {
+                        $data = [
+                            'chat_id' => 910747903,
+                            'text' => $this->ayNewAdverts,
+                            'parse_mode' => 'HTML',
+                            'disable_web_page_preview' => false
+                        ];
+                        $token = "6963367076:AAECDLZK0wpPVdvdq-8c6hCg-byBw6jnulI"; //
+                        $ch = curl_init();
+                        curl_setopt_array(
+                            $ch,
+                            array(
+                                CURLOPT_URL => 'https://api.telegram.org/bot' . $token . '/sendMessage',
+                                CURLOPT_POST => TRUE,
+                                CURLOPT_RETURNTRANSFER => TRUE,
+                                CURLOPT_TIMEOUT => 10,
+                                CURLOPT_POSTFIELDS => $data,
+                            )
+                        );
+                        $res = json_decode(curl_exec($ch));
+                    }
+                    if ($request->auto_ref) {
+                        echo 'FIN';exit();
+                    }
+                    return redirect()->route('main.ay-list');
+               /* } else {
+                    echo 'lock';exit();
+                }*/
+
                 break;
             case 'create_excel':
               /*  return (new UserAdvertsExport(4))->download('vinyl.xlsx');
@@ -699,6 +755,30 @@ class TasksController extends Controller
                     echo 'dont get content for page' . $pageUrl;exit();
                 }
                 break;
+            case 'test_ay_bot':
+                $text = "1) Title (33) - <a href='http://ay.by/lot/ac-dc-flick-of-the-switch-obi-first-pressing-5036149742.html'>смотреть</a>\r\n\r\n" .
+                    "2) Title 2 (333) - <a href='http://ay.by/lot/ac-dc-flick-of-the-switch-obi-first-pressing-5036149742.html'>смотреть</a>\r\n\r\n";
+                $data = [
+                    'chat_id' => 910747903,
+                    'text' => $text,
+                    'parse_mode' => 'HTML',
+                    'disable_web_page_preview' => false
+                ];
+                $token = "6963367076:AAECDLZK0wpPVdvdq-8c6hCg-byBw6jnulI"; //
+                $ch = curl_init();
+                curl_setopt_array(
+                    $ch,
+                    array(
+                        CURLOPT_URL => 'https://api.telegram.org/bot' . $token . '/sendMessage',
+                        CURLOPT_POST => TRUE,
+                        CURLOPT_RETURNTRANSFER => TRUE,
+                        CURLOPT_TIMEOUT => 10,
+                        CURLOPT_POSTFIELDS => $data,
+                    )
+                );
+                $res = json_decode(curl_exec($ch));
+                dd($res);
+                break;
             case 'phone':
                 $pageUrl = 'https://www.kufar.by/l/mobilnye-telefony?elementType=categories';
                 //   $pageUrl = 'kufar.html';
@@ -826,182 +906,6 @@ class TasksController extends Controller
         }
     }
 
-    private function parseProductsPage($html, $link, $catalog, $pages = 0) {
-        $this->log->info('Парсинг каталога ' . $catalog->name . ', страница ' . ($pages+1));
-        $doorService = new DoorService();
-        $doc1 = new DOMDocument();
-        @$doc1->loadHTML('<meta http-equiv="content-type" content="text/html; charset=utf-8">' . $html);
-        $xpath1 = new DOMXPath($doc1);
-        $productLists = $xpath1->query("//div[@class='catalog-product-card-inner']");
-        $productLinkBlocks = $xpath1->query("//div[@class='catalog-roduct-hover-block']/a[contains(@class,
-        'catalog-product-card-order-button')]");
-        if($productLists->length && ($productLists->length === $productLinkBlocks->length)) {
-            $this->log->info('На странице найдено ' . $productLists->length);
-            $item_num = 0;
-            foreach ($productLists as $product) {
-                $productTitle =
-                    trim($xpath1->query('div/p[@class="catalog-product-card-title"]', $product)->item(0)->nodeValue);
-                $collection =
-                    trim($xpath1->query('div/p[@class="catalog-product-card-subtitle"]', $product)->item(0)->nodeValue);
-                $productPurchasePrice =
-                    trim($xpath1->query('p[@class="catalog-product-card-hover-price"]', $product)->item(0)->nodeValue);
-
-                $productPurchasePrice = str_replace(['₽', "&nbsp;",' ', chr(194) . chr(160)], '', $productPurchasePrice);
-                $door = Door::select()->where('name', $productTitle)->where('catalog_id', $catalog->id)->first();
-                if ($door) {
-                    $this->log->info('Продукт ' . $door->name . ' уже существует, обновляем цену закупки '
-                        . $productPurchasePrice);
-                    $door->purchase_price = $productPurchasePrice;
-                    $door->save();
-                    $item_num++;
-                } else {
-                    $productLink = $productLinkBlocks->item($item_num)->getAttribute('href');
-                    $this->log->info('Добавление продукта ' . $productTitle .
-                    '(' . $productLink . ')');
-                    $item_num++;
-                    $productContent = file_get_contents($productLink);
-                    if ($productContent) {
-                        $doc2 = new DOMDocument();
-                        @$doc2->loadHTML('<meta http-equiv="content-type" content="text/html; charset=utf-8">' .
-                            $productContent);
-                        $xpath2 = new DOMXPath($doc2);
-                        $mainImage =
-                            $xpath2->query("//meta[contains(@property, 'og:image')]")->item(0)->getAttribute('content');
-                        $originalDir = $doorService->getOriginalDoorDir(['catalog_id' => $catalog->id,
-                            'name' => $productTitle]);
-                        $fileExt = pathinfo($mainImage, PATHINFO_EXTENSION);
-                        $fileName = Str::slug(pathinfo($mainImage, PATHINFO_FILENAME));
-                        $fileFullName = $fileName . '.' . $fileExt;
-                        $originalImagePath = $originalDir . $fileFullName;
-                        if (!Storage::disk('public')->put("/" . $originalImagePath, file_get_contents($mainImage))) {
-                            $this->log->error('Не удалось загрузить главное изображение продукта (' . $mainImage . ')');
-                            dd("Не удалось загрузить главное изображение продукта " . $mainImage);
-                        } else {
-                            $mainImage = $this->service->addDoorImagesByOriginalPath($originalImagePath);
-                        }
-                        $characteristics = $xpath2->query("//table[@class='table table-striped']");
-                        if ($characteristics) {
-                            $names = $xpath2->query("//table[@class='table table-striped']/tbody/tr/th");
-                            $values = $xpath2->query("//table[@class='table table-striped']/tbody/tr/td");
-                            if ($names->length === $values->length || $names->length === ($values->length+1)) {
-                                $characteristics = '<table class="table table-hover text-nowrap"><tbody>';
-                                for($i=0;$i<$values->length;$i++) {
-                                    $characteristics .= '<tr><th>' . trim($names->item($i)->nodeValue) . '</th>';
-                                    $characteristics .= '<td>' . trim($values->item($i)->nodeValue) . '</td></tr>';
-                                }
-                                $characteristics.= '</tbody></table>';
-                            }
-                        } else {
-                            $characteristics = '<table><tbody><tr><th></th><td></td></tr></tbody></table>';
-                        }
-                        $canvasSizes = $xpath2->query("//span[contains(@class,'variable-item-span')]");
-                        if ($canvasSizes->length) {
-                            $canvasSizesIds = [];
-                            foreach ($canvasSizes as $size) {
-                                $size = trim($size->nodeValue);
-                                $size = CanvasSize::firstOrCreate(['size' => $size], ['size' => $size]);
-                                $canvasSizesIds[] = $size->id;
-
-                            }
-                        } else {
-                            $this->log->error('Не удалось загрузить размеры полотна (' . $productLink . ')');
-                        }
-                    } else {
-                        $this->log->error('Не удалось загрузить html страницы (' . $productLink . ')');
-                    }
-                    $colors = $xpath2->query("//div[@class='variable-item-contents']/img");
-                    if ($colors->length) {
-                        $colorLists = [];
-                        foreach ($colors as $color) {
-                            $colorName = trim($color->getAttribute('alt'));
-                            $colorImg = trim($color->getAttribute('data-src'));
-                            if ($colorImg) {
-                                $fileExt = pathinfo($colorImg, PATHINFO_EXTENSION);
-                                $fileName = Str::slug(pathinfo($colorImg, PATHINFO_FILENAME));
-                                $fileFullName = $fileName . '.' . $fileExt;
-                            } else {
-                                $fileFullName = '';
-                            }
-
-                            $color = Color::select()->where('name', $colorName)->first();
-                            if (!$color) {
-                                if ($fileFullName) {
-                                    $colorPath = 'colors/' . $fileFullName;
-                                    $path = Storage::disk('public')->
-                                    put($colorPath, file_get_contents($colorImg));
-                                } else {
-                                    $path = 1;
-                                    $colorPath = '';
-                                }
-                                if ($path) {
-                                    $color = Color::create([
-                                        'name' => $colorName,
-                                        'image' => $colorPath
-                                    ]);
-                                } else {
-                                    $this->log->error('Изображение цвета ' . $colorName . ' не загружено в Storage '
-                                        . $path);
-                                    dd('Изображение цвета ' . $colorName . ' не загружено в Storage ' . $colorPath);
-                                }
-                            }
-                            $colorLists[] = $color->id;
-                        }
-                    } else {
-                        $this->log->error('Не удалось получить цвета продукта');
-                    }
-                    $url = $this->doorUrlCreate($productTitle, $catalog);
-
-                    $doorInfo = [
-                        'name' => $productTitle,
-                        'url' => $url,
-                        'header' => $productTitle,
-                        'title' => $catalog->parent->name . ' | ' .
-                            $catalog->name . ' | ' . $productTitle,
-                        'description' => 'Купить ' . $catalog->parent->name . ', ' . $catalog->name . ', ' .
-                             $productTitle . ' недорого',
-                        'characteristics' => $characteristics,
-                        'status' => 1,
-                        'catalog_id' => $catalog->id,
-                        'new' => 0,
-                        'discount' => 0,
-                        'price' => 0,
-                        'purchase_price' => $productPurchasePrice,
-                        'discount_price' => 0,
-                        'main_image' =>  $mainImage,
-                        'position' => $doorService->getMaxPosition($catalog->id),
-
-                    ];
-                    $door = Door::create($doorInfo);
-                    if (isset($canvasSizesIds)) {
-                        $door->sizes()->sync($canvasSizesIds);
-                    }
-                    if (isset($colorLists)) {
-                        $door->colors()->sync($colorLists);
-                    }
-                }
-
-            }
-            if (!$pages) {
-                $pageCount = $xpath1->query("//ul[@class='page-numbers']/li");
-                if ($pageCount->length) {
-                    $pageCount = $pageCount->length - 1;
-                    for ($i=2;$i<=$pageCount;$i++) {
-                        $pageContent = file_get_contents($link . 'page/' . $i);
-                        if ($pageContent) {
-                            $this->parseProductsPage($pageContent, $link, $catalog, $i-1);
-                        } else {
-                            $this->log->error('Не удалось получить html страницы пагинации (' .
-                                $link . 'page/' . $i . ')');
-                            dd('Не удалось получить html страницы пагинации (' . $link . 'page/' . $i . ')');
-                        }
-                    }
-                }
-            }
-
-
-        }
-
-    }
 
     private function doorUrlCreate($name, $catalog, $counter = 0) {
         if ($counter !== 0) {
@@ -1061,6 +965,127 @@ class TasksController extends Controller
             exit();
         }
         return true;
+    }
+
+    private function parseAyCategory($type, $page = 1, $countPages = 0) {
+        $this->log->info('Парсинг категории ' . $type . ', страница ' . $page);
+        $pageUrl = 'http://films-music.ay.by/muzyka/plastinki/' . $type . '/?order=create&page=' . $page;
+        @$content = file_get_contents($pageUrl);
+        if ($content) {
+            $doc1 = new DOMDocument();
+            @$doc1->loadHTML($content);
+            $xpath1 = new DOMXPath($doc1);
+            //получаем количество страниц в пагинации
+            if ($page === 1) {
+                $pagination = $xpath1->query('//li[@class="g-pagination__list__li pg-link pg-last"]');
+                if ($pagination->length) {
+                    $countPages = $pagination->item(0)->getAttribute('data-value');
+                } else {
+                    echo 'dont get count pages for category ay category: ' . $type;exit();
+                }
+            }
+            $productLists = $xpath1->query('//ul/li[@class = "viewer-type-grid__li " or contains(@class, "viewer-type-grid__li  item-type-card_hot")]');
+            if ($productLists->length) {
+                //Парсим страницы категории
+                foreach ($productLists as $product) {
+                    $ayId = $product->getAttribute('data-value');
+                    $link = $xpath1->query('div[@class="viewer-type-grid__col"]//a', $product)?->item(0)?->getAttribute('href');
+                    $title = $xpath1->query('div[@class="viewer-type-grid__col"]//p[@class="item-type-card__title"]', $product)?->item(0)?->nodeValue;
+                    $priceHot = trim(str_replace(',', '.', $xpath1->query('div[@class="viewer-type-grid__col"]//span[@class="c-hot"]/strong', $product)?->item(0)?->nodeValue));
+                    $priceAy = trim(str_replace(',', '.', $xpath1->query('div[@class="viewer-type-grid__col"]//p[@class="item-type-card__info"]/strong',$product)?->item(0)?->nodeValue));
+                    $imgUrl = $xpath1->query('div[@class="viewer-type-grid__col"]//img', $product)?->item(0)?->getAttribute('src');
+                    $author = $xpath1->query('div[@class="viewer-type-grid__col"]//p[@class="item-type-card__author"]', $product)?->item(0)?->nodeValue;
+                    if ($ayId && $link && $title && ($priceHot || $priceAy) && $imgUrl) {
+                        $auction = 0;
+                        if (empty($priceHot)) {
+                            $priceHot = 0;
+                            $auction = 1;
+                        }
+                        if (empty($priceAy)) {
+                            $priceAy = 0;
+                        }
+                        $this->ayIds[] = $ayId;
+                        $typeId = array_search($type, AyBy::TYPES);
+
+                        $new = 1;
+                        $ayItemFind = AyBy::where('ay_id', $ayId)->first();
+                        if ($ayItemFind) {
+                            $this->log->info('Обновление товара (' . $ayItemFind->ay_id . ') в категории ' . $type);
+                            $updatedPrice = 0;
+                            $priceAuctionOld = 0;
+                            $priceHotOld = 0;
+                           if ($priceAy != $ayItemFind->price_auction) {
+                               $updatedPrice = 1;
+                               $priceAuctionOld = $ayItemFind->price_auction;
+                           }
+                           if ($priceHot != $ayItemFind->price_hot) {
+                               $updatedPrice = 1;
+                               $priceHotOld = $ayItemFind->price_hot;
+                           }
+                           AyBy::where('id', $ayItemFind->id)->update([
+                               'new' => 0,
+                               'price_hot' => $priceHot,
+                               'price_hot_old' => $priceHotOld,
+                               'price_auction_old' => $priceAuctionOld,
+                               'price_auction' => $priceAy,
+                               'updated_price' => $updatedPrice,
+                               'auction' => $auction
+                           ]);
+
+                        } else {
+                            $this->log->info('Добавление товара (' . $ayId . ') в категории ' . $type);
+                            $content = @file_get_contents($imgUrl);
+                            $imgExt = '';
+                            $downloadImg = 0;
+                            if ($content) {
+                                $imgExt =  pathinfo($imgUrl, PATHINFO_EXTENSION);
+                                if (file_put_contents(storage_path('app/public/ay/' . $ayId . '.' . $imgExt),
+                                    $content)) {
+                                    $downloadImg = 1;
+                                }
+                            }
+                            AyBy::create([
+                                'ay_id' => $ayId,
+                                'title' => $title,
+                                'author' =>  $author,
+                                'price_hot' => $priceHot,
+                                'price_auction' => $priceAy,
+                                'img_url' => $imgUrl,
+                                'img_ext' => $imgExt,
+                                'link' => $link,
+                                'type' => $typeId,
+                                'auction' => $auction,
+                                'new' => $new,
+                                'download_img' => $downloadImg,
+
+                            ]);
+                            $this->ayNewAdverts .= $title .
+                                " (" . $priceHot . " | " . $priceAy . ") - <a href='" . $link . "'>смотреть</a>\r\n\r\n";
+                        }
+
+                    } else {
+                        echo 'Empty params: ayId = ' . $ayId .
+                            ', link = ' . $link . ', title = ' . $title . ', priceHot = ' . $priceHot .
+                            ', priceAy = ' . $priceAy . ', imgUrl = '
+                            . $imgUrl . ', author = ' . $author;exit();
+                    }
+                }
+                $page++;
+                if ($page > $this->limitAyPages) {
+                    return true;
+                }
+                if ($page <= $countPages) {
+                    $this->parseAyCategory($type, $page, $countPages);
+                } else {
+                    return true;
+                }
+
+            } else {
+                echo 'dont parse li blocks for ay category: ' . $type;exit();
+            }
+        } else {
+            echo 'dont get content for ay category: ' . $type;exit();
+        }
     }
 }
 
