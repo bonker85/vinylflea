@@ -156,6 +156,7 @@ class TasksController extends Controller
                 //    $locker->status_lock = 0;
                   //  $locker->save();
                     if ($this->ayNewAdverts) {
+                        echo $this->ayNewAdverts;exit();
                         $data = [
                             'chat_id' => 910747903,
                             'text' => $this->ayNewAdverts,
