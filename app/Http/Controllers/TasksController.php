@@ -42,7 +42,7 @@ class TasksController extends Controller
     private $log;
     private $service;
     private $ayIds;
-    private $ayNewAdverts = '';
+    private $ayNewAdverts = [];
     const LIMIT_NEW_SKUS = 100;
     private $limitAyPages = 1000; // чтобы чистить удаленные объявления нужно устанавливать лимит ровно 1000
     const MIN_PRODUCTS = 3000;
@@ -156,26 +156,27 @@ class TasksController extends Controller
                 //    $locker->status_lock = 0;
                   //  $locker->save();
                     if ($this->ayNewAdverts) {
-                        echo $this->ayNewAdverts;exit();
-                        $data = [
-                            'chat_id' => 910747903,
-                            'text' => $this->ayNewAdverts,
-                            'parse_mode' => 'HTML',
-                            'disable_web_page_preview' => false
-                        ];
-                        $token = "6963367076:AAECDLZK0wpPVdvdq-8c6hCg-byBw6jnulI"; //
-                        $ch = curl_init();
-                        curl_setopt_array(
-                            $ch,
-                            array(
-                                CURLOPT_URL => 'https://api.telegram.org/bot' . $token . '/sendMessage',
-                                CURLOPT_POST => TRUE,
-                                CURLOPT_RETURNTRANSFER => TRUE,
-                                CURLOPT_TIMEOUT => 10,
-                                CURLOPT_POSTFIELDS => $data,
-                            )
-                        );
-                        $res = json_decode(curl_exec($ch));
+                        foreach ($this->ayNewAdverts as $text) {
+                            $data = [
+                                'chat_id' => 910747903,
+                                'text' => $text,
+                                'parse_mode' => 'HTML',
+                                'disable_web_page_preview' => false
+                            ];
+                            $token = "6963367076:AAECDLZK0wpPVdvdq-8c6hCg-byBw6jnulI"; //
+                            $ch = curl_init();
+                            curl_setopt_array(
+                                $ch,
+                                array(
+                                    CURLOPT_URL => 'https://api.telegram.org/bot' . $token . '/sendMessage',
+                                    CURLOPT_POST => TRUE,
+                                    CURLOPT_RETURNTRANSFER => TRUE,
+                                    CURLOPT_TIMEOUT => 10,
+                                    CURLOPT_POSTFIELDS => $data,
+                                )
+                            );
+                            $res = json_decode(curl_exec($ch));
+                        }
                     }
                     if ($request->auto_ref) {
                         echo 'FIN';exit();
@@ -757,8 +758,10 @@ class TasksController extends Controller
                 }
                 break;
             case 'test_ay_bot':
-                $text = "1) Title (33) - <a href='http://ay.by/lot/ac-dc-flick-of-the-switch-obi-first-pressing-5036149742.html'>смотреть</a>\r\n\r\n" .
-                    "2) Title 2 (333) - <a href='http://ay.by/lot/ac-dc-flick-of-the-switch-obi-first-pressing-5036149742.html'>смотреть</a>\r\n\r\n";
+                $text = "1) Title (33) - \r\n\r\n" .
+                    "2) Title 2 (333) -\r\n
+                        <a href='https://rms.kufar.by/v1/line_thumbs/adim1/ef809232-78f2-416a-bb4a-c7499be9dd61.jpg'> fdds</a>\r\n
+                        <a href='https://rms.kufar.by/v1/line_thumbs/adim1/ef809232-78f2-416a-bb4a-c7499be9dd61.jpg'> fdds</a>\r\n";
                 $data = [
                     'chat_id' => 910747903,
                     'text' => $text,
@@ -1062,9 +1065,8 @@ class TasksController extends Controller
                             ]);
                             $imgSrc = 'https://vinylflea.by/storage/ay/' . $ayId . '.' . $imgExt;
                             $image = '<a href="' . $imgSrc . '"> </a>';
-                            $this->ayNewAdverts .= $title .
-                                " (" . $priceHot . " | " . $priceAy . ") - <a href='" . $link . "'>смотреть</a>\r\n" .
-                                $image . "\r\n\r\n";
+                            $this->ayNewAdverts[] = $title .
+                                " (" . $priceHot . " | " . $priceAy . ")\r\n" . $image . "\r\n\r\n";
                         }
 
                     } else {
