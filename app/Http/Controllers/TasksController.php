@@ -1059,8 +1059,11 @@ class TasksController extends Controller
                                 'download_img' => $downloadImg,
 
                             ]);
+                            $imgSrc = 'https://vinylflea.by/storage/ay/' . $ayId . '.' . $imgExt;
+                            $image = '<a href="' . $imgSrc . '"> </a>';
                             $this->ayNewAdverts .= $title .
-                                " (" . $priceHot . " | " . $priceAy . ") - <a href='" . $link . "'>смотреть</a>\r\n\r\n";
+                                " (" . $priceHot . " | " . $priceAy . ") - <a href='" . $link . "'>смотреть</a>\r\n" .
+                                $image . "\r\n\r\n";
                         }
 
                     } else {
