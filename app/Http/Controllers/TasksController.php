@@ -369,7 +369,11 @@ class TasksController extends Controller
                                         $advert->status = 4;
                                     }
                                     $advert->sku = $product->sku;
-                                    $advert->price = $product->price;
+                                    if (empty($product->price)) {
+                                        $advert->price = 0;
+                                    } else {
+                                        $advert->price = $product->price;
+                                    }
                                     $advert->condition =
                                         trim(str_replace('Состояние (пластинки/конверта)', '', $product->text));
                                     $advert->hide_advert = 0;
