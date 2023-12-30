@@ -146,6 +146,7 @@ class TasksController extends Controller
                     foreach ($categories as $cat) {
                         $typeId = array_search($cat, AyBy::TYPES);
                         $this->ayIds = [];
+                        $this->log->info('Обновление товаров в категории ' . $cat);
                         $this->parseAyCategory($cat);
                         //если собираем обновления по всем страницам категории, то чистим удаенные объявления
                         if ($this->limitAyPages == 1000) {
@@ -1019,7 +1020,6 @@ class TasksController extends Controller
                         $new = 1;
                         $ayItemFind = AyBy::where('ay_id', $ayId)->first();
                         if ($ayItemFind) {
-                            $this->log->info('Обновление товара (' . $ayItemFind->ay_id . ') в категории ' . $type);
                             $updatedPrice = 0;
                             $priceAuctionOld = 0;
                             $priceHotOld = 0;
