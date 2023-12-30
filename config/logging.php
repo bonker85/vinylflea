@@ -123,9 +123,10 @@ return [
             'level' => 'info',
         ],
         'parser-ay' => [
-            'driver' => 'single',
+            'driver' => 'daily',
             'path' => storage_path('logs/parser-ay.log'),
             'level' => 'info',
+            'days' => 1
         ],
     ],
 
