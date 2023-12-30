@@ -370,6 +370,7 @@ class TasksController extends Controller
                                     }
                                     $advert->sku = $product->sku;
                                     if (empty($product->price)) {
+                                        dd($product);
                                         $advert->price = 0;
                                     } else {
                                         $advert->price = $product->price;
