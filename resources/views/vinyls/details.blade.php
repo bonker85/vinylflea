@@ -70,7 +70,7 @@
                                 <h3 class="mb-0 mt-3 h3-desktop">{{$advert->name}}</h3>
                                 <div class="d-flex align-items-center mt-2 gap-2">
                                     <h4 class="mb-0">
-                                        @if ($advert->user_id == 11)
+                                        @if ($advert->user_id == 11 || $adver->user_id == 6)
                                             цена договорная
                                         @else
                                             @if ($advert->deal == 'sale')
@@ -204,7 +204,7 @@
                                                         Цена
                                                     </dt>
                                                     <dd class="col-sm-9">
-                                                        @if ($advert->user_id == 11)
+                                                        @if ($advert->user_id == 11 || $adver->user_id == 6)
                                                             цена договорная
                                                         @else
                                                             @if ($advert->deal == 'sale')
