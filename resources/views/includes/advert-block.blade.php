@@ -51,7 +51,7 @@
                                     @else не указан
                                     @endif</span></p>
 
-                            <div class="d-flex align-items-center publisher">
+                            <!--<div class="d-flex align-items-center publisher">
                                 <a href="{{route('user', $advert->user_id)}}"> {{$advert->user->name}} </a>
                                 @if (\App\Models\User::isMyUserId($advert->user_id))
                                     &nbsp; &nbsp; <a class="telegram" href="https://t.me/vinylfleaby"><i class="bx fs-4 bxl-telegram"></i></a>
@@ -59,7 +59,7 @@
                                         <img src="/images/viber.png" style="width: 20px;margin-left: 10px;">
                                     </a>
                                 @endif
-                            </div>
+                            </div>-->
                             <div class="d-flex align-items-center">
                                 <div class="mb-1 product-price">
                         <span class="fs-5">
