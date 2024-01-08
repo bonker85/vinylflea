@@ -39,7 +39,7 @@
                                                 @if ($user->city)
                                                     <div class="user-city"><b>Город:</b> {{$user->city}}</div>
                                                 @endif
-                                                @if (\App\Models\User::isMyUserId($user->id))
+                                                @if (\App\Models\User::isMyUserId($user->id) && false)
                                                     <div class="user-city"><a class="telegram" href="https://t.me/vinylfleaby"><i class="bx fs-3 bxl-telegram"></i></a></div>
                                                 @endif
                                                 @if ($user->phone)
