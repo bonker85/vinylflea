@@ -60,11 +60,12 @@
                     Стиль <i class="bx bx-sort-down fs-5"></i>
                 </a>
             </th>
+            <!--
             <th scope="col">
                 <a href="" class="align-middle d-flex justify-content-between align-items-center">
                     Цена <i class="bx bx-sort-down fs-5"></i>
                 </a>
-            </th>
+            </th>-->
             <th scope="col" class="align-middle" style="width: 50px;">
                 Оценка
             </th>
@@ -93,7 +94,7 @@
                 <td class="align-middle text-nowrap">
                     <a href="{{route('vinyls.details', $advert->url)}}" class="vinyl-link-truncate">{{$advert->author}} - <span class="vinil-list-name">{{$advert->name}}</span></a></td>
                 <td class="align-middle">{{$advert->sname}}</td>
-                <td class="align-middle">{{$advert->price}}</td>
+                <!--<td class="align-middle">{{$advert->price}}</td>-->
                 <td class="align-middle">{{$advert->condition}}</td>
                 <td class="align-middle">{{$advert->sku}}</td>
                 <td class="align-middle">{{date('d-m-Y',strtotime($advert->created_at))}}</td>
