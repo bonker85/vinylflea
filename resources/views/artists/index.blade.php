@@ -126,7 +126,7 @@
                                                         Цена
                                                     </dt>
                                                     <dd class="col-sm-9">
-                                                        @if ($advert->user_id == 11 || $adver->user_id == 6)
+                                                        @if ($advert->user_id == 11 || $advert->user_id == 6)
                                                             цена договорная
                                                         @else
                                                             @if ($advert->deal == 'sale')

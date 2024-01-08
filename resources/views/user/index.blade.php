@@ -108,7 +108,7 @@
                                                                     @endif
                                                                     <div class="m-style"><a href="{{route('vinyls.style', $advert->style->slug)}}" class="user-links" >{{$advert->style->name}}</a></div>
                                                                     <h5 class="mb-0">
-                                                                        @if ($advert->user_id == 11 || $adver->user_id == 6)
+                                                                        @if ($advert->user_id == 11 || $advert->user_id == 6)
                                                                             цена договорная
                                                                         @else
                                                                             @if ($advert->deal == 'sale')
