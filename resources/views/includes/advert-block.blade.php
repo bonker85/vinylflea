@@ -64,7 +64,7 @@
                                 <div class="mb-1 product-price">
                         <span class="fs-5">
                             @if ($advert->user_id == 11 || $advert->user_id == 6)
-                                цена договорная
+                                &nbsp;
                             @else
                                 @if ($advert->deal == 'sale')
                                     {{str_replace('.00', '', $advert->price)}} Руб.

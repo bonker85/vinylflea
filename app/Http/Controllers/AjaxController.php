@@ -282,7 +282,7 @@ class AjaxController extends Controller
                        $searchRes[$key]['description'] = 'Исполнитель: Не указан';
                    }
                    if ($result->user_id == 11 || $result->user_id == 6) {
-                       $searchRes[$key]['price'] = 'цена договорная';
+                       $searchRes[$key]['price'] = '';
                    } else {
                        switch ($result->deal) {
                            case "sale":
