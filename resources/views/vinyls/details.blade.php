@@ -69,7 +69,7 @@
                             <div class="product-info-section py-0 p-3">
                                 <h3 class="mb-0 mt-3 h3-desktop">
                                     @if ($advert->deal == 'news')
-                                        {{($advert->author) ? $advert->author . ' - ': '') . $advert->name}}
+                                        {{(($advert->author) ? $advert->author . ' - ': '') . $advert->name}}
                                     @else
                                         {{$advert->name}}
                                     @endif
