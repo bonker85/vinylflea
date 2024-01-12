@@ -67,7 +67,13 @@
                         </div>
                         <div class="col-12 col-lg-7">
                             <div class="product-info-section py-0 p-3">
-                                <h3 class="mb-0 mt-3 h3-desktop">{{$advert->name}}</h3>
+                                <h3 class="mb-0 mt-3 h3-desktop">
+                                    @if ($advert->deal == 'news')
+                                        {{($advert->author) ? $advert->author . ' - ': '') . $advert->name}}
+                                    @else
+                                        {{$advert->name}}
+                                    @endif
+                                </h3>
                                 <div class="d-flex align-items-center mt-2 gap-2">
                                     <h4 class="mb-0">
                                         @if ($advert->user_id == 11 || $advert->user_id == 6)
@@ -94,9 +100,9 @@
                                 </div>
                                 @endif
                                 <dl class="row mt-3">
-                                    <dt class="col-sm-3">Стиль</dt>
+                                    <dt class="col-sm-3">@if ($advert->deal == 'news')Раздел@elseСтиль@endif</dt>
                                     <dd class="col-sm-9">{{$advert->style->name}}</dd>
-                                    @if ($advert->author || $advert->discogs_author_ids)
+                                    @if ($advert->deal != 'news' && ($advert->author || $advert->discogs_author_ids))
                                         <dt class="col-sm-3">Исполнитель</dt>
                                         <dd class="col-sm-9">
                                             @if ($artistLinks)
