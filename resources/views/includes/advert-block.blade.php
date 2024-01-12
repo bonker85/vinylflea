@@ -40,9 +40,9 @@
                                 <h6 class="product-name mb-2">{{$advert->name}}</h6>
                             </a>
                             <a href="{{route('vinyls.style', $advert->style->slug)}}">
-                                <p class="product-catergory font-13 mb-1">Стиль: <b>{{$advert->style->name}}</b></p>
+                                <p class="product-catergory font-13 mb-1">@if ($advert->deal == 'news')Раздел:@elseСтиль:@endif <b>{{$advert->style->name}}</b></p>
                             </a>
-                            <p class="product-catergory font-13 mb-1">Исполнитель:
+                            <p class="product-catergory font-13 mb-1">@if ($advert->deal != 'news')Исполнитель:@endif
                                 <span class="author">
                                     @if ($advert->author || $advert->discogs_author_ids)
                                         @php $artistsLinks = \App\Services\Utility\DiscogsService::getArtistsLink($advert->discogs_author_ids);
