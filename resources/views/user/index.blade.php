@@ -109,7 +109,7 @@
                                                                     <div class="m-style"><a href="{{route('vinyls.style', $advert->style->slug)}}" class="user-links" >{{$advert->style->name}}</a></div>
                                                                     <h5 class="mb-0">
                                                                         @if ($advert->user_id == 11 || $advert->user_id == 6)
-                                                                            &nbsp;
+                                                                            @if ($advert->deal == 'news') новость @endif
                                                                         @else
                                                                             @if ($advert->deal == 'sale')
                                                                                 {{str_replace('.00', '', $advert->price)}} Руб.
