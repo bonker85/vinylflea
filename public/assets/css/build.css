@@ -3167,6 +3167,7 @@ i.icon i.fa-search {
 }
 .image-zoom-section .product-gallery img {
     min-height: 309px;
+    object-fit: cover;
 }
 .link-messages {
     font-weight: bold;
