@@ -373,6 +373,7 @@ class IndexController extends BaseController
         $advertList = Advert::select()
                         ->where('status', AdvertService::getStatusByName('activated'))
                         ->where('user_id', $user->id)
+                        ->where('deal','!=', 'news')
                         ->orderBy('up_time', 'DESC');
         if (request()->uq) {
             $uq = strip_tags(trim(request()->uq));
