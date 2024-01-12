@@ -32,7 +32,7 @@ class EditRequest extends FormRequest
             ],
             'year' => 'nullable|integer',
             'author' => 'nullable|max:60',
-            'deal' => 'required|in:sale,exchange,free',
+            'deal' => 'required|in:sale,exchange,free,news',
             'edition' => 'nullable|string',
             'style_id' => 'required|exists:styles,id',
             'description' => 'nullable|string|max:2000',

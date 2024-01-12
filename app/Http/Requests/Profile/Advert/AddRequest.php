@@ -35,7 +35,7 @@ class AddRequest extends FormRequest
             'style_id' => 'required|exists:styles,id',
             'description' => 'nullable|string|max:2000',
             'author' => 'nullable|max:60',
-            'deal' => 'required|in:sale,exchange,free',
+            'deal' => 'required|in:sale,exchange,free,news',
             'price' => 'required|regex:/^[0-9]{0,4}\.?[0-9]{0,2}$/i',
             'state' =>  'required|in:1,2',
             'vinyl' => 'nullable|array',
