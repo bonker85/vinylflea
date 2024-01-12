@@ -127,7 +127,9 @@
                                                     </dt>
                                                     <dd class="col-sm-9">
                                                         @if ($advert->user_id == 11 || $advert->user_id == 6)
-                                                            &nbsp;
+                                                            @if ($advert->deal == 'news')
+                                                                новость
+                                                            @endif
                                                         @else
                                                             @if ($advert->deal == 'sale')
                                                                 {{str_replace('.00', '', $advert->price)}} Руб.
