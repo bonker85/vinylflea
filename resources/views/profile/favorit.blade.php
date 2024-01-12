@@ -52,6 +52,8 @@
                                                                                 {{str_replace('.00', '', $favorit->advert->price)}} Руб.
                                                                             @elseif ($favorit->advert->deal == 'exchange')
                                                                                 обменяю
+                                                                            @elseif ($favorit->advert->deal == 'news')
+                                                                                новость
                                                                             @else
                                                                                 отдам даром
                                                                             @endif

@@ -70,6 +70,8 @@
                                     {{str_replace('.00', '', $advert->price)}} Руб.
                                 @elseif ($advert->deal == 'exchange')
                                     обменяю
+                                @elseif ($advert->deal == 'news')
+                                    новость
                                 @else
                                     отдам даром
                                 @endif

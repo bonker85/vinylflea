@@ -27,7 +27,8 @@ class AdvertService {
     const DEAL = [
         'sale' => 'Продам',
         'exchange' => 'Обменяю',
-        'free' => 'Отдам даром'
+        'free' => 'Отдам даром',
+        'news' => 'Новость'
     ];
 
     const ADVERT_LIMIT = 10;

@@ -294,6 +294,9 @@ class AjaxController extends Controller
                            case "exchange":
                                $searchRes[$key]['price'] = 'Обменяю';
                                break;
+                           case "news":
+                               $searchRes[$key]['price'] = 'Новость';
+                               break;
                        }
                    }
                    if ($request->profile) {
@@ -387,6 +390,9 @@ class AjaxController extends Controller
                                 break;
                             case "exchange":
                                 $searchRes[$key]['price'] = 'Обменяю';
+                                break;
+                            case "news":
+                                $searchRes[$key]['price'] = 'Новость';
                                 break;
                         }
                         $image = AdvertImage::select()

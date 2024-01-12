@@ -557,6 +557,7 @@ class TasksController extends Controller
                     $adverts = Advert::select()
                         ->where('style_id', $style->id)->where('status', 1)
                         ->where('cron', 0)
+                        ->where('deal', '!=', 'news')
                         ->orderBy('up_time', 'DESC')
                         ->limit(5)
                         ->get();
@@ -583,6 +584,9 @@ class TasksController extends Controller
                                     break;
                                 case "exchange":
                                     $price = 'Обмен';
+                                    break;
+                                case "news":
+                                    $price = 'Новость';
                                     break;
                             }
                             $price .= "\r\n";
