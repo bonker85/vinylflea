@@ -120,7 +120,7 @@
                                         <dt class="col-sm-3">Год</dt>
                                         <dd class="col-sm-9">{{$advert->year}}</dd>
                                     @endif
-                                    @if ($advert->state)
+                                    @if ($advert->state && $advert->deal != 'news')
                                         <dt class="col-sm-3">Состояние</dt>
                                         <dd class="col-sm-9">{{\App\Services\AdvertService::STATES[$advert->state]}}</dd>
                                     @endif
