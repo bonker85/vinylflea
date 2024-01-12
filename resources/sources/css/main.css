@@ -2666,6 +2666,7 @@ section.img-back-footer {
 }
 .main-advert-img img {
     height: 240px;
+    object-fit: cover;
 }
 h6.product-name {
     white-space: nowrap;
