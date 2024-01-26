@@ -63,7 +63,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="mb-1 product-price">
                         <span class="fs-5">
-                            @if ($advert->user_id == 11 || $advert->user_id == 6)
+                            @if ($advert->user_id == 11 || $advert->user_id == 6 || $advert->user_id == 4)
                                 &nbsp;
                             @else
                                 @if ($advert->deal == 'sale')

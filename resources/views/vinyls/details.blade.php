@@ -76,7 +76,7 @@
                                 </h3>
                                 <div class="d-flex align-items-center mt-2 gap-2">
                                     <h4 class="mb-0">
-                                        @if ($advert->user_id == 11 || $advert->user_id == 6)
+                                        @if ($advert->user_id == 11 || $advert->user_id == 6 || $advert->user_id == 4)
                                             @if ($advert->deal == 'news')
                                                 новость
                                             @endif
