@@ -33,8 +33,8 @@
                 </li>
                 <li class="nav-item dropdown">	<a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown">Смотреть список    <i class="bx bx-chevron-down"></i></a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{route('main.vinyl-list')}}">Список пластинок</a>
-                        </li>
+                       <!-- <li><a class="dropdown-item" href="{{route('main.vinyl-list')}}">Список пластинок</a>
+                        </li>-->
                         <li><a class="dropdown-item" href="{{route('artist.list')}}">Список исполнителей</a>
                         </li>
                     </ul>

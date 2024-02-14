@@ -49,6 +49,7 @@ class IndexController extends BaseController
 
     public function vinylList(Request $request)
     {
+        abort(404);
         $advertQuery = Advert::select('adverts.*', 's.name AS sname')
             ->where('status', 1)
             ->join('styles AS s', 's.id', '=', 'adverts.style_id')
