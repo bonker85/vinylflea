@@ -160,7 +160,7 @@
                                 <div class="d-flex gap-2 mt-3">
                                     <div class="d-grid gap-2">
                                         @if (true)
-                                            @if (true || auth()->user()->id != $advert->user_id)
+                                            @if (true || auth()->user()->id != $advert->user_id && $adert->user_id == 11)
                                                 <a href="javascript:;" class="btn btn-dark btn-ecomm" data-bs-toggle="modal" data-bs-target="#message-modal" data-name="{{$advert->name}}" data-id="{{$advert->id}}" data-button="">	<i class='bx bx-message'></i>Отправить сообщение</a>
                                             @endif
                                         @elseguest
