@@ -81,11 +81,11 @@
                             </div>
                             <div class="product-action mt-2">
                                 <div class="d-grid gap-2">
-                                    @auth
+                                    @if (true)
                                         @if(auth()->user()->id == $advert->user_id) <a href="{{route('vinyls.details', $advert->url)}}" class="btn btn-dark btn-ecomm"><i class='bx bxs-show'></i>Просмотр пластинки</a>@else<a href="javascript:;" data-name="{{$advert->name}}" data-id="{{$advert->id}}" data-button="" data-bs-toggle="modal" data-bs-target="#message-modal" class="btn btn-dark btn-ecomm"><i class='bx bx-message'></i>Отправить сообщение</a>@endif
-                                    @elseguest
+                                    @else
                                         <a href="{{route('login')}}" class="btn btn-dark btn-ecomm">	<i class='bx bx-message'></i>Отправить сообщение</a>
-                                    @endauth
+                                    @endif
                                 </div>
                             </div>
                         </div>
