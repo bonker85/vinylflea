@@ -124,7 +124,7 @@
                                                                     </h5>
                                                                     <div class="d-flex gap-2 mt-2 user-button">
                                                                         <div class="d-grid gap-2">
-                                                                            @if (true && auth()->check() && auth()->user()->id == $advert->user_id)
+                                                                            @if (true || (auth()->check() && auth()->user()->id == $advert->user_id) )
                                                                                 <a href="{{route('vinyls.details', $advert->url)}}" class="user-mess-button btn btn-dark btn-ecomm" ><i class="bx bxs-show"></i>Просмотр пластинки</a>
                                                                             @else
                                                                                 <a @if (auth()->check()) href="javascript:;" data-bs-toggle="modal" data-bs-target="#message-modal" data-name="{{$advert->name}}" data-id="{{$advert->id}}" data-button="" @else href="{{route('login')}}" @endif" class="user-mess-button btn btn-dark btn-ecomm" ><i class="bx bx-message"></i>Отправить сообщение</a>
