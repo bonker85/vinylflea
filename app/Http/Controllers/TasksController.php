@@ -794,12 +794,12 @@ class TasksController extends Controller
                 dd($res);
                 break;
             case 'phone':
-                $pageUrl = 'https://www.kufar.by/l/mobilnye-telefony?elementType=categories';
+                $pageUrl = 'https://www.kufar.by/l/mobilnye-telefony?query=iphone';
                 //   $pageUrl = 'kufar.html';
                 @$content = file_get_contents($pageUrl);
                 if ($content) {
                     $priceMin = 0;
-                    $priceMax = 300;
+                    $priceMax = 700;
                     $doc1 = new DOMDocument();
                     @$doc1->loadHTML($content);
                     $xpath1 = new DOMXPath($doc1);
