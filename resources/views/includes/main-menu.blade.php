@@ -79,13 +79,6 @@
                     </li>
                 @endauth
             </ul>
-            <div class="info-block">
-                <p>
-                    <a class="telegram" href="https://t.me/vinylfleaby" class="list-inline-item"><i class="bx bxl-telegram"></i></a>
-                    <a class="viber" href="viber://chat?number=375257167247"><img src="/images/viber.png" style="width: 25px;margin-bottom: 15px;margin-right: 5px;"></a>
-                    {{--<a class="mail top-mail" href="mailto:support@vinylflea.by">supportg@vinylflea.by</a>--}}
-                </p>
-            </div>
         </nav>
     </div>
 </div>
