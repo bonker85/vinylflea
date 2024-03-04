@@ -103,7 +103,7 @@
                         </div>
                     </div>
                     @include('includes.search-block')
-                    <div class="col-auto order-4 order-md-4 block-icons">
+                    <div class="col-auto order-4 order-md-4 block-icons d-none">
                         <div class="top-cart-icons float-end">
                             <nav class="navbar navbar-expand">
                                 <ul class="navbar-nav ms-auto">

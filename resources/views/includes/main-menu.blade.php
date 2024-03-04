@@ -76,9 +76,10 @@
                     </ul>
                 </li>
                 @elseguest
+                    <!--
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('login')}}">Войти в аккаунт</a>
-                    </li>
+                    </li>-->
                 @endauth
             </ul>
             <!--
