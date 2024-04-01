@@ -4,9 +4,12 @@
 @section('content')
     @if ($page->url == 'home')
         @include('includes.last-adverts-block')
+        @include('includes.banner-xbet')
         {{--  @include('includes.sell-faster-block') --}}
         @include('includes.video')
+        @include('includes.banner-xbet')
           @include('includes.popular-block')
+        @include('includes.banner-xbet')
           @include('includes.last-news-block')
       @else
           <section class="profile-breadcrumbs">

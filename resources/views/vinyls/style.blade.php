@@ -57,8 +57,10 @@
             @endif
         </div>
     </section>
+    @include('includes.banner-xbet')
     @include('includes.video')
     @include('includes.popular-block')
+    @include('includes.banner-xbet')
     @include('includes.last-news-block')
     <!--end Featured product-->
 @endsection
