@@ -142,6 +142,7 @@
     <div class="page-wrapper">
         @include('includes.message')
         <div class="page-content">
+           @include('includes.banner-xbet')
             @yield('content')
             @if (!request()->is('vinyl-list'))
             <section class="back-wall" >
@@ -158,6 +159,7 @@
                 </div>
             </section>
             @endif
+            @include('includes.banner-xbet')
         </div>
     </div>
 
