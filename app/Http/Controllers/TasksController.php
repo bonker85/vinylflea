@@ -665,6 +665,7 @@ class TasksController extends Controller
                     $productLists = $xpath1->query("//section");
                     if ($productLists->length) {
                         foreach ($productLists as $product) {
+                            if (!$xpath1->query('a/div[2]/h3', $product)->length) continue;
                             $title = $xpath1->query('a/div[2]/h3', $product)->item(0)->nodeValue;
                             if (!str_contains(mb_strtolower($title), 'пластинк')) {
                                 continue;
@@ -979,6 +980,17 @@ class TasksController extends Controller
             exit();
         }
         return true;
+    }
+
+    private function DOMinnerHTML(\DOMNode $element)
+    {
+        $innerHTML = "";
+        $children = $element->childNodes;
+        foreach ($children as $child)
+        {
+            $innerHTML .= $element->ownerDocument->saveHTML($child);
+        }
+        return $innerHTML;
     }
 
     private function parseAyCategory($type, $page = 1, $countPages = 0) {
