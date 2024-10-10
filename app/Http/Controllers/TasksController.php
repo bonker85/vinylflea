@@ -655,6 +655,7 @@ class TasksController extends Controller
                 dd("FIN");
                 break;
             case 'kufar':
+                exit();
                 $pageUrl = 'https://www.kufar.by/l?query=%D0%BF%D0%BB%D0%B0%D1%81%D1%82%D0%B8%D0%BD%D0%BA%D0%B8&rgn=all&utm_queryOrigin=Manually_typed';
             //   $pageUrl = 'kufar.html';
                 @$content = file_get_contents($pageUrl);
